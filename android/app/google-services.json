@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "970292644016",
+    "project_id": "fir-staff-77403",
+    "storage_bucket": "fir-staff-77403.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:970292644016:android:d83d9722c82b1602e95375",
+        "android_client_info": {
+          "package_name": "com.ctcdemo.demostaff"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8LYE3aOzJQoIJ7kRnKzZvxaOib8nTWAQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
