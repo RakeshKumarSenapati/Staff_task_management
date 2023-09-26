@@ -14,11 +14,6 @@ class Login_Page extends StatefulWidget {
 
 class _Login_PageState extends State<Login_Page> {
 
-
-
-
-
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -82,7 +77,7 @@ class _Login_PageState extends State<Login_Page> {
                       borderSide: const BorderSide(color: Colors.grey),
                       borderRadius: BorderRadius.circular(36),
                     ),
-                  ),
+                    ),
 
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -90,33 +85,36 @@ class _Login_PageState extends State<Login_Page> {
                         }
                         return null;
                       },
-                ),
-                TextFormField(
+                     ),
 
+                     const SizedBox(
+                      height: 10,
+                     ),
                   
-                  obscureText: true,
-                  keyboardType: TextInputType.text,
-                  style: const TextStyle(color: kInputColor),
-                  decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.symmetric(vertical: 25.0),
-                    filled: true,
-                    hintText: "Password",
-                    prefixIcon: IconButton(
+                    TextFormField(      
+                      obscureText: true,
+                      keyboardType: TextInputType.text,
+                      style: const TextStyle(color: kInputColor),
+                      decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.symmetric(vertical: 25.0),
+                      filled: true,
+                      hintText: "Password",
+                      prefixIcon: IconButton(
                         onPressed: () {}, icon: SvgPicture.asset(keyIcon)),
-                    fillColor: kWhiteColor,
-                    border: OutlineInputBorder(
-                      borderSide: const BorderSide(color: Colors.grey),
-                      borderRadius: BorderRadius.circular(36),
-                    ),
-                  ),
+                      fillColor: kWhiteColor,
+                      border: OutlineInputBorder(
+                        borderSide: const BorderSide(color: Colors.grey),
+                        borderRadius: BorderRadius.circular(36),
+                      ),
+                      ),
 
-                  validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter the password';
-                        }
-                        return null;
-                      },
-                  ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                              return 'Please enter the password';
+                            }
+                          return null;
+                        },
+                      ),
                     ],
                   )),
                 CupertinoButton(
