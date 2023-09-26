@@ -1,4 +1,5 @@
 
+// import 'dart:js_interop';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -13,9 +14,9 @@ class Login_Page extends StatefulWidget {
 
 class _Login_PageState extends State<Login_Page> {
 
-  final _formKey = GlobalKey<FormState>();
-  final userController = TextEditingController();
-  final passController = TextEditingController();
+
+
+
 
 
   @override
@@ -62,12 +63,12 @@ class _Login_PageState extends State<Login_Page> {
                 ),
                 SizedBox(height: size.height * 0.024),
                 Form(
-                  key: _formKey,
+                  
                   child: Column(
                     children: [
                     TextFormField(
 
-                    controller: userController,
+                    
                     keyboardType: TextInputType.text,
                     style: const TextStyle(color: kInputColor),
                     decoration: InputDecoration(
@@ -92,7 +93,7 @@ class _Login_PageState extends State<Login_Page> {
                 ),
                 TextFormField(
 
-                  controller: passController,
+                  
                   obscureText: true,
                   keyboardType: TextInputType.text,
                   style: const TextStyle(color: kInputColor),
@@ -139,10 +140,7 @@ class _Login_PageState extends State<Login_Page> {
                       ),
                     ),
                     onPressed: () {
-                      if(_formKey.currentState!.validate())
-                      {
-
-                      }
+                      
                     }),
                 SizedBox(
                   height: size.height * 0.014,
