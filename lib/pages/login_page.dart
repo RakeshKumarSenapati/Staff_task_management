@@ -1,9 +1,13 @@
 
 // import 'dart:js_interop';
+import 'dart:convert';
+import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/pages/dashboard.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'consts.dart';
+import 'package:http/http.dart' as http;
 
 class Login_Page extends StatefulWidget {
   const Login_Page({super.key});
@@ -13,6 +17,38 @@ class Login_Page extends StatefulWidget {
 }
 
 class _Login_PageState extends State<Login_Page> {
+
+  TextEditingController user =  TextEditingController();
+  TextEditingController pass =  TextEditingController();
+
+  Future<void> insertrecord() async{
+    if(user.text != "" || pass.text != ""){
+      try{
+        String uri = "https://creativecollege.in/Flutter%20php/insert.php";
+        var res = await http.post(Uri.parse(uri),body: {
+          "user":user.text,
+          "pass":pass.text
+        });
+
+        var response = jsonDecode(res.body);
+        
+        if(response["success"] == "true"){
+          Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage(),));
+        }
+        else{
+          log("Record insert Failed");
+        }
+      }
+      catch(e){
+        print(e);
+      }
+
+    }
+    else{
+      print("fill all field");
+    }
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +99,7 @@ class _Login_PageState extends State<Login_Page> {
                     children: [
                     TextFormField(
 
-                    
+                    controller: user,
                     keyboardType: TextInputType.text,
                     style: const TextStyle(color: kInputColor),
                     decoration: InputDecoration(
@@ -91,7 +127,8 @@ class _Login_PageState extends State<Login_Page> {
                       height: 10,
                      ),
                   
-                    TextFormField(      
+                    TextFormField(  
+                      controller: pass,    
                       obscureText: true,
                       keyboardType: TextInputType.text,
                       style: const TextStyle(color: kInputColor),
@@ -138,6 +175,7 @@ class _Login_PageState extends State<Login_Page> {
                       ),
                     ),
                     onPressed: () {
+                      insertrecord();
                       
                     }),
                 SizedBox(
