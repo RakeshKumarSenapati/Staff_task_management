@@ -30,22 +30,24 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       body: Container(
         color: Colors.black,
-        child:Column(
-          children: [
-            SizedBox(height: 150,),
-             Image.asset('assets/images/Creative.gif',),
-            SizedBox(height: 210,),
-            Container(child:Row(
-              
-               children: [
-               Container(
-                  child: Text("Developed By TechnoCart ",style: TextStyle(color: Colors.white,)),margin: EdgeInsets.fromLTRB(100, 0, 0, 0),
+        child:SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(height: 150,),
+               Image.asset('assets/images/Creative.gif',),
+              SizedBox(height: 210,),
+              Container(child:Row(
+                
+                 children: [
+                 Container(
+                    child: Text("Developed By TechnoCart ",style: TextStyle(color: Colors.white,)),margin: EdgeInsets.fromLTRB(100, 0, 0, 0),
+                  ),
+                 Image.asset("assets/images/technocart.png",height: 30,width: 30,),
+                ],
                 ),
-               Image.asset("assets/images/technocart.png",height: 30,width: 30,),
-              ],
-              ),
-             ),
-          ],
+               ),
+            ],
+          ),
         )
       ),
     );
