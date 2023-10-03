@@ -15,3 +15,6 @@ const Color kWhiteColor = Colors.white;
 
 String image1 = "assets/images/image_1.png";
 String image2 = "assets/images/ctclogo.png";
+
+
+String webImage = "assets/images/technocart.png";
