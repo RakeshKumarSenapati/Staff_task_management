@@ -20,11 +20,11 @@ class _SplashScreenState extends State<SplashScreen> {
   
     super.initState();
 
-    Timer(Duration(seconds: 4), () {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Login_Page(),));
+    Timer(const Duration(seconds: 4), () {
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const Login_Page(),));
     });
   }
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,19 +33,19 @@ class _SplashScreenState extends State<SplashScreen> {
         child:SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(height: 150,),
+              const SizedBox(height: 150,),
                Image.asset('assets/images/Creative.gif',),
-              SizedBox(height: 210,),
-              Container(child:Row(
+              const SizedBox(height: 210,),
+              Row(
                 
                  children: [
                  Container(
-                    child: Text("Developed By TechnoCart ",style: TextStyle(color: Colors.white,)),margin: EdgeInsets.fromLTRB(100, 0, 0, 0),
+                    margin: const EdgeInsets.fromLTRB(100, 0, 0, 0),
+                    child: const Text("Developed By TechnoCart ",style: TextStyle(color: Colors.white,)),
                   ),
                  Image.asset("assets/images/technocart.png",height: 30,width: 30,),
                 ],
                 ),
-               ),
             ],
           ),
         )
