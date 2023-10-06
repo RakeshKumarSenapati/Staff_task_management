@@ -1,16 +1,8 @@
-// import 'dart:js_interop';
-import 'dart:convert';
-import 'dart:developer';
-import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/pages/dashboard.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-// import 'package:shared_preferences/shared_preferences.dart';
-import 'consts.dart';
-import 'package:flutter/services.dart';
-
-
+import '../consts.dart';
 import 'package:http/http.dart' as http;
 
 class Login_Page extends StatefulWidget {
@@ -21,35 +13,9 @@ class Login_Page extends StatefulWidget {
 }
 
 class _Login_PageState extends State<Login_Page> {
+  
   TextEditingController user = TextEditingController();
   TextEditingController pass = TextEditingController();
-
-  // Future<void> insertrecord() async {
-  //   if (user.text != "" || pass.text != "") {
-  //     String uri = "https://creativecollege.in/Flutter/Login.php";
-  //     var res = await http
-  //         .post(Uri.parse(uri), body: {"user": user.text, "pass": pass.text});
-
-  //     var response = jsonDecode(res.body);
-
-  //     if (response.statusCode == 200) {
-  //       if (response.body == 'Success') {
-  //         setState(() {
-  //           Navigator.push(
-  //               context,
-  //               Navigator.push(
-  //                   context,
-  //                   MaterialPageRoute(
-  //                     builder: (context) => const HomePage(),
-  //                   )) as Route<Object?>);
-  //         });
-  //       } else {
-  //         setState(() {
-  //           var message = "Login Failed";
-  //         });
-  //       }
-  //     }
-  //   }
 
   Future<void> _login() async {
     final response = await http.post(

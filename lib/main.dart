@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/pages/dashboard.dart';
-import 'package:flutter_application_1/pages/login_page.dart';
-import 'package:flutter_application_1/pages/splash_screen.dart';
+import 'package:flutter_application_1/mobile/mob_splash_screen.dart';
+import 'package:flutter_application_1/web/Web_splash_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 void main() {
@@ -13,22 +12,73 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       // home: SplashScreen(),
       themeMode: ThemeMode.light,
       theme: ThemeData(
-        primaryColor: Color.fromARGB(255, 0, 127, 139),
-        fontFamily: GoogleFonts.lato().fontFamily),
+          primaryColor: Color.fromARGB(255, 0, 127, 139),
+          fontFamily: GoogleFonts.lato().fontFamily),
       darkTheme: ThemeData(brightness: Brightness.dark),
-      
-      routes: {
-        "/":(context) => const SplashScreen(),
-        "/login": (context) => const Login_Page(),
-        "/home": (context) => HomePage(),
-      },
+
+      // routes: {
+      //   "/":(context) => const SplashScreen(),
+      //   "/login": (context) =>  MyHomePage(),
+      //   "/home": (context) => HomePage(),
+      // },
+
+      home: MyHomePage(),
+    );
+  }
+}
+
+class MyHomePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      // appBar: AppBar(title: Text('Responsive App')),
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          if (constraints.maxWidth <= 600) {
+            // For mobile devices
+            return MaterialApp(
+              debugShowCheckedModeBanner: false,
+              home: const Mob_Splash_screen(),
+              themeMode: ThemeMode.light,
+              theme: ThemeData(
+                  primaryColor: Color.fromARGB(255, 0, 127, 139),
+                  fontFamily: GoogleFonts.lato().fontFamily),
+              darkTheme: ThemeData(brightness: Brightness.dark),
+              // home: Mob_Login_Page(),
+
+              // routes: {
+              //   "/": (context) => const Mob_Splash_screen(),
+              //   "/login": (context) => const Mob_Login_Page(),
+              //   "/home": (context) => HomePage(),
+              // },
+            );
+          } else {
+            // For tablets and larger devices
+            return MaterialApp(
+              debugShowCheckedModeBanner: false,
+              home: const Web_SplashScreen(),
+              themeMode: ThemeMode.light,
+              theme: ThemeData(
+                  primaryColor: Color.fromARGB(255, 0, 127, 139),
+                  fontFamily: GoogleFonts.lato().fontFamily),
+              darkTheme: ThemeData(brightness: Brightness.dark),
+
+              // home: Web_Login_Page(),
+
+              // routes: {
+              //   "/": (context) => const Web_SplashScreen(),
+              //   "/login": (context) => const Web_Login_Page(),
+              //   "/home": (context) => HomePage(),
+              // },
+            );
+          }
+        },
+      ),
     );
   }
 }
