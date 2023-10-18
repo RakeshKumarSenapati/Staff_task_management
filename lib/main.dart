@@ -20,13 +20,6 @@ class MyApp extends StatelessWidget {
           primaryColor: Color.fromARGB(255, 0, 127, 139),
           fontFamily: GoogleFonts.lato().fontFamily),
       darkTheme: ThemeData(brightness: Brightness.dark),
-
-      // routes: {
-      //   "/":(context) => const SplashScreen(),
-      //   "/login": (context) =>  MyHomePage(),
-      //   "/home": (context) => HomePage(),
-      // },
-
       home: MyHomePage(),
     );
   }
@@ -68,13 +61,6 @@ class MyHomePage extends StatelessWidget {
                   fontFamily: GoogleFonts.lato().fontFamily),
               darkTheme: ThemeData(brightness: Brightness.dark),
 
-              // home: Web_Login_Page(),
-
-              // routes: {
-              //   "/": (context) => const Web_SplashScreen(),
-              //   "/login": (context) => const Web_Login_Page(),
-              //   "/home": (context) => HomePage(),
-              // },
             );
           }
         },
