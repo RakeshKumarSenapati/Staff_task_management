@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/mobile/mob_splash_screen.dart';
+import 'package:flutter_application_1/scanner_page.dart';
 import 'package:flutter_application_1/web/Web_splash_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      // home: SplashScreen(),
+      
       themeMode: ThemeMode.light,
       theme: ThemeData(
           primaryColor: const Color.fromARGB(255, 0, 127, 139),
@@ -37,6 +38,7 @@ class MyHomePage extends StatelessWidget {
             return MaterialApp(
               debugShowCheckedModeBanner: false,
               home: const Mob_Splash_screen(),
+              // home: QrCodeScanner(),
               themeMode: ThemeMode.light,
               theme: ThemeData(
                   primaryColor: const Color.fromARGB(255, 0, 127, 139),
@@ -48,6 +50,7 @@ class MyHomePage extends StatelessWidget {
             return MaterialApp(
               debugShowCheckedModeBanner: false,
               home: const Web_SplashScreen(),
+              // home: QrCodeScanner(),
               themeMode: ThemeMode.light,
               theme: ThemeData(
                   primaryColor: const Color.fromARGB(255, 0, 127, 139),
