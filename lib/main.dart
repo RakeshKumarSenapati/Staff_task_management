@@ -42,13 +42,6 @@ class MyHomePage extends StatelessWidget {
                   primaryColor: Color.fromARGB(255, 0, 127, 139),
                   fontFamily: GoogleFonts.lato().fontFamily),
               darkTheme: ThemeData(brightness: Brightness.dark),
-              // home: Mob_Login_Page(),
-
-              // routes: {
-              //   "/": (context) => const Mob_Splash_screen(),
-              //   "/login": (context) => const Mob_Login_Page(),
-              //   "/home": (context) => HomePage(),
-              // },
             );
           } else {
             // For tablets and larger devices
