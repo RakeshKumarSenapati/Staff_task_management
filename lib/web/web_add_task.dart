@@ -43,9 +43,9 @@ class _Web_Add_TAskState extends State<Web_Add_TAsk> {
             Row(
               children: [
                 Container(
-                  margin: EdgeInsets.only(left: 10),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                  margin: const EdgeInsets.only(left: 10),
+                  child: const Padding(
+                    padding: EdgeInsets.all(8.0),
                     child: CircleAvatar(
                       // backgroundColor: Colors.blue,
                       backgroundImage: AssetImage("assets/images/user2.jpg"),
@@ -57,18 +57,18 @@ class _Web_Add_TAskState extends State<Web_Add_TAsk> {
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
                       children: [
-                        Text(
+                        const Text(
                           "Hello  ",
                           style: TextStyle(fontSize: 20),
                         ),
                         Text(
                           name,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 15, fontWeight: FontWeight.w800),
                         ),
                         Text(
                           desg,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 14, fontWeight: FontWeight.w700),
                         ),
                       ],
@@ -91,7 +91,7 @@ class _Web_Add_TAskState extends State<Web_Add_TAsk> {
                                 width: 400,
                                 child: Column(
                                   children: [
-                                    Text(
+                                    const Text(
                                       "Title Of Work:-",
                                       style: TextStyle(
                                           fontSize: 17,
@@ -101,12 +101,12 @@ class _Web_Add_TAskState extends State<Web_Add_TAsk> {
                                       decoration: InputDecoration(
                                           hintText: "Enter The  work",
                                           // enabled: true,
-                                          focusedBorder: OutlineInputBorder(
+                                          focusedBorder: const OutlineInputBorder(
                                               borderSide: BorderSide(
                                                   color: Color.fromARGB(
                                                       232, 95, 1, 105),
                                                   width: 2)),
-                                          enabledBorder: OutlineInputBorder(
+                                          enabledBorder: const OutlineInputBorder(
                                               borderSide: BorderSide(
                                                   color: Colors.black,
                                                   width: 1.5)),
@@ -125,7 +125,7 @@ class _Web_Add_TAskState extends State<Web_Add_TAsk> {
                               width: 400,
                               child: Column(
                                 children: [
-                                  Text(
+                                  const Text(
                                     "Description Of Work:-",
                                     style: TextStyle(
                                         fontSize: 17,
@@ -137,17 +137,17 @@ class _Web_Add_TAskState extends State<Web_Add_TAsk> {
                                       decoration: InputDecoration(
                                           hintText:
                                               "Enter The description of work",
-                                          contentPadding: EdgeInsets.only(
+                                          contentPadding: const EdgeInsets.only(
                                               top: 0.0,
                                               bottom: 110.0,
                                               left: 20.0,
                                               right: 23.0),
-                                          focusedBorder: OutlineInputBorder(
+                                          focusedBorder: const OutlineInputBorder(
                                               borderSide: BorderSide(
                                                   color: Color.fromARGB(
                                                       232, 95, 1, 105),
                                                   width: 2)),
-                                          enabledBorder: OutlineInputBorder(
+                                          enabledBorder: const OutlineInputBorder(
                                               borderSide: BorderSide(
                                                   color: Colors.black,
                                                   width: 1.5)),
@@ -168,7 +168,7 @@ class _Web_Add_TAskState extends State<Web_Add_TAsk> {
                                 padding: const EdgeInsets.only(right: 23),
                                 child: ElevatedButton(
                                   onPressed: () {},
-                                  child: Text(
+                                  child: const Text(
                                     "Add",
                                     style: TextStyle(
                                       fontSize: 22,
@@ -190,24 +190,24 @@ class _Web_Add_TAskState extends State<Web_Add_TAsk> {
                                               Colors.black),
                                       minimumSize:
                                           MaterialStateProperty.all<Size>(
-                                              Size(100.0, 50.0)),
+                                              const Size(100.0, 50.0)),
                                       shape: MaterialStateProperty.all<
                                           RoundedRectangleBorder>(
                                         RoundedRectangleBorder(
                                             borderRadius:
                                                 BorderRadius.circular(13),
-                                            side: BorderSide(
+                                            side: const BorderSide(
                                                 color: Colors.black, width: 2)),
                                       ),
                                       overlayColor: MaterialStateProperty.all(
-                                          Color.fromARGB(255, 51, 24, 148))),
+                                          const Color.fromARGB(255, 51, 24, 148))),
                                 ),
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(left: 23),
                                 child: ElevatedButton(
                                   onPressed: () {},
-                                  child: Text(
+                                  child: const Text(
                                     "Delete",
                                     style: TextStyle(
                                         fontSize: 22,
@@ -228,17 +228,17 @@ class _Web_Add_TAskState extends State<Web_Add_TAsk> {
                                               Colors.black),
                                       minimumSize:
                                           MaterialStateProperty.all<Size>(
-                                              Size(100.0, 50.0)),
+                                              const Size(100.0, 50.0)),
                                       shape: MaterialStateProperty.all<
                                           RoundedRectangleBorder>(
                                         RoundedRectangleBorder(
                                             borderRadius:
                                                 BorderRadius.circular(13),
-                                            side: BorderSide(
+                                            side: const BorderSide(
                                                 color: Colors.black, width: 2)),
                                       ),
                                       overlayColor: MaterialStateProperty.all(
-                                          Color.fromARGB(255, 51, 24, 148))),
+                                          const Color.fromARGB(255, 51, 24, 148))),
                                 ),
                               )
                             ],
@@ -249,7 +249,7 @@ class _Web_Add_TAskState extends State<Web_Add_TAsk> {
                   ),
                   SingleChildScrollView(
                     child: Container(
-                      margin: EdgeInsets.only(top: 130, left: 150),
+                      margin: const EdgeInsets.only(top: 130, left: 150),
                       width: 800,
                       height: 500,
                       // color: Colors.amber,
@@ -261,14 +261,14 @@ class _Web_Add_TAskState extends State<Web_Add_TAsk> {
                             // color: Colors.amber,
                             child: ListView.builder(
                               itemBuilder: (context, index) {
-                                return Padding(
-                                  padding: const EdgeInsets.all(8.0),
+                                return const Padding(
+                                  padding: EdgeInsets.all(8.0),
                                   child: Card(
                                       elevation: 5,
                                       child: Column(
                                         children: [
                                           Padding(
-                                            padding: const EdgeInsets.all(8.0),
+                                            padding: EdgeInsets.all(8.0),
                                             child: Text(
                                               "Title",
                                               style: TextStyle(
@@ -290,8 +290,8 @@ class _Web_Add_TAskState extends State<Web_Add_TAsk> {
                             ),
                           ),
                           Container(
-                              padding: EdgeInsets.only(left: 700),
-                              child: InkWell(
+                              padding: const EdgeInsets.only(left: 700),
+                              child: const InkWell(
                                 child: Text(
                                   "more->",
                                   style: TextStyle(
