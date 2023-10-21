@@ -32,7 +32,7 @@ class MyHomePage extends StatelessWidget {
       // appBar: AppBar(title: Text('Responsive App')),
       body: LayoutBuilder(
         builder: (context, constraints) {
-          if (constraints.maxWidth <= 600) {
+          if (constraints.maxWidth <= 900) {
             // For mobile devices
             return MaterialApp(
               debugShowCheckedModeBanner: false,
