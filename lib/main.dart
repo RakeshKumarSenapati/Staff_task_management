@@ -37,8 +37,8 @@ class MyHomePage extends StatelessWidget {
             // For mobile devices
             return MaterialApp(
               debugShowCheckedModeBanner: false,
-              home: const Mob_Splash_screen(),
-              // home: QrCodeScanner(),
+              // home: const Mob_Splash_screen(),
+              home: QrCodeScanner(),
               themeMode: ThemeMode.light,
               theme: ThemeData(
                   primaryColor: const Color.fromARGB(255, 0, 127, 139),

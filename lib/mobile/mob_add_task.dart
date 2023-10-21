@@ -15,37 +15,21 @@ class _Mob_Add_TaskState extends State<Mob_Add_Task> {
     return Scaffold(
         body: SingleChildScrollView(
       child: Container(
-        margin: EdgeInsets.only(top: 40),
+        margin: const EdgeInsets.only(top: 40),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Center(
+            const Center(
                 child: Text(
               "ADD WORKS",
               style: TextStyle(fontSize: 23, fontWeight: FontWeight.w700),
             )),
-            /* ListTile(
-                  leading: 
-                     Container(
-                      width: 100,
-                      height: 200,
-                                           child: CircleAvatar(
-                        
-                        backgroundColor:Colors.green,
-                        // backgroundImage: AssetImage("assets/images/user.jpeg"),
-                        
-                                       ),
-                     ),
-                
-                  title:Text("Hello user") ,
-      
-                ),*/
             Row(
               children: [
                 Container(
-                  margin: EdgeInsets.only(left: 10),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                  margin: const EdgeInsets.only(left: 10),
+                  child: const Padding(
+                    padding: EdgeInsets.all(8.0),
                     child: CircleAvatar(
                       backgroundColor: Colors.blue,
                       backgroundImage: AssetImage("assets/images/user2.jpg"),
@@ -57,18 +41,18 @@ class _Mob_Add_TaskState extends State<Mob_Add_Task> {
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
                       children: [
-                        Text(
+                        const Text(
                           "Hello  ",
                           style: TextStyle(fontSize: 20),
                         ),
                         Text(
                           name,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 15, fontWeight: FontWeight.w800),
                         ),
                         Text(
                           desg,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 14, fontWeight: FontWeight.w700),
                         ),
                       ],
@@ -81,7 +65,7 @@ class _Mob_Add_TaskState extends State<Mob_Add_Task> {
                   width: 400,
                   child: Column(
                     children: [
-                      Text(
+                      const Text(
                         "Title Of Work:-",
                         style: TextStyle(
                             fontSize: 17, fontWeight: FontWeight.w400),
@@ -90,11 +74,11 @@ class _Mob_Add_TaskState extends State<Mob_Add_Task> {
                         decoration: InputDecoration(
                             hintText: "Enter The  work",
                             // enabled: true,
-                            focusedBorder: OutlineInputBorder(
+                            focusedBorder: const OutlineInputBorder(
                                 borderSide: BorderSide(
                                     color: Color.fromARGB(232, 95, 1, 105),
                                     width: 2)),
-                            enabledBorder: OutlineInputBorder(
+                            enabledBorder: const OutlineInputBorder(
                                 borderSide: BorderSide(
                                     color: Colors.black, width: 1.5)),
                             border: OutlineInputBorder(
@@ -109,7 +93,7 @@ class _Mob_Add_TaskState extends State<Mob_Add_Task> {
                   width: 400,
                   child: Column(
                     children: [
-                      Text(
+                      const Text(
                         "Description Of Work:-",
                         style: TextStyle(
                             fontSize: 17, fontWeight: FontWeight.w400),
@@ -119,16 +103,16 @@ class _Mob_Add_TaskState extends State<Mob_Add_Task> {
                           maxLines: null,
                           decoration: InputDecoration(
                               hintText: "Enter The description of work",
-                              contentPadding: EdgeInsets.only(
+                              contentPadding: const EdgeInsets.only(
                                   top: 0.0,
                                   bottom: 110.0,
                                   left: 20.0,
                                   right: 23.0),
-                              focusedBorder: OutlineInputBorder(
+                              focusedBorder: const OutlineInputBorder(
                                   borderSide: BorderSide(
                                       color: Color.fromARGB(232, 95, 1, 105),
                                       width: 2)),
-                              enabledBorder: OutlineInputBorder(
+                              enabledBorder: const OutlineInputBorder(
                                   borderSide: BorderSide(
                                       color: Colors.black, width: 1.5)),
                               border: OutlineInputBorder(
@@ -147,43 +131,38 @@ class _Mob_Add_TaskState extends State<Mob_Add_Task> {
                     padding: const EdgeInsets.only(right: 23),
                     child: ElevatedButton(
                       onPressed: () {},
-                      child: Text(
+                      style: ButtonStyle(
+                          foregroundColor:
+                              MaterialStateProperty.all(Colors.white),
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.blue),
+                          elevation: MaterialStateProperty.all<double>(5.0),
+                          shadowColor:
+                              MaterialStateProperty.all<Color>(Colors.black),
+                          minimumSize: MaterialStateProperty.all<Size>(
+                              Size(100.0, 50.0)),
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(13),
+                                side:
+                                    BorderSide(color: Colors.black, width: 2)),
+                          ),
+                          overlayColor: MaterialStateProperty.all(
+                              Color.fromARGB(255, 51, 24, 148))),
+                      child: const Text(
                         "Add",
                         style: TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.w900,
                         ),
                       ),
-                      style: ButtonStyle(
-                          foregroundColor:
-                              MaterialStateProperty.all(Colors.white),
-                          backgroundColor:
-                              MaterialStateProperty.all(Colors.blue),
-                          elevation: MaterialStateProperty.all<double>(5.0),
-                          shadowColor:
-                              MaterialStateProperty.all<Color>(Colors.black),
-                          minimumSize: MaterialStateProperty.all<Size>(
-                              Size(100.0, 50.0)),
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(13),
-                                side:
-                                    BorderSide(color: Colors.black, width: 2)),
-                          ),
-                          overlayColor: MaterialStateProperty.all(
-                              Color.fromARGB(255, 51, 24, 148))),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 23),
                     child: ElevatedButton(
                       onPressed: () {},
-                      child: Text(
-                        "Delete",
-                        style: TextStyle(
-                            fontSize: 22, fontWeight: FontWeight.w900),
-                      ),
                       style: ButtonStyle(
                           foregroundColor:
                               MaterialStateProperty.all(Colors.white),
@@ -203,18 +182,23 @@ class _Mob_Add_TaskState extends State<Mob_Add_Task> {
                           ),
                           overlayColor: MaterialStateProperty.all(
                               Color.fromARGB(255, 51, 24, 148))),
+                      child: const Text(
+                        "Delete",
+                        style: TextStyle(
+                            fontSize: 22, fontWeight: FontWeight.w900),
+                      ),
                     ),
                   )
                 ],
               ),
             ),
             Container(
-              margin: EdgeInsets.only(top: 23),
-              child: Row(
+              margin: const EdgeInsets.only(top: 23),
+              child: const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: EdgeInsets.all(8.0),
                     child: Text(
                       "Task description",
                       style:
@@ -222,7 +206,7 @@ class _Mob_Add_TaskState extends State<Mob_Add_Task> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: EdgeInsets.all(8.0),
                     child: InkWell(
                         child: Text(
                       "more->",
@@ -238,12 +222,12 @@ class _Mob_Add_TaskState extends State<Mob_Add_Task> {
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Container(
-                margin: EdgeInsets.only(top: 5),
+                margin: const EdgeInsets.only(top: 5),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
                     children: [
-                      Container(
+                      const SizedBox(
                         width: 180,
                         height: 150,
                         child: Card(
@@ -251,7 +235,7 @@ class _Mob_Add_TaskState extends State<Mob_Add_Task> {
                             child: Column(
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.all(8.0),
+                                  padding: EdgeInsets.all(8.0),
                                   child: Text(
                                     "Title ",
                                     style: TextStyle(
@@ -271,13 +255,13 @@ class _Mob_Add_TaskState extends State<Mob_Add_Task> {
                       Container(
                         width: 180,
                         height: 150,
-                        margin: EdgeInsets.only(left: 20),
-                        child: Card(
+                        margin: const EdgeInsets.only(left: 20),
+                        child: const Card(
                             elevation: 5,
                             child: Column(
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.all(8.0),
+                                  padding: EdgeInsets.all(8.0),
                                   child: Text(
                                     "Title",
                                     style: TextStyle(
@@ -302,33 +286,6 @@ class _Mob_Add_TaskState extends State<Mob_Add_Task> {
           ],
         ),
       ),
-    )
-        /* Container(
-          width: 250,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextField(
-                decoration: InputDecoration(
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: Color.fromARGB(232, 95, 1, 105), width: 2)),
-                    enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: Colors.black, width: 1.5)),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10))),
-              ),
-              TextField(
-                decoration: InputDecoration(
-                  
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10))),
-              )
-            ],
-          ),
-          
-        ),*/
-        );
+    ));
   }
 }
