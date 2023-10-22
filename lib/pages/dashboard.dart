@@ -16,6 +16,8 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
 
+    
+
     int index =2 ;
 
     final items = <Widget>[
@@ -35,7 +37,7 @@ class _HomePageState extends State<HomePage> {
               child: Row(
                 children: [
                   Text("HI ! Rakesh ", style: TextStyle(fontSize: 26, color: Colors.white),),
-                  Container(child: Icon(Icons.account_circle_rounded,size: 40, color: Colors.white,),margin: EdgeInsets.fromLTRB(200, 0, 0, 0),),
+                  Container(child: Icon(Icons.account_circle_rounded,size: 50, color: Colors.white,),margin: EdgeInsets.fromLTRB(150, 5, 0, 0),),
                 ],
               ),margin: EdgeInsets.fromLTRB(10, 20, 0, 0),
             ),

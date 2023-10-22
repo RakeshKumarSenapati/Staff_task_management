@@ -1,6 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/mobile/mob_Profile.dart';
+import 'package:flutter_application_1/mobile/mob_add_task.dart';
+import 'package:flutter_application_1/mobile/mob_contact_prev.dart';
 import 'package:flutter_application_1/mobile/mob_login.dart';
+import 'mob_details.dart';
 
 class Mob_Splash_screen extends StatefulWidget {
   const Mob_Splash_screen({Key? key});
@@ -17,7 +21,7 @@ class _Mob_Splash_screenState extends State<Mob_Splash_screen> {
     Timer(const Duration(seconds: 4), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const Mob_Login_Page()),
+        MaterialPageRoute(builder: (context) =>  ContactPrev(title: 'Contact',)),
       );
     });
   }

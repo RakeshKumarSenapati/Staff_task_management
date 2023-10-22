@@ -53,7 +53,6 @@ class MyHomePage extends StatelessWidget {
                   primaryColor: const Color.fromARGB(255, 0, 127, 139),
                   fontFamily: GoogleFonts.lato().fontFamily),
               darkTheme: ThemeData(brightness: Brightness.dark),
-
             );
           }
         },

@@ -1,9 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_application_1/mobile/mob_Profile.dart';
+import 'package:flutter_application_1/mobile/mob_add_task.dart';
 import 'package:flutter_application_1/pages/dashboard.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../consts.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+
 import 'package:http/http.dart' as http;
 
 class Mob_Login_Page extends StatefulWidget {
@@ -28,14 +34,31 @@ class _Mob_Login_PageState extends State<Mob_Login_Page> {
 
     if (response.statusCode == 200) {
       if (response.body == 'Success') {
+
+        Fluttertoast.showToast(
+        msg: 'Login Successful',
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.green,
+        textColor: Colors.white,
+      );
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString('userID', user.text);
+        prefs.setString('password', pass.text);
         setState(() {
           // Navigate to the HomePage on successful login
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => HomePage()),
+            MaterialPageRoute(builder: (context) => Profile()),
           );
         });
       } else {
+
+        Fluttertoast.showToast(
+        msg: 'Login Failed Enter Correct Details',
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.green,
+        textColor: Colors.white,
+      );
         // Handle unsuccessful login
         print("Login failed");
       }
@@ -220,7 +243,7 @@ class _Mob_Login_PageState extends State<Mob_Login_Page> {
                         child: Padding(
                           padding: EdgeInsets.symmetric(horizontal: 20),
                           child: Text(
-                            "In case you can feash any problem then contact Our Suppert Team ",
+                            "In case you can face any problem then contact Our Suppert Team Member",
                             style: TextStyle(
                               color: Colors.pink,
                               fontWeight: FontWeight.w100,

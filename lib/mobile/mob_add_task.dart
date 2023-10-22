@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+
+import 'package:fluttertoast/fluttertoast.dart';
 
 class Mob_Add_Task extends StatefulWidget {
   const Mob_Add_Task({super.key});
@@ -8,47 +12,93 @@ class Mob_Add_Task extends StatefulWidget {
 }
 
 class _Mob_Add_TaskState extends State<Mob_Add_Task> {
+
+
+    
+   TextEditingController TITLE = TextEditingController();
+  TextEditingController DESCRIPTION = TextEditingController();
+
+  late String userID;
+   
+  Future<void> retrieveStoredData() async 
+  {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    userID = prefs.getString('userID') ?? '';
+  }
+    @override
+  void initState() {
+    super.initState();
+    retrieveStoredData().then((_) {
+      setState(() {}); // Set the state to rebuild the widget
+    });
+  }
+
+
+
+
+  Future<void> _AddTaskk() async {
+    final response = await http.post(
+      Uri.parse('https://creativecollege.in/Flutter/AddTask.php'),
+      body: {
+        'TITLE': TITLE.text,
+        'DESCRIPTION': DESCRIPTION.text,
+        'userID': userID,
+        // 'STARTDATE': currentDate.toLocal(),
+      },
+    );
+
+    if (response.statusCode == 200) {
+      if (response.body == 'Success') {
+        Fluttertoast.showToast(
+        msg: 'WORK ADDED',
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.green,
+        textColor: Colors.white,
+      );
+      } else {
+        Fluttertoast.showToast(
+        msg: response.body,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.green,
+        textColor: Colors.white,
+      );
+      }
+    } else {
+      // Fluttertoast.showToast(
+      //   msg: 'EXCEPTION',
+      //   gravity: ToastGravity.BOTTOM,
+      //   backgroundColor: Colors.green,
+      //   textColor: Colors.white,
+      // );
+    }
+
+  
+  }
   @override
   Widget build(BuildContext context) {
-    var name = "Name";
-    var desg = "developer";
+
     return Scaffold(
         body: SingleChildScrollView(
       child: Container(
-        margin: EdgeInsets.only(top: 40),
+        margin: const EdgeInsets.only(top: 40),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Center(
+            const Center(
                 child: Text(
               "ADD WORKS",
               style: TextStyle(fontSize: 23, fontWeight: FontWeight.w700),
             )),
-            /* ListTile(
-                  leading: 
-                     Container(
-                      width: 100,
-                      height: 200,
-                                           child: CircleAvatar(
-                        
-                        backgroundColor:Colors.green,
-                        // backgroundImage: AssetImage("assets/images/user.jpeg"),
-                        
-                                       ),
-                     ),
-                
-                  title:Text("Hello user") ,
-      
-                ),*/
+            
             Row(
               children: [
                 Container(
-                  margin: EdgeInsets.only(left: 10),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                  margin: const EdgeInsets.only(left: 10),
+                  child: const Padding(
+                    padding: EdgeInsets.all(8.0),
                     child: CircleAvatar(
                       backgroundColor: Colors.blue,
-                      backgroundImage: AssetImage("assets/images/user2.jpg"),
+                      backgroundImage: AssetImage("assets/images/technocart.png"),
                       radius: 40,
                     ),
                   ),
@@ -57,20 +107,15 @@ class _Mob_Add_TaskState extends State<Mob_Add_Task> {
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
                       children: [
-                        Text(
-                          "Hello  ",
+                        const Text(
+                          "Hello",
                           style: TextStyle(fontSize: 20),
                         ),
-                        Text(
-                          name,
-                          style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.w800),
+                         Text(
+                          userID,
+                          style: const TextStyle(fontSize: 20),
                         ),
-                        Text(
-                          desg,
-                          style: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.w700),
-                        ),
+                       
                       ],
                     ))
               ],
@@ -87,6 +132,7 @@ class _Mob_Add_TaskState extends State<Mob_Add_Task> {
                             fontSize: 17, fontWeight: FontWeight.w400),
                       ),
                       TextField(
+                        controller: TITLE,
                         decoration: InputDecoration(
                             hintText: "Enter The  work",
                             // enabled: true,
@@ -116,6 +162,7 @@ class _Mob_Add_TaskState extends State<Mob_Add_Task> {
                       ),
                       SingleChildScrollView(
                         child: TextFormField(
+                          controller: DESCRIPTION,
                           maxLines: null,
                           decoration: InputDecoration(
                               hintText: "Enter The description of work",
@@ -146,7 +193,9 @@ class _Mob_Add_TaskState extends State<Mob_Add_Task> {
                   Padding(
                     padding: const EdgeInsets.only(right: 23),
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        _AddTaskk();
+                      },
                       child: Text(
                         "Add",
                         style: TextStyle(
