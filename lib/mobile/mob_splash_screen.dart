@@ -6,6 +6,7 @@ import 'package:flutter_application_1/mobile/mob_contact_prev.dart';
 import 'package:flutter_application_1/mobile/mob_login.dart';
 import 'package:flutter_application_1/pages/login_page.dart';
 import 'mob_details.dart';
+import 'mob_task_mgmt.dart';
 
 class Mob_Splash_screen extends StatefulWidget {
   const Mob_Splash_screen({Key? key});
@@ -22,7 +23,7 @@ class _Mob_Splash_screenState extends State<Mob_Splash_screen> {
     Timer(const Duration(seconds: 4), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) =>  Mob_Login_Page()),
+        MaterialPageRoute(builder: (context) =>   Mob_Login_Page()),
       );
     });
   }

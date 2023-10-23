@@ -1,14 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_application_1/mobile/mob_Profile.dart';
 import 'package:flutter_application_1/mobile/mob_add_task.dart';
-import 'package:flutter_application_1/mobile/mob_contact_prev.dart';
-import 'package:flutter_application_1/pages/dashboard.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../consts.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'mob_task_mgmt.dart';
 
 
 import 'package:http/http.dart' as http;
@@ -49,7 +47,7 @@ class _Mob_Login_PageState extends State<Mob_Login_Page> {
           // Navigate to the HomePage on successful login
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => ContactPrev()),
+            MaterialPageRoute(builder: (context) =>  Mob_Add_Task()),
           );
         });
       } else {
@@ -190,16 +188,7 @@ class _Mob_Login_PageState extends State<Mob_Login_Page> {
                           color: kButtonColor,
                           borderRadius: BorderRadius.circular(37),
                         ),
-                      //   child: const Text(
-                      //     "Login",
-                      //     style: TextStyle(
-                      //       color: kWhiteColor,
-                      //       fontWeight: FontWeight.w700,
-                      //       fontSize: 24,
-                      //     ),
-                      //   ),
-                      // ),
-                      // onPressed: () {
+                      
                         child: const Text(
                         "Login",
                         style: TextStyle(

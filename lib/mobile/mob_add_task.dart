@@ -32,10 +32,7 @@ class _Mob_Add_TaskState extends State<Mob_Add_Task> {
       setState(() {}); // Set the state to rebuild the widget
     });
   }
-
-
-
-
+  
   Future<void> _AddTaskk() async {
     final response = await http.post(
       Uri.parse('https://creativecollege.in/Flutter/AddTask.php'),
@@ -194,7 +191,27 @@ class _Mob_Add_TaskState extends State<Mob_Add_Task> {
                     child: ElevatedButton(
 
                       onPressed: () {
-                        _AddTaskk();
+                       if(TITLE.text=='')
+                       {
+                           Fluttertoast.showToast(
+                            msg: 'TITLE IS EMPTY',
+                            gravity: ToastGravity.BOTTOM,
+                            backgroundColor: Colors.green,
+                            textColor: Colors.white,
+                          );
+                       }
+                       else if(DESCRIPTION.text=='')
+                       {
+                        Fluttertoast.showToast(
+                            msg: 'DESCRIPTION IS EMPTY',
+                            gravity: ToastGravity.BOTTOM,
+                            backgroundColor: Colors.green,
+                            textColor: Colors.white,
+                          );
+                       }
+                       else {
+                          _AddTaskk();
+                       }
                       },
                       style:  ButtonStyle(
                           foregroundColor:

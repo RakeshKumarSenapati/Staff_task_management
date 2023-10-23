@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/web/web_add_task.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../consts.dart';
+import 'package:flutter_application_1/mobile/mob_Profile.dart';
+import 'package:flutter_application_1/mobile/mob_add_task.dart';
+import 'package:flutter_application_1/mobile/mob_task_mgmt.dart';
 import 'package:http/http.dart' as http;
-
 class Web_Login_Page extends StatefulWidget {
   const Web_Login_Page({super.key});
 
@@ -32,7 +34,7 @@ class _Web_Login_PageState extends State<Web_Login_Page> {
           // Navigate to the HomePage on successful login
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => Web_Add_TAsk()),
+            MaterialPageRoute(builder: (context) => Mob_Add_Task()),
           );
         });
       } else {

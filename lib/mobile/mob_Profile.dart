@@ -34,12 +34,9 @@ class _ProfilePageState extends State<Profile> {
     if (response.statusCode == 200) {
       final jsonData = json.decode(response.body);
 
-      // Check if jsonData is a list and not empty
       if (jsonData is List && jsonData.isNotEmpty) {
-        // Access the first element of the list (assuming there is only one element)
         final firstElement = jsonData[0];
 
-        // Access the specific fields within the first element
         setState(() {
           name = firstElement['name'];
           userName = firstElement['user_name'];

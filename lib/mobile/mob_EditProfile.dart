@@ -84,7 +84,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
           children: <Widget>[
             const CircleAvatar(
               radius: 70,
-              backgroundImage: AssetImage('assets/priya.jpeg'),
+              backgroundImage: AssetImage('assets/images/technocart.png'),
             ),
             const SizedBox(height: 30),
             TextFormField(
