@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 
 import 'package:fluttertoast/fluttertoast.dart';
 
+// ignore: camel_case_types
 class Mob_Add_Task extends StatefulWidget {
   const Mob_Add_Task({super.key});
 
@@ -12,29 +13,23 @@ class Mob_Add_Task extends StatefulWidget {
 }
 
 class _Mob_Add_TaskState extends State<Mob_Add_Task> {
-
-
-    
-   TextEditingController TITLE = TextEditingController();
+  TextEditingController TITLE = TextEditingController();
   TextEditingController DESCRIPTION = TextEditingController();
 
   late String userID;
-   
-  Future<void> retrieveStoredData() async 
-  {
+
+  Future<void> retrieveStoredData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     userID = prefs.getString('userID') ?? '';
   }
-    @override
+
+  @override
   void initState() {
     super.initState();
     retrieveStoredData().then((_) {
       setState(() {}); // Set the state to rebuild the widget
     });
   }
-
-
-
 
   Future<void> _AddTaskk() async {
     final response = await http.post(
@@ -49,18 +44,18 @@ class _Mob_Add_TaskState extends State<Mob_Add_Task> {
     if (response.statusCode == 200) {
       if (response.body == 'Success') {
         Fluttertoast.showToast(
-        msg: 'WORK ADDED',
-        gravity: ToastGravity.BOTTOM,
-        backgroundColor: Colors.green,
-        textColor: Colors.white,
-      );
+          msg: 'WORK ADDED',
+          gravity: ToastGravity.BOTTOM,
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+        );
       } else {
         Fluttertoast.showToast(
-        msg: 'Failed Loading',
-        gravity: ToastGravity.BOTTOM,
-        backgroundColor: Colors.green,
-        textColor: Colors.white,
-      );
+          msg: 'Failed Loading',
+          gravity: ToastGravity.BOTTOM,
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+        );
       }
     } else {
       // Fluttertoast.showToast(
@@ -70,12 +65,10 @@ class _Mob_Add_TaskState extends State<Mob_Add_Task> {
       //   textColor: Colors.white,
       // );
     }
-
-  
   }
+
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
         body: SingleChildScrollView(
       child: Container(
@@ -96,7 +89,8 @@ class _Mob_Add_TaskState extends State<Mob_Add_Task> {
                     padding: EdgeInsets.all(8.0),
                     child: CircleAvatar(
                       backgroundColor: Colors.blue,
-                      backgroundImage: AssetImage("assets/images/technocart.png"),
+                      backgroundImage:
+                          AssetImage("assets/images/technocart.png"),
                       radius: 40,
                     ),
                   ),
@@ -109,12 +103,10 @@ class _Mob_Add_TaskState extends State<Mob_Add_Task> {
                           "Hello",
                           style: TextStyle(fontSize: 20),
                         ),
-                         Text(
+                        Text(
                           userID,
                           style: const TextStyle(fontSize: 20),
-                
                         ),
-                        
                       ],
                     ))
               ],
@@ -192,11 +184,10 @@ class _Mob_Add_TaskState extends State<Mob_Add_Task> {
                   Padding(
                     padding: const EdgeInsets.only(right: 23),
                     child: ElevatedButton(
-
                       onPressed: () {
                         _AddTaskk();
                       },
-                      style:  ButtonStyle(
+                      style: ButtonStyle(
                           foregroundColor:
                               MaterialStateProperty.all(Colors.white),
                           backgroundColor:
@@ -223,7 +214,6 @@ class _Mob_Add_TaskState extends State<Mob_Add_Task> {
                         ),
                       ),
                     ),
-                    
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 23),
