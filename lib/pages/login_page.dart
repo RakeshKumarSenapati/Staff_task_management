@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/pages/dashboard.dart';
+import 'package:flutter_application_1/mobile/mob_navbar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../consts.dart';
 import 'package:http/http.dart' as http;
@@ -32,7 +32,7 @@ class _Login_PageState extends State<Login_Page> {
           // Navigate to the HomePage on successful login
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => HomePage()),
+            MaterialPageRoute(builder: (context) => NavPage()),
           );
         });
       } else {

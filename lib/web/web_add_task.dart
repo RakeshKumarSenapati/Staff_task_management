@@ -48,7 +48,7 @@ class _Web_Add_TAskState extends State<Web_Add_TAsk> {
                     padding: EdgeInsets.all(8.0),
                     child: CircleAvatar(
                       // backgroundColor: Colors.blue,
-                      backgroundImage: AssetImage("assets/images/user2.jpg"),
+                      // backgroundImage: AssetImage("assets/images/user2.jpg"),
                       radius: 40,
                     ),
                   ),
