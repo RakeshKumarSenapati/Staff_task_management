@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/mobile/mob_contact.dart';
 
 class ContactPrev extends StatefulWidget {
-  const ContactPrev({Key? key, required this.title}) : super(key: key);
-
-  final String title;
+  const ContactPrev({super.key});
 
   @override
   State<ContactPrev> createState() => _ContactPage();
@@ -20,9 +18,7 @@ class _ContactPage extends State<ContactPrev> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
+      
       body: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(
@@ -38,7 +34,9 @@ class _ContactPage extends State<ContactPrev> {
 
   Widget CardItem(String course) {
     return Card(
+      margin: EdgeInsets.only(top: 30),
       child: Column(
+      
         children: [
           ListTile(
             title: Text(course),
