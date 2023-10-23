@@ -1,17 +1,13 @@
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'mob_EditProfile.dart';
-import 'package:http/http.dart' as http;
-// import 'dart:io';
-// import 'package:image_picker/image_picker.dart';
-// import 'package:permission_handler/permission_handler.dart';
 
 class Profile extends StatefulWidget {
-  const Profile({super.key});
+  const Profile({Key? key}) : super(key: key);
 
   @override
-  // ignore: library_private_types_in_public_api
   _ProfilePageState createState() => _ProfilePageState();
 }
 
@@ -23,11 +19,11 @@ class _ProfilePageState extends State<Profile> {
   String email = '';
   String phone = '';
   String address = '';
-  String designation='';
-  
+  String designation = '';
+
   // Function to fetch data from the API
   Future<void> fetchData() async {
-     SharedPreferences prefs = await SharedPreferences.getInstance();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     String userID = prefs.getString('userID') ?? '';
     final response = await http.get(Uri.parse('https://creativecollege.in/Flutter/Profile.php?id=$userID'));
 
@@ -36,10 +32,7 @@ class _ProfilePageState extends State<Profile> {
 
       // Check if jsonData is a list and not empty
       if (jsonData is List && jsonData.isNotEmpty) {
-        // Access the first element of the list (assuming there is only one element)
         final firstElement = jsonData[0];
-
-        // Access the specific fields within the first element
         setState(() {
           name = firstElement['name'];
           userName = firstElement['user_name'];
@@ -47,7 +40,7 @@ class _ProfilePageState extends State<Profile> {
           email = firstElement['email'];
           phone = firstElement['phone'];
           address = firstElement['address'];
-          designation= firstElement['designation'];
+          designation = firstElement['designation'];
         });
       } else {
         // Handle the case where the JSON array is empty or not as expected
@@ -63,28 +56,6 @@ class _ProfilePageState extends State<Profile> {
     }
   }
 
-// Future<void> _selectProfilePhoto() async {
-//   PermissionStatus status = await Permission.photos.request();
-
-//   if (status.isGranted) {
-//     final image = await ImagePicker().pickImage(source: ImageSource.gallery);
-
-//     if (image != null) {
-//       // Handle the selected image
-//       setState(() {
-//         _selectedImage = File(image.path);
-//       });
-//     } else {
-//       // Handle the case when the user cancels image selection
-//     }
-//   } else if (status.isDenied) {
-//     // Handle the case when the user denies permission
-//     // You can display a message or request permission again
-//   } else {
-//     // Handle other permission statuses if needed
-//   }
-// }
-  
   @override
   void initState() {
     super.initState();
@@ -97,29 +68,23 @@ class _ProfilePageState extends State<Profile> {
       appBar: AppBar(
         title: const Text('PROFILE'),
       ),
-       body: SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             const SizedBox(height: 20),
-            // GestureDetector(
-            // onTap: _selectProfilePhoto,
-               CircleAvatar(
+            CircleAvatar(
               radius: 80,
-               backgroundImage: AssetImage('assets/images/technocart.png'),
-
+              backgroundImage: AssetImage('assets/images/technocart.png'),
             ),
-            //),
             const SizedBox(height: 10),
-             Text(
+            Text(
               '$name',
               style: const TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
               ),
             ),
-
-
             const SizedBox(height: 8),
             Text(
               '$designation',
@@ -130,7 +95,7 @@ class _ProfilePageState extends State<Profile> {
             ),
             const SizedBox(height: 20),
             Card(
-               margin: const EdgeInsets.only(left: 8,right: 8,top: 10),
+              margin: const EdgeInsets.only(left: 8, right: 8, top: 10),
               elevation: 2,
               child: ListTile(
                 leading: const Icon(Icons.person),
@@ -138,7 +103,7 @@ class _ProfilePageState extends State<Profile> {
               ),
             ),
             Card(
-               margin: const EdgeInsets.only(left: 8,right: 8,top: 10),
+              margin: const EdgeInsets.only(left: 8, right: 8, top: 10),
               elevation: 2,
               child: ListTile(
                 leading: const Icon(Icons.man_3_sharp),
@@ -146,7 +111,7 @@ class _ProfilePageState extends State<Profile> {
               ),
             ),
             Card(
-               margin: const EdgeInsets.only(left: 8,right: 8,top: 10),
+              margin: const EdgeInsets.only(left: 8, right: 8, top: 10),
               elevation: 2,
               child: ListTile(
                 leading: const Icon(Icons.email),
@@ -154,7 +119,7 @@ class _ProfilePageState extends State<Profile> {
               ),
             ),
             Card(
-               margin: const EdgeInsets.only(left: 8,right: 8,top: 10),
+              margin: const EdgeInsets.only(left: 8, right: 8, top: 10),
               elevation: 2,
               child: ListTile(
                 leading: const Icon(Icons.phone),
@@ -162,7 +127,7 @@ class _ProfilePageState extends State<Profile> {
               ),
             ),
             Card(
-               margin: const EdgeInsets.only(left: 8,right: 8,top: 10),
+              margin: const EdgeInsets.only(left: 8, right: 8, top: 10),
               elevation: 2,
               child: ListTile(
                 leading: const Icon(Icons.location_on),
@@ -173,7 +138,7 @@ class _ProfilePageState extends State<Profile> {
           ],
         ),
       ),
-       floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           Navigator.push(
             context,
@@ -181,9 +146,9 @@ class _ProfilePageState extends State<Profile> {
               builder: (context) => EditProfilePage(
                 name: name,
                 email: email,
-                address:address,
-                phone:phone,
-                userName:userName
+                address: address,
+                phone: phone,
+                userName: userName,
               ),
             ),
           );

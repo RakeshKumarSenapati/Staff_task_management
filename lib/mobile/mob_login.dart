@@ -43,8 +43,10 @@ class _Mob_Login_PageState extends State<Mob_Login_Page> {
         textColor: Colors.white,
       );
       SharedPreferences prefs = await SharedPreferences.getInstance();
-        prefs.setString('userID', user.text);
-        prefs.setString('password', pass.text);
+        prefs.setBool('isLoggedIn', true); // Mark the user as logged in
+        prefs.setString('userID', user.text); // Save user ID
+        prefs.setString('password', pass.text); // Save password
+
         setState(() {
           // Navigate to the HomePage on successful login
           Navigator.pushReplacement(

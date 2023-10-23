@@ -4,7 +4,9 @@ import 'package:flutter_application_1/mobile/mob_Profile.dart';
 import 'package:flutter_application_1/mobile/mob_add_task.dart';
 import 'package:flutter_application_1/mobile/mob_contact_prev.dart';
 import 'package:flutter_application_1/mobile/mob_login.dart';
+import 'package:flutter_application_1/mobile/mob_navbar.dart';
 import 'package:flutter_application_1/pages/login_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'mob_details.dart';
 
 class Mob_Splash_screen extends StatefulWidget {
@@ -18,12 +20,28 @@ class _Mob_Splash_screenState extends State<Mob_Splash_screen> {
   @override
   void initState() {
     super.initState();
+    checkLoginStatus();
+  }
+
+  Future<void> checkLoginStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
 
     Timer(const Duration(seconds: 4), () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) =>  Mob_Login_Page()),
-      );
+      if (isLoggedIn) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => NavPage()), // Navigate to your home screen
+        );
+      } else {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  Mob_Login_Page()), // Navigate to your login screen
+        );
+      }
     });
   }
 
@@ -34,8 +52,8 @@ class _Mob_Splash_screenState extends State<Mob_Splash_screen> {
         builder: (context, constraints) {
           return Container(
             color: Colors.black,
-            width: constraints.maxWidth, // Set width to screen's maximum width
-            height: constraints.maxHeight, // Set height to screen's maximum height
+            width: constraints.maxWidth,
+            height: constraints.maxHeight,
             child: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -47,7 +65,7 @@ class _Mob_Splash_screenState extends State<Mob_Splash_screen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Text(
-                        "Developed By TechnoCart ",
+                        "Developed By TechnoCart",
                         style: TextStyle(color: Colors.white),
                       ),
                       Image.asset(
@@ -66,3 +84,4 @@ class _Mob_Splash_screenState extends State<Mob_Splash_screen> {
     );
   }
 }
+  

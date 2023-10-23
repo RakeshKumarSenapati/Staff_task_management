@@ -78,7 +78,7 @@ class _NavPageState extends State<NavPage> {
               ),
             ),
           ],
-        title: Text('HI $name'),
+        title: Text('HI ,$name'),
       ),
       body: _pages[_currentIndex],
       bottomNavigationBar: Container(

@@ -37,7 +37,7 @@ class MyHomePage extends StatelessWidget {
             return MaterialApp(
               debugShowCheckedModeBanner: false,
               // home: const Mob_Splash_screen(),
-              home: Mob_Splash_screen(),
+              home: const Mob_Splash_screen(),
               themeMode: ThemeMode.light,
               theme: ThemeData(
                   primaryColor: const Color.fromARGB(255, 0, 127, 139),

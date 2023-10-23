@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/web/web_navbar.dart';
-import 'package:flutter_application_1/web/web_add_task.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../consts.dart';
 import 'package:http/http.dart' as http;
 
@@ -14,7 +15,6 @@ class Web_Login_Page extends StatefulWidget {
 }
 
 class _Web_Login_PageState extends State<Web_Login_Page> {
-  
   TextEditingController user = TextEditingController();
   TextEditingController pass = TextEditingController();
 
@@ -29,6 +29,11 @@ class _Web_Login_PageState extends State<Web_Login_Page> {
 
     if (response.statusCode == 200) {
       if (response.body == 'Success') {
+         SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setBool('isLoggedIn', true); // Mark the user as logged in
+        prefs.setString('userID', user.text); // Save user ID
+        prefs.setString('password', pass.text); // Save password
+
         setState(() {
           // Navigate to the HomePage on successful login
           Navigator.pushReplacement(
@@ -38,7 +43,14 @@ class _Web_Login_PageState extends State<Web_Login_Page> {
         });
       } else {
         // Handle unsuccessful login
-        print("Login failed");
+         Fluttertoast.showToast(
+          msg: 'Invalid username or password. Please try again.',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+        );
+        
       }
     } else {
       // Handle other HTTP status codes
@@ -229,16 +241,13 @@ class _Web_Login_PageState extends State<Web_Login_Page> {
                             child: const Center(
                               child: Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 20),
-                          
-                                  child: Text(
-                                    "In case you can feash any problem then contact Our Suppert Team ",
-                                    style: TextStyle(
-                                      color: Colors.pink,
-                                      fontWeight: FontWeight.w100,
-                                     
-                                    ),
+                                child: Text(
+                                  "In case you can feash any problem then contact Our Suppert Team ",
+                                  style: TextStyle(
+                                    color: Colors.pink,
+                                    fontWeight: FontWeight.w100,
                                   ),
-                               
+                                ),
                               ),
                             ),
                           ),
