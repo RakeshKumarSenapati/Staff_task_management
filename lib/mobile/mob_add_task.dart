@@ -30,11 +30,7 @@ class _Mob_Add_TaskState extends State<Mob_Add_Task> {
       setState(() {}); // Set the state to rebuild the widget
     });
   }
-<<<<<<< HEAD
-  
-=======
 
->>>>>>> 25a06de368a792cf7b97472f82c42e75df9b31bd
   Future<void> _AddTaskk() async {
     final response = await http.post(
       Uri.parse('https://creativecollege.in/Flutter/AddTask.php'),

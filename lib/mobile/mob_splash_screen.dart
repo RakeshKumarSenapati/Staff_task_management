@@ -29,12 +29,11 @@ class _Mob_Splash_screenState extends State<Mob_Splash_screen> {
     bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
 
     Timer(const Duration(seconds: 4), () {
-<<<<<<< HEAD
+
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) =>   Mob_Login_Page()),
       );
-=======
       if (isLoggedIn) {
         Navigator.pushReplacement(
           context,
@@ -49,7 +48,6 @@ class _Mob_Splash_screenState extends State<Mob_Splash_screen> {
                   Mob_Login_Page()), // Navigate to your login screen
         );
       }
->>>>>>> 25a06de368a792cf7b97472f82c42e75df9b31bd
     });
   }
 

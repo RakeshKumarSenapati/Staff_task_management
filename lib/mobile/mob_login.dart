@@ -54,7 +54,7 @@ class _Mob_Login_PageState extends State<Mob_Login_Page> {
 
             MaterialPageRoute(builder: (context) =>  Mob_Add_Task()),
 
-            MaterialPageRoute(builder: (context) => NavPage()),
+            result: MaterialPageRoute(builder: (context) => NavPage()),
           );
         });
       } else {

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/mobile/mob_contact_prev.dart';
 import 'package:flutter_application_1/web/web_navbar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -40,11 +41,11 @@ class _Web_Login_PageState extends State<Web_Login_Page> {
           // Navigate to the HomePage on successful login
           Navigator.pushReplacement(
             context,
-<<<<<<< HEAD
-            MaterialPageRoute(builder: (context) => const Profile()),
-=======
-            MaterialPageRoute(builder: (context) => NavPage()),
->>>>>>> 25a06de368a792cf7b97472f82c42e75df9b31bd
+
+            MaterialPageRoute(builder: (context) => const ContactPrev()),
+
+            result: MaterialPageRoute(builder: (context) => NavPage()),
+
           );
         });
       } else {

@@ -32,10 +32,7 @@ class _ProfilePageState extends State<Profile> {
 
       if (jsonData is List && jsonData.isNotEmpty) {
         final firstElement = jsonData[0];
-<<<<<<< HEAD
 
-=======
->>>>>>> 25a06de368a792cf7b97472f82c42e75df9b31bd
         setState(() {
           name = firstElement['name'];
           userName = firstElement['user_name'];
