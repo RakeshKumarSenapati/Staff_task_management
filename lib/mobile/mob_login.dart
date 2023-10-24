@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_application_1/mobile/mob_add_task.dart';
+import 'package:flutter_application_1/mobile/mob_contact_prev.dart';
+import 'package:flutter_application_1/mobile/mob_navbar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../consts.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -41,13 +43,18 @@ class _Mob_Login_PageState extends State<Mob_Login_Page> {
         textColor: Colors.white,
       );
       SharedPreferences prefs = await SharedPreferences.getInstance();
-        prefs.setString('userID', user.text);
-        prefs.setString('password', pass.text);
+        prefs.setBool('isLoggedIn', true); // Mark the user as logged in
+        prefs.setString('userID', user.text); // Save user ID
+        prefs.setString('password', pass.text); // Save password
+
         setState(() {
           // Navigate to the HomePage on successful login
           Navigator.pushReplacement(
             context,
+
             MaterialPageRoute(builder: (context) =>  Mob_Add_Task()),
+
+            MaterialPageRoute(builder: (context) => NavPage()),
           );
         });
       } else {

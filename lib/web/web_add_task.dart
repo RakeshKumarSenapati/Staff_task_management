@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Web_Add_TAsk extends StatefulWidget {
   const Web_Add_TAsk({super.key});
@@ -8,6 +10,62 @@ class Web_Add_TAsk extends StatefulWidget {
 }
 
 class _Web_Add_TAskState extends State<Web_Add_TAsk> {
+  TextEditingController TITLE = TextEditingController();
+  TextEditingController DESCRIPTION = TextEditingController();
+
+  late String userID;
+
+  get http => null;
+
+  Future<void> retrieveStoredData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    userID = prefs.getString('userID') ?? '';
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    retrieveStoredData().then((_) {
+      setState(() {}); // Set the state to rebuild the widget
+    });
+  }
+
+  Future<void> _AddTaskk() async {
+    final response = await http.post(
+      Uri.parse('https://creativecollege.in/Flutter/AddTask.php'),
+      body: {
+        'TITLE': TITLE.text,
+        'DESCRIPTION': DESCRIPTION.text,
+        'userID': userID,
+        // 'STARTDATE': currentDate.toLocal(),
+      },
+    );
+    if (response.statusCode == 200) {
+      if (response.body == 'Success') {
+        Fluttertoast.showToast(
+          msg: 'WORK ADDED',
+          gravity: ToastGravity.BOTTOM,
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+        );
+      } else {
+        Fluttertoast.showToast(
+          msg: 'Failed Loading',
+          gravity: ToastGravity.BOTTOM,
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+        );
+      }
+    } else {
+      // Fluttertoast.showToast(
+      //   msg: 'EXCEPTION',
+      //   gravity: ToastGravity.BOTTOM,
+      //   backgroundColor: Colors.green,
+      //   textColor: Colors.white,
+      // );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var name = "Name";
@@ -15,31 +73,15 @@ class _Web_Add_TAskState extends State<Web_Add_TAsk> {
     return Scaffold(
         body: SingleChildScrollView(
       child: Container(
-        margin: EdgeInsets.only(top: 10),
+        margin: const EdgeInsets.only(top: 10),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            /*Center(
-                child: Text(
-              "ADD WORKS",
-              style: TextStyle(fontSize: 23, fontWeight: FontWeight.w700),
-            )),*/
-            /* ListTile(
-                  leading: 
-                     Container(
-                      width: 100,
-                      height: 200,
-                                           child: CircleAvatar(
-                        
-                        backgroundColor:Colors.green,
-                        // backgroundImage: AssetImage("assets/images/user.jpeg"),
-                        
-                                       ),
-                     ),
-                
-                  title:Text("Hello user") ,
-      
-                ),*/
+            const Center(
+              child: Text(
+                "ADD WORK",
+                style: TextStyle(fontSize: 23, fontWeight: FontWeight.w700),
+              ), ),
             Row(
               children: [
                 Container(
@@ -47,8 +89,9 @@ class _Web_Add_TAskState extends State<Web_Add_TAsk> {
                   child: const Padding(
                     padding: EdgeInsets.all(8.0),
                     child: CircleAvatar(
-                      // backgroundColor: Colors.blue,
-                      backgroundImage: AssetImage("assets/images/user2.jpg"),
+                      backgroundColor: Colors.blue,
+                      backgroundImage:
+                          AssetImage("assets/images/technocart.png"),
                       radius: 40,
                     ),
                   ),
@@ -62,7 +105,7 @@ class _Web_Add_TAskState extends State<Web_Add_TAsk> {
                           style: TextStyle(fontSize: 20),
                         ),
                         Text(
-                          name,
+                          userID,
                           style: const TextStyle(
                               fontSize: 15, fontWeight: FontWeight.w800),
                         ),
@@ -98,18 +141,23 @@ class _Web_Add_TAskState extends State<Web_Add_TAsk> {
                                           fontWeight: FontWeight.w400),
                                     ),
                                     TextField(
+                                      controller:TITLE ,
                                       decoration: InputDecoration(
                                           hintText: "Enter The  work",
                                           // enabled: true,
-                                          focusedBorder: const OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  color: Color.fromARGB(
-                                                      232, 95, 1, 105),
-                                                  width: 2)),
-                                          enabledBorder: const OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  color: Colors.black,
-                                                  width: 1.5)),
+                                          focusedBorder:
+                                              const OutlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                      color:
+                                                          Color
+                                                              .fromARGB(232, 95,
+                                                                  1, 105),
+                                                      width: 2)),
+                                          enabledBorder:
+                                              const OutlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                      color: Colors.black,
+                                                      width: 1.5)),
                                           border: OutlineInputBorder(
                                               borderRadius:
                                                   BorderRadius.circular(10))),
@@ -133,6 +181,7 @@ class _Web_Add_TAskState extends State<Web_Add_TAsk> {
                                   ),
                                   SingleChildScrollView(
                                     child: TextFormField(
+                                      controller: DESCRIPTION,
                                       maxLines: null,
                                       decoration: InputDecoration(
                                           hintText:
@@ -142,15 +191,19 @@ class _Web_Add_TAskState extends State<Web_Add_TAsk> {
                                               bottom: 110.0,
                                               left: 20.0,
                                               right: 23.0),
-                                          focusedBorder: const OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  color: Color.fromARGB(
-                                                      232, 95, 1, 105),
-                                                  width: 2)),
-                                          enabledBorder: const OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  color: Colors.black,
-                                                  width: 1.5)),
+                                          focusedBorder:
+                                              const OutlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                      color:
+                                                          Color
+                                                              .fromARGB(232, 95,
+                                                                  1, 105),
+                                                      width: 2)),
+                                          enabledBorder:
+                                              const OutlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                      color: Colors.black,
+                                                      width: 1.5)),
                                           border: OutlineInputBorder(
                                               borderRadius:
                                                   BorderRadius.circular(10))),
@@ -167,7 +220,9 @@ class _Web_Add_TAskState extends State<Web_Add_TAsk> {
                               Padding(
                                 padding: const EdgeInsets.only(right: 23),
                                 child: ElevatedButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    _AddTaskk();
+                                  },
                                   child: const Text(
                                     "Add",
                                     style: TextStyle(
@@ -200,7 +255,8 @@ class _Web_Add_TAskState extends State<Web_Add_TAsk> {
                                                 color: Colors.black, width: 2)),
                                       ),
                                       overlayColor: MaterialStateProperty.all(
-                                          const Color.fromARGB(255, 51, 24, 148))),
+                                          const Color.fromARGB(
+                                              255, 51, 24, 148))),
                                 ),
                               ),
                               Padding(
@@ -238,7 +294,8 @@ class _Web_Add_TAskState extends State<Web_Add_TAsk> {
                                                 color: Colors.black, width: 2)),
                                       ),
                                       overlayColor: MaterialStateProperty.all(
-                                          const Color.fromARGB(255, 51, 24, 148))),
+                                          const Color.fromARGB(
+                                              255, 51, 24, 148))),
                                 ),
                               )
                             ],

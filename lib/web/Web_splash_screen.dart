@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+
 import 'package:flutter_application_1/web/web_login.dart';
+import 'package:flutter_application_1/web/web_navbar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Web_SplashScreen extends StatefulWidget {
   const Web_SplashScreen({Key? key});
@@ -14,13 +17,28 @@ class _Web_SplashScreenState extends State<Web_SplashScreen> {
   void initState() {
     super.initState();
 
+    checkLoginStatus();
+  }
+
+  Future<void> checkLoginStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
+
     Timer(const Duration(seconds: 4), () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const Web_Login_Page(),
-        ),
-      );
+      if (isLoggedIn) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => NavPage()), // Navigate to your home screen
+        );
+      } else {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  Web_Login_Page()), // Navigate to your login screen
+        );
+      }
     });
   }
 
