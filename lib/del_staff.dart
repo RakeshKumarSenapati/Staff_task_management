@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 
 class StaffDelete extends StatefulWidget {
@@ -26,6 +27,9 @@ class _StaffDeleteState extends State<StaffDelete> {
       print('Failed to load data');
     }
   }
+
+  
+
 
     @override
   void initState() {
@@ -56,21 +60,46 @@ class ListItemWithButton extends StatelessWidget {
 
   ListItemWithButton({required this.item});
 
+  Future<void> delete(String name) async {
+  var url = Uri.parse('https://creativecollege.in/Flutter/Delete_staff.php?name=$name');
+
+   var response = await http.get(url);
+  if (response.statusCode == 200) {
+    if (response.body == 'Success') {
+      Fluttertoast.showToast(
+        msg: response.body,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.green,
+        textColor: Colors.white,
+      );
+    } else {
+      Fluttertoast.showToast(
+        msg: response.body,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: const Color.fromARGB(255, 175, 76, 76),
+        textColor: Colors.white,
+      );
+    }
+  }
+}
+
+
   @override
   Widget build(BuildContext context) {
     return ListTile(
       
       title: Text(item),
+
       trailing: ElevatedButton(
         onPressed: () {
-          // Handle button press for this item
-          print('Button pressed for $item');
+          delete(item);
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color.fromARGB(255, 243, 33, 33), // Change the button's background color here
         ),
         child: Text('Delete'),
       ),
+
     );
   }
 }
