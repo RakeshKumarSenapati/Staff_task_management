@@ -99,7 +99,7 @@ class _NavPageState extends State<NavPage> {
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.list),
-              label: 'Details',
+              label: 'Task Details',
               backgroundColor: Color.fromARGB(255, 255, 124, 1)
             ),
             BottomNavigationBarItem(
@@ -110,11 +110,11 @@ class _NavPageState extends State<NavPage> {
             BottomNavigationBarItem(
               icon: Icon(Icons.contact_phone),
               label: 'Student Contact',
-              backgroundColor: Color.fromARGB(255, 255, 0, 0)
+              backgroundColor: Color.fromARGB(255, 35, 208, 0)
             ),
              BottomNavigationBarItem(
               icon: Icon(Icons.task),
-              label: 'Student Contact',
+              label: 'Task Management',
               backgroundColor: Color.fromARGB(255, 255, 0, 0)
             ),
           ],
