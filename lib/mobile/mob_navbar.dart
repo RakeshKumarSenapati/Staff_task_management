@@ -21,7 +21,7 @@ class NavPage extends StatefulWidget {
 
 class _NavPageState extends State<NavPage> {
   int _currentIndex = 2;
-  final List<Widget> _pages = [QrCodeScanner(), DetailsMobile(), Mob_Add_Task(), ContactPrev(),Task_mgmt()];
+  final List<Widget> _pages = [QrCodeScanner(), Mob_Add_Task(), DetailsMobile(),  ContactPrev(),Task_mgmt()];
 
   String name = '';
 
@@ -98,13 +98,13 @@ class _NavPageState extends State<NavPage> {
               backgroundColor: Color.fromARGB(255, 191, 1, 243)
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.list),
-              label: 'Task Details',
+              icon: Icon(Icons.add_task),
+              label: 'Add Task',
               backgroundColor: Color.fromARGB(255, 255, 124, 1)
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.add_task),
-              label: 'Add Task',
+              icon: Icon(Icons.list),
+              label: 'Task Details',
               backgroundColor: Colors.blue
             ),
             BottomNavigationBarItem(
