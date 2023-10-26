@@ -38,7 +38,7 @@ class MyHomePage extends StatelessWidget {
             return MaterialApp(
               debugShowCheckedModeBanner: false,
               // home: const Mob_Splash_screen(),
-              home: const Mob_Splash_screen(),
+              home: const HomeNav(),
               themeMode: ThemeMode.light,
               theme: ThemeData(
                   primaryColor: const Color.fromARGB(255, 0, 127, 139),
@@ -49,7 +49,7 @@ class MyHomePage extends StatelessWidget {
             // For tablets and larger devices
             return MaterialApp(
               debugShowCheckedModeBanner: false,
-              home: const Web_SplashScreen(),
+              home:  HomeNav(),
               themeMode: ThemeMode.light,
               theme: ThemeData(
                   primaryColor: const Color.fromARGB(255, 0, 127, 139),

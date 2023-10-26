@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-
+import 'package:flutter_application_1/web/admin_details.dart';
 class StaffList extends StatefulWidget {
   const StaffList({super.key});
 
@@ -62,7 +62,14 @@ class ListItemWithButton extends StatelessWidget {
       title: Text(item),
       trailing: ElevatedButton(
         onPressed: () {
-          // Handle button press for this item
+          Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Details_admin_web(
+          name: item,
+           ),
+      ),
+    );
         },
         child: Text('Show Work Progress'),
       ),
