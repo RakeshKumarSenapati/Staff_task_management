@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:month_picker_dialog/month_picker_dialog.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DetailsWeb extends StatelessWidget {
   @override
@@ -54,8 +55,10 @@ class _TaskListScreenState extends State<TaskListScreen> {
 
 // data fetching from api
   Future<void> fetchData() async {
+     SharedPreferences prefs = await SharedPreferences.getInstance();
+    String userID = prefs.getString('userID') ?? '';
     final response = await http
-        .get(Uri.parse('https://creativecollege.in/Flutter/Task_Details.php'));
+        .get(Uri.parse('https://creativecollege.in/Flutter/Task_mgmt.php?id=$userID'));
 
     if (response.statusCode == 200) {
       // response OK
