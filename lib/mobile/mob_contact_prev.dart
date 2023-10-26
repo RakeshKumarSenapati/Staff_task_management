@@ -164,7 +164,6 @@ class _Contact extends State<Contact> {
       print('Failed to load data');
     }
   }
-
   @override
   void initState() {
     super.initState();
@@ -193,55 +192,90 @@ class _Contact extends State<Contact> {
         itemBuilder: (context, index) {
           return Container(
             margin: const EdgeInsets.all(16.0),
+        
             child: Card(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('ID: ${data[index]['ID']}',
-                                style: TextStyle(fontSize: 18)),
-                            Text('Name: ${data[index]['NAME']}',
-                                style: TextStyle(fontSize: 18)),
-                          ],
-                        ),
-                        IconButton(
-                          icon: Icon(
-                            isExpanded
-                                ? Icons.arrow_drop_up
-                                : Icons.arrow_drop_down,
-                            size: 30,
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              expandedIndex = (expandedIndex == index) ? null : index;
-                            });
-                          },
-                        ),
-                      ],
-                    ),
-                    if (expandedIndex == index)
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Contact Number: ${data[index]['MOB_NO']}',
-                              style: TextStyle(fontSize: 18)),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('ID: ${data[index]['ID']}',
+                                    style: TextStyle(fontSize: 18)),
+                                Text('Name: ${data[index]['NAME']}',
+                                    style: TextStyle(fontSize: 18)),
+                              ],
+                            ),
+                          ),
                           IconButton(
-                            icon: Icon(Icons.call),
+                            icon: Icon(
+                              isExpanded
+                                  ? Icons.arrow_drop_up
+                                  : Icons.arrow_drop_down,
+                              size: 30,
+                            ),
                             onPressed: () {
-                              String num = data[index]['MOB_NO'];
-                              directCall(num);
-                              
+                              setState(() {
+                                expandedIndex = (expandedIndex == index) ? null : index;
+                              });
                             },
                           ),
                         ],
                       ),
-                  ],
+                      if (expandedIndex == index)
+                        Column(
+                          children: [
+                             Row(
+                            children: [
+                              Text('Student Number: ${data[index]['MOB_NO']}',
+                                  style: TextStyle(fontSize: 18)),
+                              IconButton(
+                                icon: Icon(Icons.call),
+                                onPressed: () {
+                                  String num = data[index]['MOB_NO'];
+                                  directCall(num);
+                                },
+                              ),
+                            ],
+                          ),
+                             Row(
+                            children: [
+                              Text('Father Number: ${data[index]['MOB_NO']}',
+                                  style: TextStyle(fontSize: 18)),
+                              IconButton(
+                                icon: Icon(Icons.call),
+                                onPressed: () {
+                                  String num = data[index]['MOB_NO'];
+                                  directCall(num);
+                                },
+                              ),
+                            ],
+                          ),
+                             Row(
+                            children: [
+                              Text('Mother Number: ${data[index]['MOB_NO']}',
+                                  style: TextStyle(fontSize: 18)),
+                              IconButton(
+                                icon: Icon(Icons.call),
+                                onPressed: () {
+                                  String num = data[index]['MOB_NO'];
+                                  directCall(num);
+                                },
+                              ),
+                            ],
+                          ),
+                          ],
+                        ),
+                    ],
+                  ),
                 ),
               ),
             ),
