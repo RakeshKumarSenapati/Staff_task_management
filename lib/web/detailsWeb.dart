@@ -58,7 +58,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
      SharedPreferences prefs = await SharedPreferences.getInstance();
     String userID = prefs.getString('userID') ?? '';
     final response = await http
-        .get(Uri.parse('https://creativecollege.in/Flutter/Task_mgmt.php?id=$userID'));
+        .get(Uri.parse('https://creativecollege.in/Flutter/Task_Details.php?id=$userID'));
 
     if (response.statusCode == 200) {
       // response OK

@@ -235,7 +235,7 @@ class _Contact extends State<Contact> {
                           children: [
                              Row(
                             children: [
-                              Text('Student Number: ${data[index]['MOB_NO']}',
+                              Text('Student No: ${data[index]['MOB_NO']}',
                                   style: TextStyle(fontSize: 18)),
                               IconButton(
                                 icon: Icon(Icons.call),
@@ -248,7 +248,7 @@ class _Contact extends State<Contact> {
                           ),
                              Row(
                             children: [
-                              Text('Father Number: ${data[index]['MOB_NO']}',
+                              Text('Father No: ${data[index]['MOB_NO']}',
                                   style: TextStyle(fontSize: 18)),
                               IconButton(
                                 icon: Icon(Icons.call),
@@ -261,7 +261,7 @@ class _Contact extends State<Contact> {
                           ),
                              Row(
                             children: [
-                              Text('Mother Number: ${data[index]['MOB_NO']}',
+                              Text('Mother No: ${data[index]['MOB_NO']}',
                                   style: TextStyle(fontSize: 18)),
                               IconButton(
                                 icon: Icon(Icons.call),
