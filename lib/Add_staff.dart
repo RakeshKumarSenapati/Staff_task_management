@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart' as http;
 
 class StaffAdd extends StatefulWidget {
   const StaffAdd({super.key});
@@ -7,33 +9,43 @@ class StaffAdd extends StatefulWidget {
   State<StaffAdd> createState() => _StaffAddState();
 }
 
+
+
 class _StaffAddState extends State<StaffAdd> {
+    final TextEditingController nameController = TextEditingController();
+    final TextEditingController passController = TextEditingController();
+    final TextEditingController desigController = TextEditingController();
 
     final _formKey = GlobalKey<FormState>();
-  String name = '';
-  String email = '';
-  String desig = '';
-  String pass = '';
+  void signUp() async {
+    final response = await http.post(
+      Uri.parse('https://creativecollege.in/Flutter/staff_add.php'),
+      body: {
+        'name': nameController.text,
+        'desig':desigController.text,
+        'password': passController.text,
+      },
+    );
 
-  void _submitForm() {
-    if (_formKey.currentState!.validate()) {
-      // Form is valid, do something with the data
-      print('Name: $name');
-      print('Email: $email');
+    if (response.statusCode == 200) {
+      if (response.body == 'Success') {
+        Fluttertoast.showToast(
+          msg: 'NEW STAFF ADDED',
+          gravity: ToastGravity.BOTTOM,
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+        );
+      } else {
+        Fluttertoast.showToast(
+          msg: 'Failed Loading',
+          gravity: ToastGravity.BOTTOM,
+          backgroundColor: const Color.fromARGB(255, 175, 76, 76),
+          textColor: Colors.white,
+        );
+      }
     }
   }
-
-  void _clearForm() {
-    // setState(() {
-    //   name = '';
-    //   email = '';
-    //   desig = '';
-    //   pass = '';
-    // });
-
-  }
-
-@override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -47,6 +59,7 @@ class _StaffAddState extends State<StaffAdd> {
           child: Column(
             children: <Widget>[
               TextFormField(
+                controller: nameController,
                 decoration: InputDecoration(labelText: 'Name'),
                 validator: (value) {
                   if (value == null) {
@@ -54,27 +67,10 @@ class _StaffAddState extends State<StaffAdd> {
                   }
                   return null;
                 },
-                onChanged: (value) {
-                  setState(() {
-                    name = value;
-                  });
-                },
+              
               ),
               TextFormField(
-                decoration: InputDecoration(labelText: 'Email'),
-                validator: (value) {
-                  if (value == null) {
-                    return 'Please enter your email';
-                  }
-                  return null;
-                },
-                onChanged: (value) {
-                  setState(() {
-                    email = value;
-                  });
-                },
-              ),
-              TextFormField(
+                controller: desigController,
                 decoration: InputDecoration(labelText: 'Designation'),
                 validator: (value) {
                   if (value == null) {
@@ -82,13 +78,10 @@ class _StaffAddState extends State<StaffAdd> {
                   }
                   return null;
                 },
-                onChanged: (value) {
-                  setState(() {
-                    desig = value;
-                  });
-                },
+                
               ),
               TextFormField(
+                controller: passController,
                 decoration: InputDecoration(labelText: 'Password'),
                 validator: (value) {
                   if (value == null) {
@@ -96,18 +89,14 @@ class _StaffAddState extends State<StaffAdd> {
                   }
                   return null;
                 },
-                onChanged: (value) {
-                  setState(() {
-                    pass = value;
-                  });
-                },
+               
               ),
               SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   ElevatedButton(
-                    onPressed: _submitForm,
+                    onPressed: signUp,
                     child: Text('Submit'),
                   ),
                   ElevatedButton(
@@ -121,5 +110,8 @@ class _StaffAddState extends State<StaffAdd> {
         ),
       ),
     );
+  }
+
+  void _clearForm() {
   }
 }
