@@ -64,7 +64,7 @@ class ListItemWithButton extends StatelessWidget {
         onPressed: () {
           // Handle button press for this item
         },
-        child: Text('Login'),
+        child: Text('Show Work Progress'),
       ),
     );
   }

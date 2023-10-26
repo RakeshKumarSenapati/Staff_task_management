@@ -9,8 +9,6 @@ class StaffAdd extends StatefulWidget {
   State<StaffAdd> createState() => _StaffAddState();
 }
 
-
-
 class _StaffAddState extends State<StaffAdd> {
     final TextEditingController nameController = TextEditingController();
     final TextEditingController passController = TextEditingController();
@@ -37,7 +35,7 @@ class _StaffAddState extends State<StaffAdd> {
         );
       } else {
         Fluttertoast.showToast(
-          msg: 'Failed Loading',
+          msg: 'Adding Failed',
           gravity: ToastGravity.BOTTOM,
           backgroundColor: const Color.fromARGB(255, 175, 76, 76),
           textColor: Colors.white,
@@ -96,7 +94,37 @@ class _StaffAddState extends State<StaffAdd> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   ElevatedButton(
-                    onPressed: signUp,
+                    onPressed: (){
+                      if(nameController.text==''){
+                        Fluttertoast.showToast(
+                          msg: 'Name Is Empty',
+                          gravity: ToastGravity.BOTTOM,
+                          backgroundColor: Colors.green,
+                          textColor: Colors.white,
+                        );
+                      }
+                      else if(desigController.text=='')
+                      {
+                        Fluttertoast.showToast(
+                          msg: 'Designation Is Empty',
+                          gravity: ToastGravity.BOTTOM,
+                          backgroundColor: Colors.green,
+                          textColor: Colors.white,
+                        );
+                      }
+                      else if(passController.text=='')
+                      {
+                        Fluttertoast.showToast(
+                          msg: 'Password Is Empty',
+                          gravity: ToastGravity.BOTTOM,
+                          backgroundColor: Colors.green,
+                          textColor: Colors.white,
+                        );
+                      }
+                      else{
+                        signUp();
+                      }
+                    },
                     child: Text('Submit'),
                   ),
                   ElevatedButton(
