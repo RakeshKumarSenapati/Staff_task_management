@@ -1,14 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/mobile/mob_Profile.dart';
-import 'package:flutter_application_1/mobile/mob_add_task.dart';
-import 'package:flutter_application_1/mobile/mob_contact_prev.dart';
 import 'package:flutter_application_1/mobile/mob_login.dart';
 import 'package:flutter_application_1/mobile/mob_navbar.dart';
-import 'package:flutter_application_1/pages/login_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'mob_details.dart';
-import 'mob_task_mgmt.dart';
+
 
 class Mob_Splash_screen extends StatefulWidget {
   const Mob_Splash_screen({Key? key});

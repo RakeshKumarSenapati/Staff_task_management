@@ -6,11 +6,9 @@ import 'package:flutter_application_1/mobile/mob_contact_prev.dart';
 import 'package:flutter_application_1/mobile/mob_task_mgmt.dart';
 import 'package:flutter_application_1/scanner_page.dart';
 import 'package:flutter_application_1/web/web_add_task.dart';
-import 'package:flutter_application_1/web/web_details.dart';
-import 'package:flutter_application_1/mobile/mob_details.dart';
+import 'package:flutter_application_1/web/detailsWeb.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-import '../consts.dart';
 
 
 
@@ -24,7 +22,7 @@ class NavPage extends StatefulWidget {
 
 class _NavPageState extends State<NavPage> {
   int _currentIndex = 2;
-  final List<Widget> _pages = [QrCodeScanner(), Task_details(), Web_Add_TAsk(), ContactPrev(),Task_mgmt()];
+  final List<Widget> _pages = [QrCodeScanner(), DetailsWeb(), Web_Add_TAsk(), ContactPrev(),Task_mgmt()];
   String name = '';
 
       Future<void> fetchData() async {

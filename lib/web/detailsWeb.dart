@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:month_picker_dialog/month_picker_dialog.dart';
+import 'package:http/http.dart' as http;
 
 class DetailsWeb extends StatelessWidget {
   @override
@@ -22,28 +24,52 @@ class TaskListScreen extends StatefulWidget {
 }
 
 class _TaskListScreenState extends State<TaskListScreen> {
-  List<Task> tasks = [
-    Task('Task 1', TaskStatus.active, "10-10-2023"),
-    Task('Task 2', TaskStatus.completed, "12-09-2023"),
-    Task('Task 3', TaskStatus.pending, "12-10-2023"),
-    Task('Task 5', TaskStatus.active, "12-09-2023"),
-    Task('Task 6', TaskStatus.completed, "10-10-2023"),
-    Task('Task 7', TaskStatus.completed, "20-10-2023"),
-    Task('Task 8', TaskStatus.active, "22-08-2023"),
-    Task('Task 9', TaskStatus.completed, "10-10-2023"),
-    Task('Task 10', TaskStatus.active, "22-10-2023"),
-  ];
-
-  late List<Task> originalTasks;
+  List<Task> tasks = [];
+  late List<Task> originalTasks = tasks;
   TaskStatus filter = TaskStatus.all;
   DateTime selectedDate = DateTime.now();
   DateTime lastWeek = DateTime.now().subtract(Duration(days: 7));
-  DateTime? selectedMonth; // Add selectedMonth
+  DateTime? selectedMonth;
 
   @override
   void initState() {
     super.initState();
-    originalTasks = List.from(tasks);
+    // data fetching method call
+    fetchData();
+  }
+
+// status convert
+  TaskStatus taskStatusFromString(String status) {
+    switch (status) {
+      case 'Started':
+        return TaskStatus.active;
+      case 'Completed':
+        return TaskStatus.completed;
+      case 'Not Started':
+        return TaskStatus.pending;
+      default:
+        return TaskStatus.all;
+    }
+  }
+
+// data fetching from api
+  Future<void> fetchData() async {
+    final response = await http
+        .get(Uri.parse('https://creativecollege.in/Flutter/Task_Details.php'));
+
+    if (response.statusCode == 200) {
+      // response OK
+      final List<dynamic> responseData = jsonDecode(response.body);
+      setState(() {
+        tasks = responseData.map((taskData) {
+          return Task(taskData['TITLE'],
+              taskStatusFromString(taskData['STATUS']), taskData['STARTDATE']);
+        }).toList();
+      });
+    } else {
+      // Response Not Ok
+      throw Exception('Error while fetching data');
+    }
   }
 
   void setFilter(TaskStatus newFilter) {
@@ -55,29 +81,34 @@ class _TaskListScreenState extends State<TaskListScreen> {
     });
   }
 
+// filter by date
   void filterTasksByDate(DateTime date) {
     setState(() {
       setFilter(TaskStatus.all);
       filter = TaskStatus.all;
+      selectedDate = date;
       tasks = tasks.where((task) {
-        final taskDate = DateFormat("dd-MM-yyyy").parse(task.date);
+        final taskDate = DateFormat("yyyy-MM-dd").parse(task.date);
         return taskDate.isAtSameMomentAs(date);
       }).toList();
     });
   }
 
+// filter of tasks of last week
   void filterTasksLastWeek() {
     setState(() {
       setFilter(TaskStatus.all);
       filter = TaskStatus.all;
+      lastWeek = DateTime.now().subtract(Duration(days: 7));
       tasks = tasks.where((task) {
-        final taskDate = DateFormat("dd-MM-yyyy").parse(task.date);
+        final taskDate = DateFormat("yyyy-MM-dd").parse(task.date);
         return taskDate.isAfter(lastWeek) ||
             taskDate.isAtSameMomentAs(lastWeek);
       }).toList();
     });
   }
 
+// filter by month
   void filterTasksByMonth(DateTime? month) {
     if (month == null) {
       return;
@@ -86,13 +117,15 @@ class _TaskListScreenState extends State<TaskListScreen> {
     setState(() {
       setFilter(TaskStatus.all);
       filter = TaskStatus.all;
+      selectedMonth = month;
       tasks = tasks.where((task) {
-        final taskDate = DateFormat("dd-MM-yyyy").parse(task.date);
+        final taskDate = DateFormat("yyyy-MM-dd").parse(task.date);
         return taskDate.month == month.month && taskDate.year == month.year;
       }).toList();
     });
   }
 
+// date selection method
   void _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -109,6 +142,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
     }
   }
 
+// month selection method
   void _selectMonth(BuildContext context) async {
     DateTime? picked = await showMonthPicker(
       context: context,
@@ -121,6 +155,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
     }
   }
 
+// widgets
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -164,26 +199,26 @@ class _TaskListScreenState extends State<TaskListScreen> {
                   },
                 ),
                 PopupMenuButton<String>(
-                  icon: Icon(Icons.calendar_today),
-                  onSelected: (choice) {
-                    if (choice == 'Last Week') {
-                      filterTasksLastWeek();
-                    } else if (choice == 'Select Month') {
-                      _selectMonth(context);
-                    } else if (choice == 'Select Date') {
-                      _selectDate(context);
-                    }
-                  },
-                  itemBuilder: (BuildContext context) {
-                    return {'Last Week', 'Select Month', 'Select Date'}
-                        .map((String choice) {
-                      return PopupMenuItem<String>(
-                        value: choice,
-                        child: Text(choice),
-                      );
-                    }).toList();
-                  },
-                ),
+            icon: Icon(Icons.calendar_today),
+            onSelected: (choice) {
+              if (choice == 'Last Week') {
+                filterTasksLastWeek();
+              } else if (choice == 'Select Month') {
+                _selectMonth(context);
+              } else if (choice == 'Select Date') {
+                _selectDate(context);
+              }
+            },
+            itemBuilder: (BuildContext context) {
+              return {'Last Week', 'Select Month', 'Select Date'}
+                  .map((String choice) {
+                return PopupMenuItem<String>(
+                  value: choice,
+                  child: Text(choice),
+                );
+              }).toList();
+            },
+          ),
               ],
             ),
           ),
