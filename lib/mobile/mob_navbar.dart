@@ -3,16 +3,13 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/mobile/mob_Profile.dart';
 import 'package:flutter_application_1/mobile/mob_add_task.dart';
+import 'package:flutter_application_1/mobile/mob_task_mgmt.dart';
 import 'package:flutter_application_1/mobile/mob_contact_prev.dart';
 import 'package:flutter_application_1/mobile/mob_details.dart';
 import 'package:flutter_application_1/scanner_page.dart';
-import 'package:flutter_application_1/web/web_add_task.dart';
-import 'package:flutter_application_1/web/web_details.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import '../consts.dart';
-
-
 
 
 class NavPage extends StatefulWidget {
@@ -24,7 +21,7 @@ class NavPage extends StatefulWidget {
 
 class _NavPageState extends State<NavPage> {
   int _currentIndex = 2;
-  final List<Widget> _pages = [QrCodeScanner(), DetailsMobile(), Mob_Add_Task(), ContactPrev()];
+  final List<Widget> _pages = [QrCodeScanner(), Task_details(), Mob_Add_Task(), ContactPrev(),Task_mgmt()];
 
   String name = '';
 
@@ -112,6 +109,11 @@ class _NavPageState extends State<NavPage> {
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.contact_phone),
+              label: 'Student Contact',
+              backgroundColor: Color.fromARGB(255, 255, 0, 0)
+            ),
+             BottomNavigationBarItem(
+              icon: Icon(Icons.task),
               label: 'Student Contact',
               backgroundColor: Color.fromARGB(255, 255, 0, 0)
             ),

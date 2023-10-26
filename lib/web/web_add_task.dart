@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 class Web_Add_TAsk extends StatefulWidget {
   const Web_Add_TAsk({super.key});
 
   @override
-  State<Web_Add_TAsk> createState() => _Web_Add_TAskState();
+  _Web_Add_TAskState createState() => _Web_Add_TAskState();
 }
 
 class _Web_Add_TAskState extends State<Web_Add_TAsk> {
   TextEditingController TITLE = TextEditingController();
   TextEditingController DESCRIPTION = TextEditingController();
 
-  late String userID;
-
-  get http => null;
+  late String userID='';
 
   Future<void> retrieveStoredData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -30,8 +29,8 @@ class _Web_Add_TAskState extends State<Web_Add_TAsk> {
     });
   }
 
-  Future<void> _AddTaskk() async {
-    final response = await http.post(
+   Future<void> _AdddTaskk() async {
+     final response = await http.post(
       Uri.parse('https://creativecollege.in/Flutter/AddTask.php'),
       body: {
         'TITLE': TITLE.text,
@@ -57,12 +56,12 @@ class _Web_Add_TAskState extends State<Web_Add_TAsk> {
         );
       }
     } else {
-      // Fluttertoast.showToast(
-      //   msg: 'EXCEPTION',
-      //   gravity: ToastGravity.BOTTOM,
-      //   backgroundColor: Colors.green,
-      //   textColor: Colors.white,
-      // );
+      Fluttertoast.showToast(
+        msg: 'EXCEPTION',
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.green,
+        textColor: Colors.white,
+      );
     }
   }
 
@@ -109,11 +108,7 @@ class _Web_Add_TAskState extends State<Web_Add_TAsk> {
                           style: const TextStyle(
                               fontSize: 15, fontWeight: FontWeight.w800),
                         ),
-                        Text(
-                          desg,
-                          style: const TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.w700),
-                        ),
+                       
                       ],
                     ))
               ],
@@ -221,15 +216,28 @@ class _Web_Add_TAskState extends State<Web_Add_TAsk> {
                                 padding: const EdgeInsets.only(right: 23),
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    _AddTaskk();
+                                    if(TITLE.text=='')
+                                      {
+                                          Fluttertoast.showToast(
+                                            msg: 'TITLE IS EMPTY',
+                                            gravity: ToastGravity.BOTTOM,
+                                            backgroundColor: Colors.green,
+                                            textColor: Colors.white,
+                                          );
+                                      }
+                                      else if(DESCRIPTION.text=='')
+                                      {
+                                        Fluttertoast.showToast(
+                                            msg: 'DESCRIPTION IS EMPTY',
+                                            gravity: ToastGravity.BOTTOM,
+                                            backgroundColor: Colors.green,
+                                            textColor: Colors.white,
+                                          );
+                                      }
+                                      else {
+                                          _AdddTaskk();
+                                      }
                                   },
-                                  child: const Text(
-                                    "Add",
-                                    style: TextStyle(
-                                      fontSize: 22,
-                                      fontWeight: FontWeight.w900,
-                                    ),
-                                  ),
                                   style: ButtonStyle(
                                       foregroundColor:
                                           MaterialStateProperty.all(
@@ -257,6 +265,13 @@ class _Web_Add_TAskState extends State<Web_Add_TAsk> {
                                       overlayColor: MaterialStateProperty.all(
                                           const Color.fromARGB(
                                               255, 51, 24, 148))),
+                                  child: const Text(
+                                    "Add",
+                                    style: TextStyle(
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.w900,
+                                    ),
+                                  ),
                                 ),
                               ),
                               Padding(

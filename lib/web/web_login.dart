@@ -42,7 +42,7 @@ class _Web_Login_PageState extends State<Web_Login_Page> {
           Navigator.pushReplacement(
             context,
 
-            MaterialPageRoute(builder: (context) => const ContactPrev()),
+            MaterialPageRoute(builder: (context) => const NavPage()),
 
             result: MaterialPageRoute(builder: (context) => NavPage()),
 

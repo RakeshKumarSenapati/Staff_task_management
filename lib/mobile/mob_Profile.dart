@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'mob_EditProfile.dart';
+import 'mob_login.dart';
 
 class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);
@@ -56,6 +57,20 @@ class _ProfilePageState extends State<Profile> {
     }
   }
 
+
+  Future<void> clearSharedPreferences() async {
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                await prefs.remove('isLoggedIn');
+                await prefs.remove('userID');
+                await prefs.remove('password');
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          Mob_Login_Page()), // Navigate to your login screen
+                );
+              }
+
   @override
   void initState() {
     super.initState();
@@ -66,7 +81,15 @@ class _ProfilePageState extends State<Profile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('PROFILE'),
+        title: Text('PROFILE'),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.exit_to_app), 
+            onPressed: () {
+             clearSharedPreferences();
+            },
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(

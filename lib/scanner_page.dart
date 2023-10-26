@@ -86,7 +86,7 @@ class _QRScannerScreenState extends State<QrCodeScanner> {
                           height: 25,
                           child: const CircleAvatar(
                             backgroundImage:
-                                AssetImage('assets/images/logo.jpg'),
+                                AssetImage('assets/images/technocart.png'),
                           ),
                         ),
                         const SizedBox(

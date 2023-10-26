@@ -16,7 +16,7 @@ class _Mob_Add_TaskState extends State<Mob_Add_Task> {
   TextEditingController TITLE = TextEditingController();
   TextEditingController DESCRIPTION = TextEditingController();
 
-  late String userID;
+  late String userID='';
 
   Future<void> retrieveStoredData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -32,12 +32,14 @@ class _Mob_Add_TaskState extends State<Mob_Add_Task> {
   }
 
   Future<void> _AddTaskk() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    late String user = prefs.getString('userID') ?? '';
     final response = await http.post(
       Uri.parse('https://creativecollege.in/Flutter/AddTask.php'),
       body: {
         'TITLE': TITLE.text,
         'DESCRIPTION': DESCRIPTION.text,
-        'userID': userID,
+        'userID': user,
         // 'STARTDATE': currentDate.toLocal(),
       },
     );
@@ -158,10 +160,10 @@ class _Mob_Add_TaskState extends State<Mob_Add_Task> {
                           decoration: InputDecoration(
                               hintText: "Enter The description of work",
                               contentPadding: const EdgeInsets.only(
-                                  top: 0.0,
-                                  bottom: 110.0,
-                                  left: 20.0,
-                                  right: 23.0),
+                                  top: 35.0,
+                                  bottom: 35.0,
+                                  left: 15.0,
+                                  right: 15.0),
                               focusedBorder: const OutlineInputBorder(
                                   borderSide: BorderSide(
                                       color: Color.fromARGB(232, 95, 1, 105),
