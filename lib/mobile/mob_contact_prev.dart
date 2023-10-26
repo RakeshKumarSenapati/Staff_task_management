@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/mobile/mob_contact.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:url_launcher/url_launcher.dart';
+
+void main() {
+  runApp(MaterialApp(
+    home: ContactPrev(),
+  ));
+}
 
 class ContactPrev extends StatefulWidget {
-  const ContactPrev({super.key});
+  const ContactPrev({Key? key}) : super(key: key);
 
   @override
   State<ContactPrev> createState() => _ContactPage();
@@ -18,78 +26,214 @@ class _ContactPage extends State<ContactPrev> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
-      body: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Column(
-          children: [
-            CardItem('BSC'),
-            CardItem('BCA'),
-            CardItem('BBA'),
-          ],
+      appBar: AppBar(
+        title: Text('Course Selection'),
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              CardItem('BSC', Colors.blue),
+              CardItem('BCA', Colors.green),
+              CardItem('BBA', Colors.orange),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Widget CardItem(String course) {
+  Widget CardItem(String course, Color cardColor) {
     return Card(
-      margin: EdgeInsets.only(top: 30),
-      child: Column(
-      
-        children: [
-          ListTile(
-            title: Text(course),
-            trailing: Icon(isYearVisible[course]!
-                ? Icons.arrow_drop_up
-                : Icons.arrow_drop_down),
-            onTap: () {
-              setState(() {
-                isYearVisible[course] = !isYearVisible[course]!;
-              });
-            },
+      color: cardColor,
+      margin: EdgeInsets.only(bottom: 16),
+      child: InkWell(
+        onTap: () {
+          setState(() {
+            isYearVisible[course] = !isYearVisible[course]!;
+          });
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  course,
+                  style: TextStyle(
+                    fontSize: 24,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              ListTile(
+                title: Text(
+                  'Select Year',
+                  style: TextStyle(color: Colors.white),
+                ),
+                trailing: Icon(
+                  isYearVisible[course]!
+                      ? Icons.arrow_drop_up
+                      : Icons.arrow_drop_down,
+                  color: Colors.white,
+                ),
+              ),
+              if (isYearVisible[course]!)
+                Column(
+                  children: [
+                    YearButton(course, '1st Year', '1st'),
+                    SizedBox(height: 8),
+                    YearButton(course, '2nd Year', '2nd'),
+                    SizedBox(height: 8),
+                    YearButton(course, '3rd Year', '3rd'),
+                  ],
+                ),
+            ],
           ),
-          if (isYearVisible[course]!)
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                
-                ElevatedButton(onPressed: () {
-                  Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Contact(
-                      course: course,
-                     year: '1st',
+        ),
+      ),
+    );
+  }
+
+  Widget YearButton(String course, String label, String year) {
+    return FractionallySizedBox(
+      widthFactor: 1,
+      child: ElevatedButton(
+        onPressed: () => _navigateToContactPage(course, year),
+        style: ElevatedButton.styleFrom(
+          primary: Colors.white,
+          onPrimary: Colors.black,
+        ),
+        child: Text(label),
+      ),
+    );
+  }
+
+  void _navigateToContactPage(String course, String year) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Contact(course: course, year: year),
+      ),
+    );
+  }
+}
+
+class Contact extends StatefulWidget {
+  final String course;
+  final String year;
+
+  Contact({Key? key, required this.course, required this.year})
+      : super(key: key);
+
+  @override
+  _Contact createState() => _Contact();
+}
+
+class _Contact extends State<Contact> {
+  List<dynamic> data = [];
+  String Course = '';
+  String Year = '';
+  bool isExpanded = false;
+
+  Future<void> fetchData() async {
+    Course = widget.course;
+    Year = widget.year;
+    var url = Uri.parse(
+        'https://creativecollege.in/Flutter/StudentContact.php?Course=$Course&Year=$Year');
+
+    var response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      setState(() {
+        data = json.decode(response.body);
+      });
+    } else {
+      print('Failed to load data');
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+
+  Future<void> _makePhoneCall(String phoneNumber) async {
+    String telScheme = 'tel:$phoneNumber';
+    if (await canLaunch(telScheme)) {
+      await launch(telScheme);
+    } else {
+      throw 'Could not launch $telScheme';
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('CONTACT'),
+      ),
+      body: ListView.builder(
+        itemCount: data.length,
+        itemBuilder: (context, index) {
+          return Container(
+            margin: const EdgeInsets.all(16.0),
+            child: Card(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('ID: ${data[index]['ID']}',
+                                style: TextStyle(fontSize: 18)),
+                            Text('Name: ${data[index]['NAME']}',
+                                style: TextStyle(fontSize: 18)),
+                          ],
+                        ),
+                        IconButton(
+                          icon: Icon(
+                            isExpanded
+                                ? Icons.arrow_drop_up
+                                : Icons.arrow_drop_down,
+                            size: 30,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              isExpanded = !isExpanded;
+                            });
+                          },
+                        ),
+                      ],
                     ),
-                  ),
-                );  }, child: Text("1st")),
-                ElevatedButton(onPressed: () {
-                  Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Contact(
-                      course: course,
-                     year: '2nd',
-                    ),
-                  ),
-                );
-                }, child: Text("2nd")),
-                
-                ElevatedButton(onPressed: () {
-                  Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Contact(
-                      course: course,
-                     year: '3rd',
-                    ),
-                  ),
-                );
-                }, child: Text("3rd")),
-              ],
+                    if (isExpanded)
+                      Row(
+                        children: [
+                          Text('Contact Number: ${data[index]['MOB_NO']}',
+                              style: TextStyle(fontSize: 18)),
+                          IconButton(
+                            icon: Icon(Icons.call),
+                            onPressed: () {
+                              _makePhoneCall(data[index]['MOB_NO']);
+                            },
+                          ),
+                        ],
+                      ),
+                  ],
+                ),
+              ),
             ),
-        ],
+          );
+        },
       ),
     );
   }
