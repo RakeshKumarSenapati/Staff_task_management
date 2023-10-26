@@ -51,7 +51,7 @@ dependencies:
   image_picker: ^1.0.4
   flutter_barcode_sdk: ^2.2.6
   url_launcher: ^6.2.1
-  # url_launcher: ^6.0.3
+  flutter_phone_direct_caller: ^2.1.1
 
    
   

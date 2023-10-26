@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:url_launcher/url_launcher.dart';
@@ -134,6 +135,14 @@ class Contact extends StatefulWidget {
 }
 
 class _Contact extends State<Contact> {
+
+  
+    int? expandedIndex;
+  
+  directCall(String number) async {
+    await FlutterPhoneDirectCaller.callNumber(number);
+  }
+
   List<dynamic> data = [];
   String Course = '';
   String Year = '';
@@ -160,6 +169,8 @@ class _Contact extends State<Contact> {
   void initState() {
     super.initState();
     fetchData();
+
+    
   }
 
   Future<void> _makePhoneCall(String phoneNumber) async {
@@ -209,13 +220,13 @@ class _Contact extends State<Contact> {
                           ),
                           onPressed: () {
                             setState(() {
-                              isExpanded = !isExpanded;
+                              expandedIndex = (expandedIndex == index) ? null : index;
                             });
                           },
                         ),
                       ],
                     ),
-                    if (isExpanded)
+                    if (expandedIndex == index)
                       Row(
                         children: [
                           Text('Contact Number: ${data[index]['MOB_NO']}',
@@ -223,7 +234,9 @@ class _Contact extends State<Contact> {
                           IconButton(
                             icon: Icon(Icons.call),
                             onPressed: () {
-                              _makePhoneCall(data[index]['MOB_NO']);
+                              String num = data[index]['MOB_NO'];
+                              directCall(num);
+                              
                             },
                           ),
                         ],
