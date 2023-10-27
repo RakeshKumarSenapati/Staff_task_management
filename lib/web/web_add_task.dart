@@ -47,6 +47,8 @@ class _Web_Add_TAskState extends State<Web_Add_TAsk> {
           backgroundColor: Colors.green,
           textColor: Colors.white,
         );
+        DESCRIPTION.text='';
+        TITLE.text='';
       } else {
         Fluttertoast.showToast(
           msg: 'Failed Loading',
@@ -54,6 +56,7 @@ class _Web_Add_TAskState extends State<Web_Add_TAsk> {
           backgroundColor: Colors.green,
           textColor: Colors.white,
         );
+        
       }
     } else {
       Fluttertoast.showToast(

@@ -33,6 +33,9 @@ class _StaffAddState extends State<StaffAdd> {
           backgroundColor: Colors.green,
           textColor: Colors.white,
         );
+        nameController.text='';
+        desigController.text='';
+        passController.text='';
       } else {
         Fluttertoast.showToast(
           msg: response.body,

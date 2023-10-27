@@ -66,9 +66,9 @@ class _ProfilePageState extends State<Profile> {
                 await prefs.remove('userID');
                 await prefs.remove('password');
                 Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => MyHomePage()),
-            );
+                  context,
+                  MaterialPageRoute(builder: (context) => MyHomePage()),
+                );
               }
 
   @override
