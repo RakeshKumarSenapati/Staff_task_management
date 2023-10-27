@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/home_page.dart';
+import 'package:flutter_application_1/mobile/mob_navbar.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 const bgColor = Color(0xfffafafa);
 
 class QrCodeScanner extends StatefulWidget {
@@ -13,6 +16,30 @@ class _QRScannerScreenState extends State<QrCodeScanner> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   QRViewController? controller;
   String scannedCode = '';
+
+  Future<void> ATTENDANCE() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String userID = prefs.getString('userID') ?? '';
+    var url = Uri.parse('https://creativecollege.in/Flutter/Attendance.php?userID=$userID');
+
+    var response = await http.get(url);
+    if (response.statusCode == 200) {
+        Fluttertoast.showToast(
+          msg: response.body,
+          gravity: ToastGravity.BOTTOM,
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+        );
+
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => NavPage()),
+          result: MaterialPageRoute(builder: (context) => NavPage()),
+        );
+       
+      
+    }
+    }
 
   @override
   void dispose() {
@@ -145,12 +172,10 @@ class _QRScannerScreenState extends State<QrCodeScanner> {
                 child: ElevatedButton(
                   onPressed: () async {
                     await controller.pauseCamera();
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Home()),
-                    );
+                    ATTENDANCE();
+                    Navigator.of(context).pop(); 
                   },
-                  child: Text("Move"),
+                  child: Text("Mark Attendance"),
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(
                         Colors.blue), // Background color
