@@ -74,7 +74,7 @@ class _Task_mgmt extends State<Task_mgmt> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Task Management'),
+        title: const Text('Task Management'),
       ),
       body: ListView.builder(
         itemCount: data.length,
@@ -100,7 +100,7 @@ class _Task_mgmt extends State<Task_mgmt> {
                               width: 100,
                               child: Text(
                                 '${data[index]['TITLE']}',
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.black),
@@ -110,7 +110,7 @@ class _Task_mgmt extends State<Task_mgmt> {
                             ),
                             Text(
                               '${data[index]['STATUS']}',
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontSize: 17,
                                   color: Color.fromARGB(255, 218, 22, 22)),
                               overflow: TextOverflow.ellipsis,
@@ -129,7 +129,7 @@ class _Task_mgmt extends State<Task_mgmt> {
                             },
                             style: OutlinedButton.styleFrom(
                                 foregroundColor: Colors.blue,
-                                side: BorderSide(
+                                side: const BorderSide(
                                   color: Colors.blue,
                                 )),
                             child: const Text(
