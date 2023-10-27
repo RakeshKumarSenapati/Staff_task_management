@@ -5,6 +5,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'mob_EditProfile.dart';
 import 'mob_login.dart';
+import 'mob_splash_screen.dart';
+import 'package:flutter_application_1/main.dart';
 
 class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);
@@ -72,19 +74,17 @@ class _ProfilePageState extends State<Profile> {
   // }
 
   Future<void> clearSharedPreferences() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.remove('isLoggedIn');
-    await prefs.remove('userID');
-    await prefs.remove('password');
-
-    // Navigate to the login screen and remove all routes from the stack
-    // ignore: use_build_context_synchronously
-    Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(builder: (context) => Mob_Login_Page()),
-      (Route<dynamic> route) => false,
-    );
-  }
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                await prefs.remove('isLoggedIn');
+                await prefs.remove('userID');
+                await prefs.remove('password');
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          Mob_Login_Page()), // Navigate to your login screen
+                );
+              }
 
   @override
   void initState() {

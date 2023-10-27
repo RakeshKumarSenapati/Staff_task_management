@@ -51,6 +51,8 @@ class _Mob_Add_TaskState extends State<Mob_Add_Task> {
           backgroundColor: Colors.green,
           textColor: Colors.white,
         );
+        DESCRIPTION.text='';
+        TITLE.text='';
       } else {
         Fluttertoast.showToast(
           msg: 'Failed Loading',

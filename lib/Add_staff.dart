@@ -33,9 +33,12 @@ class _StaffAddState extends State<StaffAdd> {
           backgroundColor: Colors.green,
           textColor: Colors.white,
         );
+        nameController.text='';
+        desigController.text='';
+        passController.text='';
       } else {
         Fluttertoast.showToast(
-          msg: 'Adding Failed',
+          msg: response.body,
           gravity: ToastGravity.BOTTOM,
           backgroundColor: const Color.fromARGB(255, 175, 76, 76),
           textColor: Colors.white,

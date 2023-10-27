@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/mobile/mob_splash_screen.dart';
 import 'package:flutter_application_1/web/Web_splash_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_application_1/admin_home.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -47,8 +48,8 @@ class MyHomePage extends StatelessWidget {
             // For tablets and larger devices
             return MaterialApp(
               debugShowCheckedModeBanner: false,
-              // home:  HomeNav(),
-              home: const Web_SplashScreen(),
+              home:  HomeNav(),
+              // home: const Web_SplashScreen(),
               themeMode: ThemeMode.light,
               theme: ThemeData(
                   primaryColor: const Color.fromARGB(255, 0, 127, 139),
