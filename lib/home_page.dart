@@ -87,22 +87,22 @@ class HomePage extends StatelessWidget {
             )
             ),
             SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                // Navigate to view attendance reports page
-              },
-              style: ElevatedButton.styleFrom(
-                primary: Colors.black,
-                padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-              ),
-              child: Text(
-                'View Attendance Reports',
-                style: TextStyle(
-                  fontSize: 18,
-                  color: Colors.yellow,
-                ),
-              ),
-            ),
+            // ElevatedButton(
+            //   onPressed: () {
+            //     // Navigate to view attendance reports page
+            //   },
+            //   style: ElevatedButton.styleFrom(
+            //     primary: Colors.black,
+            //     padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+            //   ),
+            //   child: Text(
+            //     'View Attendance Reports',
+            //     style: TextStyle(
+            //       fontSize: 18,
+            //       color: Colors.yellow,
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),
