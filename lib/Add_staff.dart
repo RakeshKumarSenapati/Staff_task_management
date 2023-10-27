@@ -35,7 +35,7 @@ class _StaffAddState extends State<StaffAdd> {
         );
       } else {
         Fluttertoast.showToast(
-          msg: 'Adding Failed',
+          msg: response.body,
           gravity: ToastGravity.BOTTOM,
           backgroundColor: const Color.fromARGB(255, 175, 76, 76),
           textColor: Colors.white,

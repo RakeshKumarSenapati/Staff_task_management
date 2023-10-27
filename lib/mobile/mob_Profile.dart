@@ -4,6 +4,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'mob_EditProfile.dart';
 import 'mob_login.dart';
+import 'mob_splash_screen.dart';
+import 'package:flutter_application_1/main.dart';
 
 class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);
@@ -64,11 +66,9 @@ class _ProfilePageState extends State<Profile> {
                 await prefs.remove('userID');
                 await prefs.remove('password');
                 Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          Mob_Login_Page()), // Navigate to your login screen
-                );
+              context,
+              MaterialPageRoute(builder: (context) => MyHomePage()),
+            );
               }
 
   @override
