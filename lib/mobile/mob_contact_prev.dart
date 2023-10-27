@@ -4,11 +4,6 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:url_launcher/url_launcher.dart';
 
-void main() {
-  runApp(MaterialApp(
-    home: ContactPrev(),
-  ));
-}
 
 class ContactPrev extends StatefulWidget {
   const ContactPrev({Key? key}) : super(key: key);

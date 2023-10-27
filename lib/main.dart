@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/admin_home.dart';
 import 'package:flutter_application_1/mobile/mob_splash_screen.dart';
 import 'package:flutter_application_1/web/Web_splash_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_application_1/home_page.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -37,8 +35,8 @@ class MyHomePage extends StatelessWidget {
             // For mobile devices
             return MaterialApp(
               debugShowCheckedModeBanner: false,
-              // home: const Mob_Splash_screen(),
-              home: const HomeNav(),
+              home: const Mob_Splash_screen(),
+              // home: const HomeNav(),
               themeMode: ThemeMode.light,
               theme: ThemeData(
                   primaryColor: const Color.fromARGB(255, 0, 127, 139),
@@ -49,7 +47,8 @@ class MyHomePage extends StatelessWidget {
             // For tablets and larger devices
             return MaterialApp(
               debugShowCheckedModeBanner: false,
-              home:  HomeNav(),
+              // home:  HomeNav(),
+              home: const Web_SplashScreen(),
               themeMode: ThemeMode.light,
               theme: ThemeData(
                   primaryColor: const Color.fromARGB(255, 0, 127, 139),
