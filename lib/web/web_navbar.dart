@@ -22,7 +22,7 @@ class NavPage extends StatefulWidget {
 
 class _NavPageState extends State<NavPage> {
   int _currentIndex = 2;
-  final List<Widget> _pages = [QrCodeScanner(), DetailsWeb(), Web_Add_TAsk(), ContactPrev(),Task_mgmt()];
+  final List<Widget> _pages = [QrCodeScanner(), Web_Add_TAsk(), DetailsWeb(),  ContactPrev(),Task_mgmt()];
   String name = '';
 
       Future<void> fetchData() async {
@@ -98,23 +98,23 @@ class _NavPageState extends State<NavPage> {
               backgroundColor: Color.fromARGB(255, 191, 1, 243)
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.list),
-              label: 'Details',
+              icon: Icon(Icons.add_task),
+              label: 'Add Task',
               backgroundColor: Color.fromARGB(255, 255, 124, 1)
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.add_task),
-              label: 'Add Task',
+              icon: Icon(Icons.list),
+              label: 'Task Details',
               backgroundColor: Colors.blue
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.contact_phone),
               label: 'Student Contact',
-              backgroundColor: Color.fromARGB(255, 255, 0, 0)
+              backgroundColor: Color.fromARGB(255, 31, 206, 0)
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.task),
-              label: 'Student Contact',
+              label: 'Task Management',
               backgroundColor: Color.fromARGB(255, 255, 0, 0)
             ),
           ],

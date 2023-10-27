@@ -37,7 +37,7 @@ class _StaffListState extends State<StaffList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Login to Staff'),
+        title: Text('Work Status'),
         backgroundColor: Color.fromARGB(255, 191, 1, 243)
       ),
        body: ListView.builder(
@@ -46,7 +46,6 @@ class _StaffListState extends State<StaffList> {
           return ListItemWithButton(item: '${items[index]['name']}');
         },
       ),
-
     );
   }
 }
@@ -71,7 +70,7 @@ class ListItemWithButton extends StatelessWidget {
       ),
     );
         },
-        child: Text('Show Work Progress'),
+        child: Text('Show Work Status'),
       ),
     );
   }
