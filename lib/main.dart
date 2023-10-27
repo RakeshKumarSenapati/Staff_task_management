@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/mobile/mob_splash_screen.dart';
 import 'package:flutter_application_1/web/Web_splash_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_application_1/admin_home.dart';
 void main() {
   runApp(const MyApp());
 }
