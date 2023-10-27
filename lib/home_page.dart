@@ -86,7 +86,7 @@ class HomePage extends StatelessWidget {
               ),
             )
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             // ElevatedButton(
             //   onPressed: () {
             //     // Navigate to view attendance reports page
