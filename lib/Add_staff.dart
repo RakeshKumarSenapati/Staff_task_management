@@ -53,90 +53,92 @@ class _StaffAddState extends State<StaffAdd> {
         title: Text('Add Staff'),
         backgroundColor: Color.fromARGB(255, 255, 124, 1)
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: <Widget>[
-              TextFormField(
-                controller: nameController,
-                decoration: InputDecoration(labelText: 'Name'),
-                validator: (value) {
-                  if (value == null) {
-                    return 'Please enter your name';
-                  }
-                  return null;
-                },
-              
-              ),
-              TextFormField(
-                controller: desigController,
-                decoration: InputDecoration(labelText: 'Designation'),
-                validator: (value) {
-                  if (value == null) {
-                    return 'Please enter your designation';
-                  }
-                  return null;
-                },
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: <Widget>[
+                TextFormField(
+                  controller: nameController,
+                  decoration: InputDecoration(labelText: 'Name'),
+                  validator: (value) {
+                    if (value == null) {
+                      return 'Please enter your name';
+                    }
+                    return null;
+                  },
                 
-              ),
-              TextFormField(
-                controller: passController,
-                decoration: InputDecoration(labelText: 'Password'),
-                validator: (value) {
-                  if (value == null) {
-                    return 'Please enter your password';
-                  }
-                  return null;
-                },
-               
-              ),
-              SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  ElevatedButton(
-                    onPressed: (){
-                      if(nameController.text==''){
-                        Fluttertoast.showToast(
-                          msg: 'Name Is Empty',
-                          gravity: ToastGravity.BOTTOM,
-                          backgroundColor: Colors.green,
-                          textColor: Colors.white,
-                        );
-                      }
-                      else if(desigController.text=='')
-                      {
-                        Fluttertoast.showToast(
-                          msg: 'Designation Is Empty',
-                          gravity: ToastGravity.BOTTOM,
-                          backgroundColor: Colors.green,
-                          textColor: Colors.white,
-                        );
-                      }
-                      else if(passController.text=='')
-                      {
-                        Fluttertoast.showToast(
-                          msg: 'Password Is Empty',
-                          gravity: ToastGravity.BOTTOM,
-                          backgroundColor: Colors.green,
-                          textColor: Colors.white,
-                        );
-                      }
-                      else{
-                        signUp();
-                      }
-                    },
-                    child: Text('Submit'),
-                  ),
-                  ElevatedButton(
-                    onPressed: _clearForm,
-                    child: Text('Clear'),
-                  ),
-                ],
-              ),
-            ],
+                ),
+                TextFormField(
+                  controller: desigController,
+                  decoration: InputDecoration(labelText: 'Designation'),
+                  validator: (value) {
+                    if (value == null) {
+                      return 'Please enter your designation';
+                    }
+                    return null;
+                  },
+                  
+                ),
+                TextFormField(
+                  controller: passController,
+                  decoration: InputDecoration(labelText: 'Password'),
+                  validator: (value) {
+                    if (value == null) {
+                      return 'Please enter your password';
+                    }
+                    return null;
+                  },
+                 
+                ),
+                SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    ElevatedButton(
+                      onPressed: (){
+                        if(nameController.text==''){
+                          Fluttertoast.showToast(
+                            msg: 'Name Is Empty',
+                            gravity: ToastGravity.BOTTOM,
+                            backgroundColor: Colors.green,
+                            textColor: Colors.white,
+                          );
+                        }
+                        else if(desigController.text=='')
+                        {
+                          Fluttertoast.showToast(
+                            msg: 'Designation Is Empty',
+                            gravity: ToastGravity.BOTTOM,
+                            backgroundColor: Colors.green,
+                            textColor: Colors.white,
+                          );
+                        }
+                        else if(passController.text=='')
+                        {
+                          Fluttertoast.showToast(
+                            msg: 'Password Is Empty',
+                            gravity: ToastGravity.BOTTOM,
+                            backgroundColor: Colors.green,
+                            textColor: Colors.white,
+                          );
+                        }
+                        else{
+                          signUp();
+                        }
+                      },
+                      child: Text('Submit'),
+                    ),
+                    ElevatedButton(
+                      onPressed: _clearForm,
+                      child: Text('Clear'),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

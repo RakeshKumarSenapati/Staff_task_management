@@ -73,18 +73,20 @@ class _ProfilePageState extends State<Profile> {
   //   );
   // }
 
-  Future<void> clearSharedPreferences() async {
-                SharedPreferences prefs = await SharedPreferences.getInstance();
-                await prefs.remove('isLoggedIn');
-                await prefs.remove('userID');
-                await prefs.remove('password');
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          Mob_Login_Page()), // Navigate to your login screen
-                );
-              }
+ Future<void> clearSharedPreferences() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs.remove('isLoggedIn');
+  await prefs.remove('userID');
+  await prefs.remove('password');
+  
+  // Navigate to the login screen and remove all routes from the stack
+  Navigator.pushAndRemoveUntil(
+    context,
+    MaterialPageRoute(builder: (context) => Mob_Login_Page()),
+    (Route<dynamic> route) => false,
+  );
+}
+
 
   @override
   void initState() {
