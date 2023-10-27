@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/mobile/detailsMobile.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_application_1/mobile/mob_navbar.dart';
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,7 @@ class HomePage extends StatelessWidget {
           backgroundColor: Colors.green,
           textColor: Colors.white,
         );
-
+       
       
     }
     }
@@ -76,6 +78,11 @@ class HomePage extends StatelessWidget {
               child: GestureDetector(
               onTap: () {
                 ATTENDANCE();
+                Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => NavPage()),
+                result: MaterialPageRoute(builder: (context) => NavPage()),
+              );
               },
               child: const Text(
                 'Mark Attendance',
