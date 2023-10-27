@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/admin_home.dart';
 import 'package:flutter_application_1/web/web_navbar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../consts.dart';
 import 'package:http/http.dart' as http;
+
 class Web_Login_Page extends StatefulWidget {
   const Web_Login_Page({super.key});
 
@@ -28,7 +30,7 @@ class _Web_Login_PageState extends State<Web_Login_Page> {
 
     if (response.statusCode == 200) {
       if (response.body == 'Success') {
-         SharedPreferences prefs = await SharedPreferences.getInstance();
+        SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setBool('isLoggedIn', true); // Mark the user as logged in
         prefs.setString('userID', user.text); // Save user ID
         prefs.setString('password', pass.text); // Save password
@@ -37,23 +39,39 @@ class _Web_Login_PageState extends State<Web_Login_Page> {
           // Navigate to the HomePage on successful login
           Navigator.pushReplacement(
             context,
-
             MaterialPageRoute(builder: (context) => const NavPage()),
-
             result: MaterialPageRoute(builder: (context) => NavPage()),
+          );
+        });
+      } else if (response.body == 'Admin') {
+        Fluttertoast.showToast(
+          msg: 'Login Successful',
+          gravity: ToastGravity.BOTTOM,
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+        );
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setBool('isLoggedIn', true); // Mark the user as logged in
+        prefs.setString('userID', user.text); // Save user ID
+        prefs.setString('password', pass.text); // Save password
 
+        setState(() {
+          // Navigate to the HomePage on successful login
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => HomeNav()),
+            result: MaterialPageRoute(builder: (context) => HomeNav()),
           );
         });
       } else {
         // Handle unsuccessful login
-         Fluttertoast.showToast(
+        Fluttertoast.showToast(
           msg: 'Invalid username or password. Please try again.',
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           backgroundColor: Colors.red,
           textColor: Colors.white,
         );
-        
       }
     } else {
       // Handle other HTTP status codes

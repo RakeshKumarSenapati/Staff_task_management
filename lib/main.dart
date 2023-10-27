@@ -48,8 +48,8 @@ class MyHomePage extends StatelessWidget {
             // For tablets and larger devices
             return MaterialApp(
               debugShowCheckedModeBanner: false,
-              home:  HomeNav(),
-              // home: const Web_SplashScreen(),
+              // home:  ,
+              home: const Web_SplashScreen(),
               themeMode: ThemeMode.light,
               theme: ThemeData(
                   primaryColor: const Color.fromARGB(255, 0, 127, 139),
