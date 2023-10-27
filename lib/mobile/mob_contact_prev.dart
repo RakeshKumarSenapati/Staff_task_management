@@ -23,7 +23,7 @@ class _ContactPage extends State<ContactPrev> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Course Selection'),
+        title: const Text('Course Selection'),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -58,7 +58,7 @@ class _ContactPage extends State<ContactPrev> {
                 alignment: Alignment.centerLeft,
                 child: Text(
                   course,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 24,
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -66,7 +66,7 @@ class _ContactPage extends State<ContactPrev> {
                 ),
               ),
               ListTile(
-                title: Text(
+                title: const Text(
                   'Select Year',
                   style: TextStyle(color: Colors.white),
                 ),
@@ -81,9 +81,9 @@ class _ContactPage extends State<ContactPrev> {
                 Column(
                   children: [
                     YearButton(course, '1st Year', '1st'),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     YearButton(course, '2nd Year', '2nd'),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     YearButton(course, '3rd Year', '3rd'),
                   ],
                 ),
@@ -206,7 +206,7 @@ class _Contact extends State<Contact> {
                                 Text('ID: ${data[index]['ID']}',
                                     style: TextStyle(fontSize: 18)),
                                 Text('Name: ${data[index]['NAME']}',
-                                    style: TextStyle(fontSize: 18)),
+                                    style: TextStyle(fontSize: 16)),
                               ],
                             ),
                           ),

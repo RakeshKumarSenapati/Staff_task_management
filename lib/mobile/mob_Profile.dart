@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -26,7 +27,8 @@ class _ProfilePageState extends State<Profile> {
   Future<void> fetchData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String userID = prefs.getString('userID') ?? '';
-    final response = await http.get(Uri.parse('https://creativecollege.in/Flutter/Profile.php?id=$userID'));
+    final response = await http.get(
+        Uri.parse('https://creativecollege.in/Flutter/Profile.php?id=$userID'));
 
     if (response.statusCode == 200) {
       final jsonData = json.decode(response.body);
@@ -57,19 +59,32 @@ class _ProfilePageState extends State<Profile> {
     }
   }
 
+  // Future<void> clearSharedPreferences() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   await prefs.remove('isLoggedIn');
+  //   await prefs.remove('userID');
+  //   await prefs.remove('password');
+  //   Navigator.pushReplacement(
+  //     context,
+  //     MaterialPageRoute(
+  //         builder: (context) => Mob_Login_Page()), // Navigate to your login screen
+  //   );
+  // }
 
   Future<void> clearSharedPreferences() async {
-                SharedPreferences prefs = await SharedPreferences.getInstance();
-                await prefs.remove('isLoggedIn');
-                await prefs.remove('userID');
-                await prefs.remove('password');
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          Mob_Login_Page()), // Navigate to your login screen
-                );
-              }
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('isLoggedIn');
+    await prefs.remove('userID');
+    await prefs.remove('password');
+
+    // Navigate to the login screen and remove all routes from the stack
+    // ignore: use_build_context_synchronously
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => Mob_Login_Page()),
+      (Route<dynamic> route) => false,
+    );
+  }
 
   @override
   void initState() {
@@ -83,11 +98,17 @@ class _ProfilePageState extends State<Profile> {
       appBar: AppBar(
         title: Text('PROFILE'),
         actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.exit_to_app), 
-            onPressed: () {
-             clearSharedPreferences();
-            },
+          Flexible(
+            child: Column(
+              children: [
+                IconButton(
+                  icon: Icon(Icons.logout_rounded,color: Color.fromARGB(255, 239, 61, 48),),
+                  onPressed: () {
+                    clearSharedPreferences();
+                  },
+                ),
+              ],
+            ),
           ),
         ],
       ),
