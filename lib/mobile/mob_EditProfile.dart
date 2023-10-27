@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 
 class EditProfilePage extends StatefulWidget {
@@ -40,7 +41,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     );
 
     if (response.statusCode == 200) {
-      if (response.body == widget.address) {
+      if (response.body == "Success") {
         // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text('Profile updated successfully'),
@@ -51,10 +52,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
           content: Text('Profile update failed'),
         ));
       }
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Error: ${response.statusCode}'),
-      ));
     }
   }
 
