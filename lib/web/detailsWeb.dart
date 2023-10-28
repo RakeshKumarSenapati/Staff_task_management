@@ -66,7 +66,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
       setState(() {
         tasks = responseData.map((taskData) {
           return Task(taskData['TITLE'],
-              taskStatusFromString(taskData['STATUS']), taskData['STARTDATE']);
+              taskStatusFromString(taskData['STATUS']), taskData['ADDDATE']);
         }).toList();
       });
     } else {
