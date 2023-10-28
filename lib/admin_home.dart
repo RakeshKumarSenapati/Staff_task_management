@@ -80,8 +80,8 @@ class _HomeNavState extends State<HomeNav> {
                 label: 'Delete Staff',
                 backgroundColor:Color.fromARGB(255, 255, 0, 0)),
             BottomNavigationBarItem(
-                icon: Icon(Icons.contact_phone),
-                label: 'Student Contacts',
+                icon: Icon(Icons.delete_rounded),
+                label: 'Delete Work',
                 backgroundColor:Color.fromARGB(255, 226, 72, 1)),
             BottomNavigationBarItem(
                 icon: Icon(Icons.contact_phone),
