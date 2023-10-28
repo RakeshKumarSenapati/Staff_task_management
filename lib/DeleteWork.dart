@@ -43,7 +43,7 @@ class _WorkDeleteState extends State<WorkDelete> {
       body: ListView.builder(
         itemCount: items.length,
         itemBuilder: (BuildContext context, int index) {
-          return ListItemWithButton(item: '${items[index]['TITLE']}',item2: '${items[index]['STATUS']}',item3: '${items[index]['sl']}', fetchData: fetchData);
+          return ListItemWithButton(item: '${items[index]['TITLE']}',item2: '${items[index]['STATUS']}',item3: '${items[index]['sl']}',item4: '${items[index]['ID']}', fetchData: fetchData);
         },
       ),
     );
@@ -54,9 +54,10 @@ class ListItemWithButton extends StatelessWidget {
   final String item;
   final String item2;
   final String item3;
+  final String item4;
   final Function fetchData;
 
-  ListItemWithButton({required this.item, required this.fetchData, required this.item2, required this.item3});
+  ListItemWithButton({required this.item, required this.fetchData, required this.item2, required this.item3, required this.item4});
 
   Future<void> delete(String title,String sl) async {
     var url = Uri.parse('https://creativecollege.in/Flutter/Admin_Delete_Work.php?title=$title&sl=$sl');
@@ -86,8 +87,13 @@ class ListItemWithButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       title: Text("title : $item"),
-      subtitle: Text("Status : $item2"),
-      
+      subtitle: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text("Status: $item2"),
+          Text("Assigned To: $item4"),
+        ],
+      ),
       trailing: ElevatedButton(
         onPressed: () {
           delete(item,item3).then((value) {
