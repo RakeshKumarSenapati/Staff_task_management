@@ -60,6 +60,7 @@ class _Mob_Login_PageState extends State<Mob_Login_Page> {
         );
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setBool('isLoggedIn', true); // Mark the user as logged in
+        prefs.setBool('isLoggedInAdmin', true); // Mark the user as logged in
         prefs.setString('userID', user.text); // Save user ID
         prefs.setString('password', pass.text); // Save password
 

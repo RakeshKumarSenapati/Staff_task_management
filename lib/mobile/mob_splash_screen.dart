@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/admin_home.dart';
 import 'package:flutter_application_1/mobile/mob_login.dart';
 import 'package:flutter_application_1/mobile/mob_navbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -22,6 +23,7 @@ class _Mob_Splash_screenState extends State<Mob_Splash_screen> {
   Future<void> checkLoginStatus() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
+    bool isLoggedInAdmin = prefs.getBool('isLoggedInAdmin') ?? false;
 
     Timer(const Duration(seconds: 4), () {
 
@@ -30,11 +32,20 @@ class _Mob_Splash_screenState extends State<Mob_Splash_screen> {
         MaterialPageRoute(builder: (context) =>   Mob_Login_Page()),
       );
       if (isLoggedIn) {
-        Navigator.pushReplacement(
+        if(isLoggedInAdmin){
+          Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => HomeNav()), // Navigate to your home screen
+        );
+        }
+        else{
+          Navigator.pushReplacement(
           context,
           MaterialPageRoute(
               builder: (context) => NavPage()), // Navigate to your home screen
         );
+        }
       } else {
         Navigator.pushReplacement(
           context,

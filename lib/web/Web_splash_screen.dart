@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/admin_home.dart';
 
 import 'package:flutter_application_1/web/web_login.dart';
 import 'package:flutter_application_1/web/web_navbar.dart';
@@ -23,14 +24,24 @@ class _Web_SplashScreenState extends State<Web_SplashScreen> {
   Future<void> checkLoginStatus() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
+    bool isLoggedInAdmin = prefs.getBool('isLoggedInAdmin') ?? false;
 
     Timer(const Duration(seconds: 4), () {
       if (isLoggedIn) {
-        Navigator.pushReplacement(
+        if(isLoggedInAdmin){
+          Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => HomeNav()), // Navigate to your home screen
+        );
+        }
+        else{
+          Navigator.pushReplacement(
           context,
           MaterialPageRoute(
               builder: (context) => NavPage()), // Navigate to your home screen
         );
+        }
       } else {
         Navigator.pushReplacement(
           context,
