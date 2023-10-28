@@ -61,7 +61,7 @@ class ListItemWithButton extends StatelessWidget {
 
     var response = await http.get(url);
     if (response.statusCode == 200) {
-      if (response.body == 'Success') {
+      if (response.body == response.body) {
         Fluttertoast.showToast(
           msg: response.body,
           gravity: ToastGravity.BOTTOM,

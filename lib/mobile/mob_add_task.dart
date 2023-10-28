@@ -198,15 +198,7 @@ class _Mob_Add_TaskState extends State<Mob_Add_Task> {
                             textColor: Colors.white,
                           );
                        }
-                       else if(DESCRIPTION.text=='')
-                       {
-                        Fluttertoast.showToast(
-                            msg: 'DESCRIPTION IS EMPTY',
-                            gravity: ToastGravity.BOTTOM,
-                            backgroundColor: Colors.green,
-                            textColor: Colors.white,
-                          );
-                       }
+                       
                        else {
                           _AddTaskk();
                        }
