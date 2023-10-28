@@ -3,8 +3,7 @@ import 'package:flutter_application_1/Staff_List.dart';
 import 'package:flutter_application_1/Add_staff.dart';
 import 'package:flutter_application_1/del_staff.dart';
 import 'package:flutter_application_1/main.dart';
-import 'package:flutter_application_1/mobile/mob_login.dart';
-import 'package:flutter_application_1/web/web_login.dart';
+import 'package:flutter_application_1/mobile/mob_contact_prev.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeNav extends StatefulWidget {
@@ -16,7 +15,7 @@ class HomeNav extends StatefulWidget {
 
 class _HomeNavState extends State<HomeNav> {
   int _currentIndex = 0;
-  final List<Widget> _pages = [StaffList(), StaffAdd(), StaffDelete()];
+  final List<Widget> _pages = [StaffList(), StaffAdd(), StaffDelete(), ContactPrev()];
 
   Future<void> clearSharedPreferences() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -57,15 +56,15 @@ class _HomeNavState extends State<HomeNav> {
       bottomNavigationBar: Container(
         color: Colors.blue,
         child: BottomNavigationBar(
-          // fixedColor: Color.fromARGB(255, 0, 161, 51),
+          
           currentIndex: _currentIndex,
           onTap: (int index) {
             setState(() {
               _currentIndex = index;
             });
           },
-          items: [
-            BottomNavigationBarItem(
+          items: const [
+           BottomNavigationBarItem(
                 icon: Icon(Icons.list_alt),
                 label: 'Work Ststus',
                 backgroundColor: Color.fromARGB(255, 191, 1, 243)),
@@ -76,7 +75,11 @@ class _HomeNavState extends State<HomeNav> {
             BottomNavigationBarItem(
                 icon: Icon(Icons.delete),
                 label: 'Delete Staff',
-                backgroundColor: Color.fromARGB(255, 255, 0, 0)),
+                backgroundColor:Color.fromARGB(255, 255, 0, 0)),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.contact_phone),
+                label: 'Student Contacts',
+                backgroundColor:Color.fromARGB(255, 1, 147, 226)),
           ],
         ),
       ),

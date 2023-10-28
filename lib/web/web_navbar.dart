@@ -84,7 +84,7 @@ class _NavPageState extends State<NavPage> {
       bottomNavigationBar: Container(
         color: Colors.blue, 
         child: BottomNavigationBar(
-          // fixedColor: Color.fromARGB(255, 0, 161, 51),
+        
           currentIndex: _currentIndex,
           onTap: (int index) {
             setState(() {
