@@ -117,7 +117,7 @@ class _Mob_Login_PageState extends State<Mob_Login_Page> {
                   child: Image.asset(image2),
                 ),
                 const Text(
-                  "Welcom Back !",
+                  "Welcome Back !",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontWeight: FontWeight.w600,

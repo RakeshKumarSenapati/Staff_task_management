@@ -23,16 +23,17 @@ class _HomeNavState extends State<HomeNav> {
   Future<void> clearSharedPreferences() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   await prefs.remove('isLoggedIn');
+  await prefs.remove('isLoggedInAdmin');
   await prefs.remove('userID');
   await prefs.remove('password');
   
-  // Navigate to the login screen and remove all routes from the stack
   Navigator.pushAndRemoveUntil(
     context,
     MaterialPageRoute(builder: (context) => MyApp()),
     (Route<dynamic> route) => false,
   );
 }
+
 
   @override
   Widget build(BuildContext context) {
