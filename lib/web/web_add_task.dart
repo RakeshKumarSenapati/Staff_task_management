@@ -228,15 +228,7 @@ class _Web_Add_TAskState extends State<Web_Add_TAsk> {
                                             textColor: Colors.white,
                                           );
                                       }
-                                      else if(DESCRIPTION.text=='')
-                                      {
-                                        Fluttertoast.showToast(
-                                            msg: 'DESCRIPTION IS EMPTY',
-                                            gravity: ToastGravity.BOTTOM,
-                                            backgroundColor: Colors.green,
-                                            textColor: Colors.white,
-                                          );
-                                      }
+                                      
                                       else {
                                           _AdddTaskk();
                                       }
