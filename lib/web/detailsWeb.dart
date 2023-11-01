@@ -55,18 +55,22 @@ class _TaskListScreenState extends State<TaskListScreen> {
 
 // data fetching from api
   Future<void> fetchData() async {
-     SharedPreferences prefs = await SharedPreferences.getInstance();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     String userID = prefs.getString('userID') ?? '';
-    final response = await http
-        .get(Uri.parse('https://creativecollege.in/Flutter/Task_Details.php?id=$userID'));
+    final response = await http.get(Uri.parse(
+        'https://creativecollege.in/Flutter/Task_Details.php?id=$userID'));
 
     if (response.statusCode == 200) {
       // response OK
       final List<dynamic> responseData = jsonDecode(response.body);
       setState(() {
         tasks = responseData.map((taskData) {
-          return Task(taskData['TITLE'],
-              taskStatusFromString(taskData['STATUS']), taskData['ADDDATE']);
+          return Task(
+              taskData['TITLE'],
+              taskStatusFromString(taskData['STATUS']),
+              taskData['ADDDATE'],
+              taskData['STARTDATE'],
+              taskData['ENDDATE']);
         }).toList();
       });
     } else {
@@ -202,26 +206,26 @@ class _TaskListScreenState extends State<TaskListScreen> {
                   },
                 ),
                 PopupMenuButton<String>(
-            icon: Icon(Icons.calendar_today),
-            onSelected: (choice) {
-              if (choice == 'Last Week') {
-                filterTasksLastWeek();
-              } else if (choice == 'Select Month') {
-                _selectMonth(context);
-              } else if (choice == 'Select Date') {
-                _selectDate(context);
-              }
-            },
-            itemBuilder: (BuildContext context) {
-              return {'Last Week', 'Select Month', 'Select Date'}
-                  .map((String choice) {
-                return PopupMenuItem<String>(
-                  value: choice,
-                  child: Text(choice),
-                );
-              }).toList();
-            },
-          ),
+                  icon: Icon(Icons.calendar_today),
+                  onSelected: (choice) {
+                    if (choice == 'Last Week') {
+                      filterTasksLastWeek();
+                    } else if (choice == 'Select Month') {
+                      _selectMonth(context);
+                    } else if (choice == 'Select Date') {
+                      _selectDate(context);
+                    }
+                  },
+                  itemBuilder: (BuildContext context) {
+                    return {'Last Week', 'Select Month', 'Select Date'}
+                        .map((String choice) {
+                      return PopupMenuItem<String>(
+                        value: choice,
+                        child: Text(choice),
+                      );
+                    }).toList();
+                  },
+                ),
               ],
             ),
           ),
@@ -264,6 +268,18 @@ class _TaskListScreenState extends State<TaskListScreen> {
                   if (filter != TaskStatus.all && task.status != filter) {
                     return Container();
                   }
+
+                  // date to be shown according to status
+                  String dateToShow = '';
+
+                  if (task.status == TaskStatus.completed) {
+                    dateToShow = task.endDate;
+                  } else if (task.status == TaskStatus.active) {
+                    dateToShow = task.startDate;
+                  } else if (task.status == TaskStatus.pending) {
+                    dateToShow = task.date;
+                  }
+
                   return Padding(
                     padding: EdgeInsets.only(left: 5, right: 5),
                     child: Card(
@@ -273,7 +289,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
                           child: ListTile(
                             leading: TaskStatusIcon(task.status),
                             title: Text(task.name),
-                            trailing: Text(task.date),
+                            trailing: Text(dateToShow),
                           ),
                         ),
                       ),
@@ -296,8 +312,10 @@ class Task {
   final String name;
   final TaskStatus status;
   final String date;
+  final String startDate;
+  final String endDate;
 
-  Task(this.name, this.status, this.date);
+  Task(this.name, this.status, this.date, this.startDate, this.endDate);
 }
 
 class TaskStatusIcon extends StatelessWidget {
