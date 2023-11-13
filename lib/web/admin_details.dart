@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:month_picker_dialog/month_picker_dialog.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Details_admin_web extends StatelessWidget {
   final String name;
@@ -66,18 +65,20 @@ class _TaskListScreenState extends State<TaskListScreen> {
     final response = await http.get(Uri.parse('https://creativecollege.in/Flutter/Admin_staff_details.php?name=$name'));
 
     if (response.statusCode == 200) {
+      // response OK
       final List<dynamic> responseData = jsonDecode(response.body);
       setState(() {
         tasks = responseData.map((taskData) {
           return Task(
               taskData['TITLE'],
               taskStatusFromString(taskData['STATUS']),
+              taskData['ADDDATE'],
               taskData['STARTDATE'],
-          );
+              taskData['ENDDATE']);
         }).toList();
-        originalTasks = List.from(tasks);
       });
     } else {
+      // Response Not Ok
       throw Exception('Error while fetching data');
     }
   }
@@ -91,6 +92,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
     });
   }
 
+// filter by date
   void filterTasksByDate(DateTime date) {
     setState(() {
       setFilter(TaskStatus.all);
@@ -103,6 +105,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
     });
   }
 
+// filter of tasks of last week
   void filterTasksLastWeek() {
     setState(() {
       setFilter(TaskStatus.all);
@@ -110,11 +113,13 @@ class _TaskListScreenState extends State<TaskListScreen> {
       lastWeek = DateTime.now().subtract(Duration(days: 7));
       tasks = tasks.where((task) {
         final taskDate = DateFormat("yyyy-MM-dd").parse(task.date);
-        return taskDate.isAfter(lastWeek) || taskDate.isAtSameMomentAs(lastWeek);
+        return taskDate.isAfter(lastWeek) ||
+            taskDate.isAtSameMomentAs(lastWeek);
       }).toList();
     });
   }
 
+// filter by month
   void filterTasksByMonth(DateTime? month) {
     if (month == null) {
       return;
@@ -131,6 +136,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
     });
   }
 
+// date selection method
   void _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -147,6 +153,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
     }
   }
 
+// month selection method
   void _selectMonth(BuildContext context) async {
     DateTime? picked = await showMonthPicker(
       context: context,
@@ -159,17 +166,41 @@ class _TaskListScreenState extends State<TaskListScreen> {
     }
   }
 
+// widgets
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Activity Manager'),
+        actions: [
+          PopupMenuButton<String>(
+            icon: Icon(Icons.calendar_today),
+            onSelected: (choice) {
+              if (choice == 'Last Week') {
+                filterTasksLastWeek();
+              } else if (choice == 'Select Month') {
+                _selectMonth(context);
+              } else if (choice == 'Select Date') {
+                _selectDate(context);
+              }
+            },
+            itemBuilder: (BuildContext context) {
+              return {'Last Week', 'Select Month', 'Select Date'}
+                  .map((String choice) {
+                return PopupMenuItem<String>(
+                  value: choice,
+                  child: Text(choice),
+                );
+              }).toList();
+            },
+          ),
+        ],
       ),
       body: Column(
         children: [
           Container(
             color: Colors.white,
-            padding: EdgeInsets.symmetric(vertical: 5),
+            padding: EdgeInsets.symmetric(vertical: 10),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -195,31 +226,10 @@ class _TaskListScreenState extends State<TaskListScreen> {
                   },
                 ),
                 FilterOption(
-                  label: 'Complete',
+                  label: 'Completed',
                   selected: filter == TaskStatus.completed,
                   onTap: () {
                     setFilter(TaskStatus.completed);
-                  },
-                ),
-                PopupMenuButton<String>(
-                  icon: Icon(Icons.calendar_today),
-                  onSelected: (choice) {
-                    if (choice == 'Last Week') {
-                      filterTasksLastWeek();
-                    } else if (choice == 'Select Month') {
-                      _selectMonth(context);
-                    } else if (choice == 'Select Date') {
-                      _selectDate(context);
-                    }
-                  },
-                  itemBuilder: (BuildContext context) {
-                    return {'Last Week', 'Select Month', 'Select Date'}
-                        .map((String choice) {
-                      return PopupMenuItem<String>(
-                        value: choice,
-                        child: Text(choice),
-                      );
-                    }).toList();
                   },
                 ),
               ],
@@ -264,6 +274,18 @@ class _TaskListScreenState extends State<TaskListScreen> {
                   if (filter != TaskStatus.all && task.status != filter) {
                     return Container();
                   }
+
+                  // date to be shown according to status
+                  String dateToShow = '';
+
+                  if (task.status == TaskStatus.completed) {
+                    dateToShow = task.endDate;
+                  } else if (task.status == TaskStatus.active) {
+                    dateToShow = task.startDate;
+                  } else if (task.status == TaskStatus.pending) {
+                    dateToShow = task.date;
+                  }
+
                   return Padding(
                     padding: EdgeInsets.only(left: 5, right: 5),
                     child: Card(
@@ -273,7 +295,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
                           child: ListTile(
                             leading: TaskStatusIcon(task.status),
                             title: Text(task.name),
-                            trailing: Text(task.date),
+                            trailing: Text(dateToShow),
                           ),
                         ),
                       ),
@@ -296,8 +318,10 @@ class Task {
   final String name;
   final TaskStatus status;
   final String date;
+  final String startDate;
+  final String endDate;
 
-  Task(this.name, this.status, this.date);
+  Task(this.name, this.status, this.date, this.startDate, this.endDate);
 }
 
 class TaskStatusIcon extends StatelessWidget {
