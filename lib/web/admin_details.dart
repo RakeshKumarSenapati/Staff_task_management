@@ -62,13 +62,13 @@ class _TaskListScreenState extends State<TaskListScreen> {
   }
 
   Future<void> fetchData(String name) async {
-    final response = await http.get(Uri.parse('https://creativecollege.in/Flutter/Admin_staff_details.php?name=$name'));
+    final response = await http.get(Uri.parse(
+        'https://creativecollege.in/Flutter/Admin_staff_details.php?name=$name'));
 
     if (response.statusCode == 200) {
-      // response OK
       final List<dynamic> responseData = jsonDecode(response.body);
       setState(() {
-        tasks = responseData.map((taskData) {
+        originalTasks = responseData.map((taskData) {
           return Task(
               taskData['TITLE'],
               taskStatusFromString(taskData['STATUS']),
@@ -76,9 +76,11 @@ class _TaskListScreenState extends State<TaskListScreen> {
               taskData['STARTDATE'],
               taskData['ENDDATE']);
         }).toList();
+
+        // Make a copy of the original tasks
+        tasks = List.from(originalTasks);
       });
     } else {
-      // Response Not Ok
       throw Exception('Error while fetching data');
     }
   }
@@ -92,7 +94,6 @@ class _TaskListScreenState extends State<TaskListScreen> {
     });
   }
 
-// filter by date
   void filterTasksByDate(DateTime date) {
     setState(() {
       setFilter(TaskStatus.all);
@@ -105,7 +106,6 @@ class _TaskListScreenState extends State<TaskListScreen> {
     });
   }
 
-// filter of tasks of last week
   void filterTasksLastWeek() {
     setState(() {
       setFilter(TaskStatus.all);
@@ -113,13 +113,11 @@ class _TaskListScreenState extends State<TaskListScreen> {
       lastWeek = DateTime.now().subtract(Duration(days: 7));
       tasks = tasks.where((task) {
         final taskDate = DateFormat("yyyy-MM-dd").parse(task.date);
-        return taskDate.isAfter(lastWeek) ||
-            taskDate.isAtSameMomentAs(lastWeek);
+        return taskDate.isAfter(lastWeek) || taskDate.isAtSameMomentAs(lastWeek);
       }).toList();
     });
   }
 
-// filter by month
   void filterTasksByMonth(DateTime? month) {
     if (month == null) {
       return;
@@ -136,7 +134,6 @@ class _TaskListScreenState extends State<TaskListScreen> {
     });
   }
 
-// date selection method
   void _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -153,7 +150,6 @@ class _TaskListScreenState extends State<TaskListScreen> {
     }
   }
 
-// month selection method
   void _selectMonth(BuildContext context) async {
     DateTime? picked = await showMonthPicker(
       context: context,
@@ -166,7 +162,6 @@ class _TaskListScreenState extends State<TaskListScreen> {
     }
   }
 
-// widgets
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -275,7 +270,6 @@ class _TaskListScreenState extends State<TaskListScreen> {
                     return Container();
                   }
 
-                  // date to be shown according to status
                   String dateToShow = '';
 
                   if (task.status == TaskStatus.completed) {
