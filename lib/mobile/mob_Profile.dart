@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'mob_EditProfile.dart';
 import 'mob_login.dart';
-import 'mob_splash_screen.dart';
-import 'package:flutter_application_1/main.dart';
 
 class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);
