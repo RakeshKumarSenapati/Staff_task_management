@@ -43,8 +43,6 @@ class _QRScannerScreenState extends State<QrCodeScanner> {
           MaterialPageRoute(builder: (context) => const NavPage()),
           result: MaterialPageRoute(builder: (context) => const NavPage()),
         );
-       
-      
     }
     }
 
