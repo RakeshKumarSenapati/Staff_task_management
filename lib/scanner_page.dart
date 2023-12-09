@@ -6,6 +6,7 @@ import 'package:qr_scanner_overlay/qr_scanner_overlay.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:http/http.dart' as http;
+
 const bgColor = Color(0xfffafafa);
 
 class QrCodeScanner extends StatefulWidget {
@@ -27,27 +28,29 @@ class _QRScannerScreenState extends State<QrCodeScanner> {
   Future<void> ATTENDANCE() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String userID = prefs.getString('userID') ?? '';
-    var url = Uri.parse('https://creativecollege.in/Flutter/Attendance.php?userID=$userID');
+    var url = Uri.parse(
+        'https://creativecollege.in/Flutter/Attendance.php?userID=$userID');
 
     var response = await http.get(url);
     if (response.statusCode == 200) {
-        Fluttertoast.showToast(
-          msg: response.body,
-          gravity: ToastGravity.BOTTOM,
-          backgroundColor: Colors.green,
-          textColor: Colors.white,
-        );
-
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const NavPage()),
-          result: MaterialPageRoute(builder: (context) => const NavPage()),
-        );
+      Fluttertoast.showToast(
+        msg: response.body,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.green,
+        textColor: Colors.white,
+      );
+      setState(() {
+        showSuccessAlert = false;
+      });
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const NavPage()),
+        result: MaterialPageRoute(builder: (context) => const NavPage()),
+      );
     }
-    }
+  }
 
-
- void closeScreen() {
+  void closeScreen() {
     isScanCompleted = false;
   }
 
@@ -156,9 +159,15 @@ class _QRScannerScreenState extends State<QrCodeScanner> {
                                   Center(
                                     child: ElevatedButton(
                                       onPressed: () {
+                                        setState(() {
+                                          showSuccessAlert = false;
+                                        });
                                         ATTENDANCE();
+                                        setState(() {
+                                          showSuccessAlert = false;
+                                        });
                                       },
-                                      child: const Text("Move"),
+                                      child: const Text("Check"),
                                       style: ButtonStyle(
                                         backgroundColor:
                                             MaterialStateProperty.all(Colors
@@ -174,8 +183,8 @@ class _QRScannerScreenState extends State<QrCodeScanner> {
                                           borderRadius: BorderRadius.circular(
                                               8.0), // Border radius
                                         )),
-                                        textStyle:
-                                            MaterialStateProperty.all(const TextStyle(
+                                        textStyle: MaterialStateProperty.all(
+                                            const TextStyle(
                                           color: Colors.white, // Text color
                                           fontSize: 16.0, // Text size
                                           fontWeight:
@@ -219,7 +228,8 @@ class _QRScannerScreenState extends State<QrCodeScanner> {
                                         onPressed: () => {
                                           Navigator.pop(context),
                                           setState(() {
-                                            showFailureAlert = !showFailureAlert;
+                                            showFailureAlert =
+                                                !showFailureAlert;
                                           }),
                                         },
                                         child: const Text('Try Again'),
