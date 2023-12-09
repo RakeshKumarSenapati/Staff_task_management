@@ -42,10 +42,11 @@ dependencies:
   http: ^1.1.0
   syncfusion_flutter_core: ^23.1.38
   firebase_core_web: ^2.8.0
-  qr_code_scanner: ^1.0.1
+  mobile_scanner: ^3.5.5
+  qr_scanner_overlay: ^0.0.2
   intl: ^0.18.1
   month_picker_dialog: ^2.0.2
-  fluttertoast: ^8.0.8 
+  fluttertoast: ^8.2.0
   shared_preferences: ^2.2.2 
   permission_handler: ^11.0.1
   image_picker: ^1.0.4
