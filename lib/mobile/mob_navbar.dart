@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/Attendanance.dart';
+import 'package:flutter_application_1/Attendenanceprev.dart';
 import 'package:flutter_application_1/mobile/mob_Profile.dart';
 import 'package:flutter_application_1/mobile/mob_add_task.dart';
 import 'package:flutter_application_1/mobile/mob_task_mgmt.dart';
@@ -114,7 +116,11 @@ class _NavPageState extends State<NavPage> {
               label: 'Task Management',
               backgroundColor: Color.fromARGB(255, 255, 0, 0)
             ),
-            
+            //  BottomNavigationBarItem(
+            //   icon: Icon(Icons.attach_email_rounded),
+            //   label: 'Task Management',
+            //   backgroundColor: Color.fromARGB(255, 255, 0, 0)
+            // ),
           ],
         ),
       ),

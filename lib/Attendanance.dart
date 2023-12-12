@@ -15,10 +15,16 @@ class _StaffListState extends State<Attendanance> {
   List<dynamic> items = [];
   DateTime? selectedDate;
 
-  Future<void> fetchDataMonthly(DateTime selectedDate) async {
-    var formattedDate = selectedDate.toLocal().toString().split(' ')[0];
+  final List<String> months = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+  ];
+
+  String selectedMonth = '';
+
+  Future<void> fetchDataMonthly(int year, int month) async {
     var url = Uri.parse(
-        'https://creativecollege.in/Flutter/Attendance_data.php?id=${widget.name}&filter=Monthly&date=$formattedDate');
+        'https://creativecollege.in/Flutter/Attendance_data.php?id=${widget.name}&filter=Monthly&year=$year&month=$month');
 
     var response = await http.get(url);
 
@@ -35,7 +41,8 @@ class _StaffListState extends State<Attendanance> {
   void initState() {
     super.initState();
     selectedDate = DateTime.now();
-    fetchDataMonthly(selectedDate!);
+    fetchDataMonthly(selectedDate!.year, selectedDate!.month);
+    selectedMonth = months[selectedDate!.month - 1];
   }
 
   void _selectDate(BuildContext context) async {
@@ -43,13 +50,16 @@ class _StaffListState extends State<Attendanance> {
       context: context,
       initialDate: selectedDate!,
       firstDate: DateTime(2022),
-      lastDate: DateTime(2023, 12, 31), // Update lastDate to be later in the year
+      lastDate: DateTime(2023, 12, 31),
     );
     if (picked != null && picked != selectedDate) {
       setState(() {
         selectedDate = picked;
+        selectedMonth = months[selectedDate!.month - 1];
       });
-      fetchDataMonthly(selectedDate!);
+
+      // Fetch data based on the selected month
+      fetchDataMonthly(selectedDate!.year, selectedDate!.month);
     }
   }
 
@@ -69,42 +79,67 @@ class _StaffListState extends State<Attendanance> {
                 onPressed: () => _selectDate(context),
                 child: Text('Select Monthly'),
               ),
+              SizedBox(width: 16),
+              DropdownButton<String>(
+                value: selectedMonth,
+                items: months.map((String month) {
+                  return DropdownMenuItem<String>(
+                    value: month,
+                    child: Text(month),
+                  );
+                }).toList(),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    selectedMonth = newValue!;
+                    int monthIndex = months.indexOf(selectedMonth) + 1;
+                    fetchDataMonthly(selectedDate!.year, monthIndex);
+                  });
+                },
+              ),
             ],
           ),
           Expanded(
             child: ListView.builder(
               itemCount: items.length,
-              itemBuilder: (BuildContext context,
-              int index) {
-  return Card(
-    elevation: 3,
-    margin: EdgeInsets.all(8),
-    child: Padding(
-      padding: EdgeInsets.all(16),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Date: ${items[index]['DATE']}',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 8),
-              Text('Check In: ${items[index]['CHECK_IN_TIME']}'),
-              Text('Check Out: ${items[index]['CHECK_OUT_TIME']}'),
-            ],
+              itemBuilder: (BuildContext context, int index) {
+                // Extract month from the date in 'YYYY-MM-DD' format
+                int monthFromData = int.parse(items[index]['DATE'].split('-')[1]);
+                
+                // Check if the month matches the selected month
+                if (monthFromData == selectedDate!.month) {
+                  return Card(
+                    elevation: 3,
+                    margin: EdgeInsets.all(8),
+                    child: Padding(
+                      padding: EdgeInsets.all(16),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Date: ${items[index]['DATE']}',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              SizedBox(height: 8),
+                              Text('Check In: ${items[index]['CHECK_IN_TIME']}'),
+                              Text('Check Out: ${items[index]['CHECK_OUT_TIME']}'),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                } else {
+                  // Return an empty container if the month doesn't match
+                  return Container();
+                }
+              },
+            ),
           ),
         ],
       ),
-    ),
-  );
-},
-),
-),
-],
-),
-);
-}
+    );
+  }
 }
