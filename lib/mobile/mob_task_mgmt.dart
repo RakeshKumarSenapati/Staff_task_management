@@ -122,7 +122,7 @@ class _Task_mgmt extends State<Task_mgmt> {
                             onPressed: () {
                               String title = '${data[index]['TITLE']}';
                               String statuss = 'Started';
-                              String id = '${data[index]['ID']}';
+                             
                               STARTIT(statuss, title).then((_) {
                                 fetchData();
                               });
@@ -149,7 +149,6 @@ class _Task_mgmt extends State<Task_mgmt> {
                             onPressed: () {
                               String title = '${data[index]['TITLE']}';
                               String statuss = 'Completed';
-                              String id = '${data[index]['ID']}';
                               STARTIT(statuss, title).then((_) {
                                 fetchData();
                               });

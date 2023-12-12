@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Attendanance.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_application_1/web/admin_details.dart';
 
 class Attendananceprev extends StatefulWidget {
   const Attendananceprev({super.key});
