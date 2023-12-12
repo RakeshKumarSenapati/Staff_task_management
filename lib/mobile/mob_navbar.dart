@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/Attendenanceprev.dart';
 import 'package:flutter_application_1/mobile/mob_Profile.dart';
 import 'package:flutter_application_1/mobile/mob_add_task.dart';
 import 'package:flutter_application_1/mobile/mob_task_mgmt.dart';
@@ -21,7 +22,7 @@ class NavPage extends StatefulWidget {
 
 class _NavPageState extends State<NavPage> {
   int _currentIndex = 2;
-  final List<Widget> _pages = [QrCodeScanner(), Mob_Add_Task(), DetailsMobile(),  ContactPrev(),Task_mgmt()];
+  final List<Widget> _pages = [QrCodeScanner(), Mob_Add_Task(), DetailsMobile(),  ContactPrev(),Task_mgmt(),Attendananceprev()];
 
   String name = '';
 
@@ -114,6 +115,11 @@ class _NavPageState extends State<NavPage> {
             ),
              BottomNavigationBarItem(
               icon: Icon(Icons.task),
+              label: 'Task Management',
+              backgroundColor: Color.fromARGB(255, 255, 0, 0)
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.attach_email),
               label: 'Task Management',
               backgroundColor: Color.fromARGB(255, 255, 0, 0)
             ),
