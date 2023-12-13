@@ -35,6 +35,9 @@ class _WorkDeleteState extends State<WorkDelete> {
 
   @override
   Widget build(BuildContext context) {
+    // Reverse the order of items
+    List<dynamic> reversedItems = List.from(items.reversed);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -43,16 +46,16 @@ class _WorkDeleteState extends State<WorkDelete> {
         ),
       ),
       body: ListView.builder(
-        itemCount: items.length,
+        itemCount: reversedItems.length,
         itemBuilder: (BuildContext context, int index) {
           return Card(
             elevation: 3,
             margin: EdgeInsets.all(8),
             child: ListItemWithButton(
-              item: '${items[index]['TITLE']}',
-              item2: '${items[index]['STATUS']}',
-              item3: '${items[index]['sl']}',
-              item4: '${items[index]['ID']}',
+              item: '${reversedItems[index]['TITLE']}',
+              item2: '${reversedItems[index]['STATUS']}',
+              item3: '${reversedItems[index]['sl']}',
+              item4: '${reversedItems[index]['ID']}',
               fetchData: fetchData,
             ),
           );
@@ -121,7 +124,7 @@ class ListItemWithButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           primary: const Color.fromARGB(255, 243, 33, 33),
         ),
-        child: Text('Delete',style: TextStyle(color: Colors.white),),
+        child: Text('Delete', style: TextStyle(color: Colors.white)),
       ),
     );
   }

@@ -75,6 +75,9 @@ class _StaffListState extends State<Attendanance> {
 
   @override
   Widget build(BuildContext context) {
+    // Reverse the order of items
+    List<dynamic> reversedItems = List.from(items.reversed);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Attendance',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.blue)),
@@ -94,16 +97,16 @@ class _StaffListState extends State<Attendanance> {
           ),
           Expanded(
             child: ListView.builder(
-              itemCount: items.length,
+              itemCount: reversedItems.length,
               itemBuilder: (BuildContext context, int index) {
                 // Extract month from the date in 'YYYY-MM-DD' format
                 int monthFromData =
-                    int.parse(items[index]['DATE'].split('-')[1]);
+                    int.parse(reversedItems[index]['DATE'].split('-')[1]);
 
                 // Check if the month matches the selected month
                 if (monthFromData == selectedDate!.month) {
                   return Padding(
-                    padding: EdgeInsets.all(8), // Add padding around the Card
+                    padding: EdgeInsets.all(8),
                     child: Card(
                       elevation: 3,
                       margin: EdgeInsets.all(8),
@@ -116,35 +119,27 @@ class _StaffListState extends State<Attendanance> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal:
-                                          8), // Add padding to the left and right
+                                  padding: EdgeInsets.symmetric(horizontal: 8),
                                   child: Text(
-                                    'Date: ${items[index]['DATE']}',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
+                                    'Date: ${reversedItems[index]['DATE']}',
+                                    style: TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                 ),
                                 SizedBox(height: 8),
                                 Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal:
-                                          8), // Add padding to the left and right
+                                  padding: EdgeInsets.symmetric(horizontal: 8),
                                   child: Text(
-                                    'Check In: ${items[index]['CHECK_IN_TIME']}',
+                                    'Check In: ${reversedItems[index]['CHECK_IN_TIME']}',
                                   ),
                                 ),
                                 Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal:
-                                          8), // Add padding to the left and right
+                                  padding: EdgeInsets.symmetric(horizontal: 8),
                                   child: Text(
-                                    'Check Out: ${items[index]['CHECK_OUT_TIME']}',
+                                    'Check Out: ${reversedItems[index]['CHECK_OUT_TIME']}',
                                   ),
                                 ),
                               ],
                             ),
-                            // Add Present text with blue color
                             Text(
                               'Present',
                               style: TextStyle(
@@ -159,7 +154,6 @@ class _StaffListState extends State<Attendanance> {
                     ),
                   );
                 } else {
-                  // Return an empty container if the month doesn't match
                   return Container();
                 }
               },
