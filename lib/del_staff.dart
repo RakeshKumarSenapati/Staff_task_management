@@ -97,7 +97,7 @@ class StaffCard extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             primary: const Color.fromARGB(255, 243, 33, 33), // Change the button's background color here
           ),
-          child: Text('Delete'),
+          child: Text('Delete',style: TextStyle(color: Colors.white),),
         ),
       ),
     );

@@ -121,7 +121,7 @@ class ListItemWithButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           primary: const Color.fromARGB(255, 243, 33, 33),
         ),
-        child: Text('Delete'),
+        child: Text('Delete',style: TextStyle(color: Colors.white),),
       ),
     );
   }

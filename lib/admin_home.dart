@@ -90,7 +90,7 @@ class _HomeNavState extends State<HomeNav> {
                 label: 'Student Contacts',
                 backgroundColor:Color.fromARGB(255, 1, 147, 226)),
             BottomNavigationBarItem(
-                icon: Icon(Icons.contact_phone),
+                icon: Icon(Icons.co_present_outlined),
                 label: 'Atendance',
                 backgroundColor:Color.fromARGB(255, 1, 147, 226)),    
           ],
