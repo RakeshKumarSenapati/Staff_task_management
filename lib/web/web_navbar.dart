@@ -23,7 +23,7 @@ class NavPage extends StatefulWidget {
 
 class _NavPageState extends State<NavPage> {
   int _currentIndex = 2;
-  final List<Widget> _pages = [QrCodeScanner(), Web_Add_TAsk(), DetailsWeb(),ContactPrev(),Task_mgmt()];
+  final List<Widget> _pages = [QrCodeScanner(), Web_Add_Task(), DetailsWeb(),ContactPrev(),Task_mgmt()];
   String name = '';
 
       Future<void> fetchData() async {

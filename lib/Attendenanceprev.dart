@@ -4,7 +4,7 @@ import 'package:flutter_application_1/Attendanance.dart';
 import 'package:http/http.dart' as http;
 
 class Attendananceprev extends StatefulWidget {
-  const Attendananceprev({super.key});
+  const Attendananceprev({Key? key});
 
   @override
   State<Attendananceprev> createState() => _StaffListState();
@@ -37,11 +37,19 @@ class _StaffListState extends State<Attendananceprev> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text('Attendanance',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.blue)),),
+        title: Text(
+          'Attendance',
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),
+        ),
+      ),
       body: ListView.builder(
         itemCount: items.length,
         itemBuilder: (BuildContext context, int index) {
-          return ListItemWithButton(item: '${items[index]['name']}');
+          return Card(
+            elevation: 3,
+            margin: EdgeInsets.all(8),
+            child: ListItemWithButton(item: '${items[index]['name']}'),
+          );
         },
       ),
     );

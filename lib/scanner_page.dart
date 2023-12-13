@@ -274,7 +274,7 @@ class _QRScannerScreenState extends State<QrCodeScanner> {
                 child: Container(
               alignment: Alignment.center,
               child: const Text(
-                "Powered by Technocract",
+                "Powered by Technocrat",
                 style: TextStyle(
                   color: Colors.black87,
                   fontSize: 14,

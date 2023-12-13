@@ -4,7 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 
 class WorkDelete extends StatefulWidget {
-  const WorkDelete({super.key});
+  const WorkDelete({Key? key}) : super(key: key);
 
   @override
   State<WorkDelete> createState() => _WorkDeleteState();
@@ -37,12 +37,25 @@ class _WorkDeleteState extends State<WorkDelete> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Delete Work',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.blue),)
+        title: Text(
+          'Delete Work',
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),
+        ),
       ),
       body: ListView.builder(
         itemCount: items.length,
         itemBuilder: (BuildContext context, int index) {
-          return ListItemWithButton(item: '${items[index]['TITLE']}',item2: '${items[index]['STATUS']}',item3: '${items[index]['sl']}',item4: '${items[index]['ID']}', fetchData: fetchData);
+          return Card(
+            elevation: 3,
+            margin: EdgeInsets.all(8),
+            child: ListItemWithButton(
+              item: '${items[index]['TITLE']}',
+              item2: '${items[index]['STATUS']}',
+              item3: '${items[index]['sl']}',
+              item4: '${items[index]['ID']}',
+              fetchData: fetchData,
+            ),
+          );
         },
       ),
     );
@@ -56,10 +69,17 @@ class ListItemWithButton extends StatelessWidget {
   final String item4;
   final Function fetchData;
 
-  ListItemWithButton({required this.item, required this.fetchData, required this.item2, required this.item3, required this.item4});
+  ListItemWithButton({
+    required this.item,
+    required this.fetchData,
+    required this.item2,
+    required this.item3,
+    required this.item4,
+  });
 
-  Future<void> delete(String title,String sl) async {
-    var url = Uri.parse('https://creativecollege.in/Flutter/Admin_Delete_Work.php?title=$title&sl=$sl');
+  Future<void> delete(String title, String sl) async {
+    var url = Uri.parse(
+        'https://creativecollege.in/Flutter/Admin_Delete_Work.php?title=$title&sl=$sl');
 
     var response = await http.get(url);
     if (response.statusCode == 200) {
@@ -70,7 +90,6 @@ class ListItemWithButton extends StatelessWidget {
           backgroundColor: Colors.green,
           textColor: Colors.white,
         );
-        
       } else {
         Fluttertoast.showToast(
           msg: response.body,
@@ -85,7 +104,7 @@ class ListItemWithButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text("title : $item"),
+      title: Text("Title: $item"),
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -95,12 +114,12 @@ class ListItemWithButton extends StatelessWidget {
       ),
       trailing: ElevatedButton(
         onPressed: () {
-          delete(item,item3).then((value) {
+          delete(item, item3).then((value) {
             fetchData();
           });
         },
         style: ElevatedButton.styleFrom(
-          backgroundColor: const Color.fromARGB(255, 243, 33, 33), // Change the button's background color here
+          primary: const Color.fromARGB(255, 243, 33, 33),
         ),
         child: Text('Delete'),
       ),

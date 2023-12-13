@@ -23,7 +23,7 @@ class _ContactPage extends State<ContactPrev> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Course Selection',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.blue)),
+        title: const Text('Choose Course',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.blue)),
       ),
       body: SingleChildScrollView(
         child: Padding(

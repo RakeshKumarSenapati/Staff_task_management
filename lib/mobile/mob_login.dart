@@ -250,7 +250,7 @@ class _Mob_Login_PageState extends State<Mob_Login_Page> {
                       child: Padding(
                         padding: EdgeInsets.symmetric(horizontal: 20),
                         child: Text(
-                          "In case you can face any problem then contact Our Suppert Team Member",
+                          "In case you can face any problem then contact Our Technical Team",
                           style: TextStyle(
                             color: Colors.pink,
                             fontWeight: FontWeight.w100,
