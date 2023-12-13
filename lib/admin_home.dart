@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/Attendenanceprev.dart';
 import 'package:flutter_application_1/DeleteWork.dart';
 import 'package:flutter_application_1/Staff_List.dart';
 import 'package:flutter_application_1/Add_staff.dart';
@@ -17,7 +18,7 @@ class HomeNav extends StatefulWidget {
 class _HomeNavState extends State<HomeNav> {
   int _currentIndex = 0;
 
-  final List<Widget> _pages = [StaffList(), StaffAdd(), StaffDelete(),WorkDelete(), ContactPrev()];
+  final List<Widget> _pages = [StaffList(), StaffAdd(), StaffDelete(),WorkDelete(), ContactPrev(),Attendananceprev()];
 
 
   Future<void> clearSharedPreferences() async {
@@ -88,7 +89,10 @@ class _HomeNavState extends State<HomeNav> {
                 icon: Icon(Icons.contact_phone),
                 label: 'Student Contacts',
                 backgroundColor:Color.fromARGB(255, 1, 147, 226)),
-                
+            BottomNavigationBarItem(
+                icon: Icon(Icons.contact_phone),
+                label: 'Atendance',
+                backgroundColor:Color.fromARGB(255, 1, 147, 226)),    
           ],
         ),
       ),

@@ -23,7 +23,7 @@ class _ContactPage extends State<ContactPrev> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Course Selection'),
+        title: const Text('Course Selection',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.blue)),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -180,7 +180,7 @@ class _Contact extends State<Contact> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('CONTACT'),
+        title: Text('CONTACT',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.blue)),
       ),
       body: ListView.builder(
         itemCount: data.length,

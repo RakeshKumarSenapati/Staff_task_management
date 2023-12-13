@@ -37,8 +37,7 @@ class _WorkDeleteState extends State<WorkDelete> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Delete Work'),
-        backgroundColor: Color.fromARGB(255, 255, 0, 0),
+        title: Text('Delete Work',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.blue),)
       ),
       body: ListView.builder(
         itemCount: items.length,

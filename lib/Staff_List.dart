@@ -37,8 +37,7 @@ class _StaffListState extends State<StaffList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Work Status'),
-        backgroundColor: Color.fromARGB(255, 191, 1, 243)
+        title: Text('Work Status',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.blue))
       ),
        body: ListView.builder(
         itemCount: items.length,

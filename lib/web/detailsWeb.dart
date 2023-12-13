@@ -167,7 +167,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Activity Manager'),
+        title: Text('Activity Manager',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.blue)),
       ),
       body: Column(
         children: [

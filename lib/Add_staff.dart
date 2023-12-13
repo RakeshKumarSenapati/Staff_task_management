@@ -10,17 +10,17 @@ class StaffAdd extends StatefulWidget {
 }
 
 class _StaffAddState extends State<StaffAdd> {
-    final TextEditingController nameController = TextEditingController();
-    final TextEditingController passController = TextEditingController();
-    final TextEditingController desigController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController passController = TextEditingController();
+  final TextEditingController desigController = TextEditingController();
 
-    final _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
   void signUp() async {
     final response = await http.post(
       Uri.parse('https://creativecollege.in/Flutter/staff_add.php'),
       body: {
         'name': nameController.text,
-        'desig':desigController.text,
+        'desig': desigController.text,
         'password': passController.text,
       },
     );
@@ -33,9 +33,9 @@ class _StaffAddState extends State<StaffAdd> {
           backgroundColor: Colors.green,
           textColor: Colors.white,
         );
-        nameController.text='';
-        desigController.text='';
-        passController.text='';
+        nameController.text = '';
+        desigController.text = '';
+        passController.text = '';
       } else {
         Fluttertoast.showToast(
           msg: response.body,
@@ -46,13 +46,12 @@ class _StaffAddState extends State<StaffAdd> {
       }
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Staff'),
-        backgroundColor: Color.fromARGB(255, 255, 124, 1)
-      ),
+          title: Text('Add Staff',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.blue))),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -60,72 +59,130 @@ class _StaffAddState extends State<StaffAdd> {
             key: _formKey,
             child: Column(
               children: <Widget>[
-                TextFormField(
-                  controller: nameController,
-                  decoration: InputDecoration(labelText: 'Name'),
-                  validator: (value) {
-                    if (value == null) {
-                      return 'Please enter your name';
-                    }
-                    return null;
-                  },
-                
+                Container(
+                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.3),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                        offset: Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: TextFormField(
+                    controller: nameController,
+                    decoration: InputDecoration(
+                      labelText: 'Name',
+                      labelStyle: TextStyle(
+                          color: Colors.grey), // Customize label color
+                      border: InputBorder.none,
+                      // Add some padding to the input text
+                      contentPadding: EdgeInsets.symmetric(vertical: 0),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your name';
+                      }
+                      return null;
+                    },
+                  ),
                 ),
-                TextFormField(
-                  controller: desigController,
-                  decoration: InputDecoration(labelText: 'Designation'),
-                  validator: (value) {
-                    if (value == null) {
-                      return 'Please enter your designation';
-                    }
-                    return null;
-                  },
-                  
+                Container(
+                  margin: EdgeInsets.symmetric(vertical: 10),
+                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.3),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                        offset: Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: TextFormField(
+                    controller: desigController,
+                    decoration: InputDecoration(
+                      labelText: 'Designation',
+                      labelStyle: TextStyle(color: Colors.grey),
+                      border: InputBorder.none,
+                      contentPadding: EdgeInsets.symmetric(vertical: 0),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your designation';
+                      }
+                      return null;
+                    },
+                  ),
                 ),
-                TextFormField(
-                  controller: passController,
-                  decoration: InputDecoration(labelText: 'Password'),
-                  validator: (value) {
-                    if (value == null) {
-                      return 'Please enter your password';
-                    }
-                    return null;
-                  },
-                 
+                Container(
+                  margin: EdgeInsets.symmetric(vertical: 10),
+                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.3),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                        offset: Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: TextFormField(
+                    controller: passController,
+                    decoration: InputDecoration(
+                      labelText: 'Password',
+                      labelStyle: TextStyle(color: Colors.grey),
+                      border: InputBorder.none,
+                      contentPadding: EdgeInsets.symmetric(vertical: 0),
+                    ),
+                    obscureText:
+                        true, // Hide the entered text for password fields
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your password';
+                      }
+                      return null;
+                    },
+                  ),
                 ),
                 SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     ElevatedButton(
-                      onPressed: (){
-                        if(nameController.text==''){
+                      onPressed: () {
+                        if (nameController.text == '') {
                           Fluttertoast.showToast(
                             msg: 'Name Is Empty',
                             gravity: ToastGravity.BOTTOM,
                             backgroundColor: Colors.green,
                             textColor: Colors.white,
                           );
-                        }
-                        else if(desigController.text=='')
-                        {
+                        } else if (desigController.text == '') {
                           Fluttertoast.showToast(
                             msg: 'Designation Is Empty',
                             gravity: ToastGravity.BOTTOM,
                             backgroundColor: Colors.green,
                             textColor: Colors.white,
                           );
-                        }
-                        else if(passController.text=='')
-                        {
+                        } else if (passController.text == '') {
                           Fluttertoast.showToast(
                             msg: 'Password Is Empty',
                             gravity: ToastGravity.BOTTOM,
                             backgroundColor: Colors.green,
                             textColor: Colors.white,
                           );
-                        }
-                        else{
+                        } else {
                           signUp();
                         }
                       },
@@ -145,6 +202,5 @@ class _StaffAddState extends State<StaffAdd> {
     );
   }
 
-  void _clearForm() {
-  }
+  void _clearForm() {}
 }

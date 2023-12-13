@@ -114,11 +114,7 @@ class _NavPageState extends State<NavPage> {
               label: 'Task Management',
               backgroundColor: Color.fromARGB(255, 255, 0, 0)
             ),
-            //  BottomNavigationBarItem(
-            //   icon: Icon(Icons.attach_email_rounded),
-            //   label: 'Task Management',
-            //   backgroundColor: Color.fromARGB(255, 255, 0, 0)
-            // ),
+             
           ],
         ),
       ),

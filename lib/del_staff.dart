@@ -37,8 +37,7 @@ class _StaffDeleteState extends State<StaffDelete> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Delete Staff'),
-        backgroundColor: Color.fromARGB(255, 255, 0, 0),
+        title: Text('Delete Staff',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.blue)),
       ),
       body: ListView.builder(
         itemCount: items.length,

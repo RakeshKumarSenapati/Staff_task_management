@@ -37,8 +37,7 @@ class _StaffListState extends State<Attendananceprev> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text('Attendanance'),
-          backgroundColor: Color.fromARGB(255, 191, 1, 243)),
+          title: Text('Attendanance',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.blue)),),
       body: ListView.builder(
         itemCount: items.length,
         itemBuilder: (BuildContext context, int index) {
@@ -69,7 +68,7 @@ class ListItemWithButton extends StatelessWidget {
             ),
           );
         },
-        child: Text('Show Work Status'),
+        child: const Text('Show Attendance'),
       ),
     );
   }

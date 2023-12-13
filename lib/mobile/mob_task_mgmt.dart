@@ -74,7 +74,7 @@ class _Task_mgmt extends State<Task_mgmt> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Task Management'),
+        title: const Text('Task Management',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.blue)),
       ),
       body: ListView.builder(
         itemCount: data.length,

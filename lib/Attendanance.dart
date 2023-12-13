@@ -16,8 +16,18 @@ class _StaffListState extends State<Attendanance> {
   DateTime? selectedDate;
 
   final List<String> months = [
-    'January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December'
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December'
   ];
 
   String selectedMonth = '';
@@ -50,7 +60,7 @@ class _StaffListState extends State<Attendanance> {
       context: context,
       initialDate: selectedDate!,
       firstDate: DateTime(2022),
-      lastDate: DateTime(2023, 12, 31),
+      lastDate: DateTime(2030, 12, 31),
     );
     if (picked != null && picked != selectedDate) {
       setState(() {
@@ -67,11 +77,11 @@ class _StaffListState extends State<Attendanance> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Work Status'),
-        backgroundColor: Color.fromARGB(255, 191, 1, 243),
+        title: Text('Attendance',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.blue)),
       ),
       body: Column(
         children: [
+          SizedBox(height: 10,),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -80,22 +90,6 @@ class _StaffListState extends State<Attendanance> {
                 child: Text('Select Monthly'),
               ),
               SizedBox(width: 16),
-              DropdownButton<String>(
-                value: selectedMonth,
-                items: months.map((String month) {
-                  return DropdownMenuItem<String>(
-                    value: month,
-                    child: Text(month),
-                  );
-                }).toList(),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    selectedMonth = newValue!;
-                    int monthIndex = months.indexOf(selectedMonth) + 1;
-                    fetchDataMonthly(selectedDate!.year, monthIndex);
-                  });
-                },
-              ),
             ],
           ),
           Expanded(
@@ -103,31 +97,64 @@ class _StaffListState extends State<Attendanance> {
               itemCount: items.length,
               itemBuilder: (BuildContext context, int index) {
                 // Extract month from the date in 'YYYY-MM-DD' format
-                int monthFromData = int.parse(items[index]['DATE'].split('-')[1]);
-                
+                int monthFromData =
+                    int.parse(items[index]['DATE'].split('-')[1]);
+
                 // Check if the month matches the selected month
                 if (monthFromData == selectedDate!.month) {
-                  return Card(
-                    elevation: 3,
-                    margin: EdgeInsets.all(8),
-                    child: Padding(
-                      padding: EdgeInsets.all(16),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Date: ${items[index]['DATE']}',
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                  return Padding(
+                    padding: EdgeInsets.all(8), // Add padding around the Card
+                    child: Card(
+                      elevation: 3,
+                      margin: EdgeInsets.all(8),
+                      child: Padding(
+                        padding: EdgeInsets.all(16),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal:
+                                          8), // Add padding to the left and right
+                                  child: Text(
+                                    'Date: ${items[index]['DATE']}',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                SizedBox(height: 8),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal:
+                                          8), // Add padding to the left and right
+                                  child: Text(
+                                    'Check In: ${items[index]['CHECK_IN_TIME']}',
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal:
+                                          8), // Add padding to the left and right
+                                  child: Text(
+                                    'Check Out: ${items[index]['CHECK_OUT_TIME']}',
+                                  ),
+                                ),
+                              ],
+                            ),
+                            // Add Present text with blue color
+                            Text(
+                              'Present',
+                              style: TextStyle(
+                                color: Colors.blue,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
                               ),
-                              SizedBox(height: 8),
-                              Text('Check In: ${items[index]['CHECK_IN_TIME']}'),
-                              Text('Check Out: ${items[index]['CHECK_OUT_TIME']}'),
-                            ],
-                          ),
-                        ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   );
