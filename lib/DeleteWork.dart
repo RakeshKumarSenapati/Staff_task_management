@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
+import 'package:animate_do/animate_do.dart'; // Import the animate_do package
 
 class WorkDelete extends StatefulWidget {
   const WorkDelete({Key? key}) : super(key: key);
@@ -48,15 +49,19 @@ class _WorkDeleteState extends State<WorkDelete> {
       body: ListView.builder(
         itemCount: reversedItems.length,
         itemBuilder: (BuildContext context, int index) {
-          return Card(
-            elevation: 3,
-            margin: EdgeInsets.all(8),
-            child: ListItemWithButton(
-              item: '${reversedItems[index]['TITLE']}',
-              item2: '${reversedItems[index]['STATUS']}',
-              item3: '${reversedItems[index]['sl']}',
-              item4: '${reversedItems[index]['ID']}',
-              fetchData: fetchData,
+          return FadeInUp( // Wrap your widget with FadeInUp
+            duration: Duration(milliseconds: 1000),
+            delay: Duration(milliseconds: 300 * index), // Apply different delay to each item
+            child: Card(
+              elevation: 3,
+              margin: EdgeInsets.all(8),
+              child: ListItemWithButton(
+                item: '${reversedItems[index]['TITLE']}',
+                item2: '${reversedItems[index]['STATUS']}',
+                item3: '${reversedItems[index]['sl']}',
+                item4: '${reversedItems[index]['ID']}',
+                fetchData: fetchData,
+              ),
             ),
           );
         },

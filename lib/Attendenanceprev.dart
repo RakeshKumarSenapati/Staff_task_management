@@ -2,15 +2,16 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Attendanance.dart';
 import 'package:http/http.dart' as http;
+import 'package:animate_do/animate_do.dart'; // Import the animate_do package
 
 class Attendananceprev extends StatefulWidget {
   const Attendananceprev({Key? key});
 
   @override
-  State<Attendananceprev> createState() => _StaffListState();
+  State<Attendananceprev> createState() => _Attendananceprev();
 }
 
-class _StaffListState extends State<Attendananceprev> {
+class _Attendananceprev extends State<Attendananceprev> {
   List<dynamic> items = [];
 
   Future<void> fetchData() async {
@@ -37,7 +38,7 @@ class _StaffListState extends State<Attendananceprev> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Attendance',
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),
         ),
@@ -45,10 +46,22 @@ class _StaffListState extends State<Attendananceprev> {
       body: ListView.builder(
         itemCount: items.length,
         itemBuilder: (BuildContext context, int index) {
-          return Card(
-            elevation: 3,
-            margin: EdgeInsets.all(8),
-            child: ListItemWithButton(item: '${items[index]['name']}'),
+          return Padding(
+            padding: const EdgeInsets.only(top: 8),
+            child: FadeInUp(
+              duration: Duration(milliseconds: 1000),
+              delay: Duration(milliseconds: index * 300),
+              child: Card(
+                elevation: 3,
+                child: Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: FadeIn( // Add this widget for the inner fade-in effect
+                    duration: Duration(milliseconds: 1500),
+                    child: ListItemWithButton(item: '${items[index]['name']}'),
+                  ),
+                ),
+              ),
+            ),
           );
         },
       ),

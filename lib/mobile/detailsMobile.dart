@@ -266,7 +266,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
               child: ListView.builder(
                 itemCount: tasks.length,
                 itemBuilder: (BuildContext context, int index) {
-                  final task = tasks[index];
+                  final task = tasks.reversed.toList()[index];
                   if (filter != TaskStatus.all && task.status != filter) {
                     return Container();
                   }

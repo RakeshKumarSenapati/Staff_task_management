@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:animate_do/animate_do.dart';
 
 class Attendanance extends StatefulWidget {
   const Attendanance({Key? key, required this.name}) : super(key: key);
@@ -80,83 +81,97 @@ class _StaffListState extends State<Attendanance> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Attendance',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.blue)),
+        title: const Text('Attendance',
+            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blue)),
       ),
       body: Column(
         children: [
-          SizedBox(height: 10,),
+          const SizedBox(
+            height: 10,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              ElevatedButton(
+              FadeInRightBig(
+                duration: const Duration(milliseconds: 3000),
+                child: ElevatedButton(
                 onPressed: () => _selectDate(context),
-                child: Text('Select Monthly'),
+                child: const Text(' Select '),
               ),
-              SizedBox(width: 16),
+              ),
+              const SizedBox(width: 16),
             ],
           ),
           Expanded(
-            child: ListView.builder(
-              itemCount: reversedItems.length,
-              itemBuilder: (BuildContext context, int index) {
-                // Extract month from the date in 'YYYY-MM-DD' format
-                int monthFromData =
-                    int.parse(reversedItems[index]['DATE'].split('-')[1]);
+            child: FadeInUp(
+              // Wrap the widget with the FadeInUp animation
+              duration: const Duration(milliseconds: 3000),
+              child: ListView.builder(
+                itemCount: reversedItems.length,
+                itemBuilder: (BuildContext context, int index) {
+                  // Extract month from the date in 'YYYY-MM-DD' format
+                  int monthFromData =
+                      int.parse(reversedItems[index]['DATE'].split('-')[1]);
 
-                // Check if the month matches the selected month
-                if (monthFromData == selectedDate!.month) {
-                  return Padding(
-                    padding: EdgeInsets.all(8),
-                    child: Card(
-                      elevation: 3,
-                      margin: EdgeInsets.all(8),
-                      child: Padding(
-                        padding: EdgeInsets.all(16),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 8),
-                                  child: Text(
-                                    'Date: ${reversedItems[index]['DATE']}',
-                                    style: TextStyle(fontWeight: FontWeight.bold),
+                  // Check if the month matches the selected month
+                  if (monthFromData == selectedDate!.month) {
+                    return Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: Card(
+                        elevation: 3,
+                        margin: const EdgeInsets.all(8),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.symmetric(horizontal: 8),
+                                    child: Text(
+                                      'Date: ${reversedItems[index]['DATE']}',
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
                                   ),
-                                ),
-                                SizedBox(height: 8),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 8),
-                                  child: Text(
-                                    'Check In: ${reversedItems[index]['CHECK_IN_TIME']}',
+                                  const SizedBox(height: 8),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.symmetric(horizontal: 8),
+                                    child: Text(
+                                      'Check In: ${reversedItems[index]['CHECK_IN_TIME']}',
+                                    ),
                                   ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 8),
-                                  child: Text(
-                                    'Check Out: ${reversedItems[index]['CHECK_OUT_TIME']}',
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.symmetric(horizontal: 8),
+                                    child: Text(
+                                      'Check Out: ${reversedItems[index]['CHECK_OUT_TIME']}',
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                            Text(
-                              'Present',
-                              style: TextStyle(
-                                color: Colors.blue,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
+                                ],
                               ),
-                            ),
-                          ],
+                              const Text(
+                                'Present',
+                                style: TextStyle(
+                                  color: Colors.blue,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  );
-                } else {
-                  return Container();
-                }
-              },
+                    );
+                  } else {
+                    return Container();
+                  }
+                },
+              ),
             ),
           ),
         ],

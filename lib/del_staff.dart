@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
+import 'package:animate_do/animate_do.dart'; // Import the animate_do package
 
 class StaffDelete extends StatefulWidget {
   const StaffDelete({Key? key}) : super(key: key);
@@ -45,7 +46,11 @@ class _StaffDeleteState extends State<StaffDelete> {
       body: ListView.builder(
         itemCount: items.length,
         itemBuilder: (BuildContext context, int index) {
-          return StaffCard(item: items[index], fetchData: fetchData);
+          return FadeInUp( // Wrap your widget with FadeInUp
+            duration: Duration(milliseconds: 1000),
+            delay: Duration(milliseconds: 300 * index),
+            child: StaffCard(item: items[index], fetchData: fetchData),
+          );
         },
       ),
     );
@@ -88,16 +93,22 @@ class StaffCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       margin: EdgeInsets.all(10),
-      child: ListTile(
-        title: Text(item['name']),
-        trailing: ElevatedButton(
-          onPressed: () {
-            delete(item['name']);
-          },
-          style: ElevatedButton.styleFrom(
-            primary: const Color.fromARGB(255, 243, 33, 33), // Change the button's background color here
+      child: Padding(
+        padding: EdgeInsets.all(8),
+        child: ListTile(
+          title: Text(item['name']),
+          trailing: ElevatedButton(
+            onPressed: () {
+              delete(item['name']);
+            },
+            style: ElevatedButton.styleFrom(
+              primary: const Color.fromARGB(255, 243, 33, 33),
+            ),
+            child: Text(
+              'Delete',
+              style: TextStyle(color: Colors.white),
+            ),
           ),
-          child: Text('Delete',style: TextStyle(color: Colors.white),),
         ),
       ),
     );
