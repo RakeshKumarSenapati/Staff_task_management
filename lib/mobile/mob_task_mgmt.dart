@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:animate_do/animate_do.dart'; // Import the package
 
 class Task_mgmt extends StatefulWidget {
   Task_mgmt({Key? key}) : super(key: key);
@@ -74,7 +75,8 @@ class _Task_mgmt extends State<Task_mgmt> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Task Management',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.blue)),
+        title: const Text('Task Management',
+            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blue)),
       ),
       body: ListView.builder(
         itemCount: data.length,
@@ -84,103 +86,107 @@ class _Task_mgmt extends State<Task_mgmt> {
           bool isNStarted = data[index]['STATUS'] == 'Started';
 
           return Center(
-            child: Card(
-              elevation: 8,
-              child: ExpansionTile(
-                title: Container(
-                  margin: const EdgeInsets.only(left: 16.0, top: 5, bottom: 15),
-                  child: ListTile(
-                    subtitle: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              width: 100,
-                              child: Text(
-                                '${data[index]['TITLE']}',
+            child: FadeInRightBig( // Wrap the entire Card with FadeInUp animation
+              duration: const Duration(milliseconds: 1000),
+              delay: Duration(milliseconds: index * 500),
+              child: Card(
+                elevation: 8,
+                child: ExpansionTile(
+                  title: Container(
+                    margin: const EdgeInsets.only(left: 16.0, top: 5, bottom: 15),
+                    child: ListTile(
+                      subtitle: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                width: 100,
+                                child: Text(
+                                  '${data[index]['TITLE']}',
+                                  style: const TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                              Text(
+                                '${data[index]['STATUS']}',
                                 style: const TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black),
-                                maxLines: 2,
+                                    fontSize: 17,
+                                    color: Color.fromARGB(255, 218, 22, 22)),
                                 overflow: TextOverflow.ellipsis,
                               ),
-                            ),
-                            Text(
-                              '${data[index]['STATUS']}',
-                              style: const TextStyle(
-                                  fontSize: 17,
-                                  color: Color.fromARGB(255, 218, 22, 22)),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ],
-                        ),
-                        if (isNotStarted)
-                          OutlinedButton(
-                            onPressed: () {
-                              String title = '${data[index]['TITLE']}';
-                              String statuss = 'Started';
-                             
-                              STARTIT(statuss, title).then((_) {
-                                fetchData();
-                              });
-                            },
-                            style: OutlinedButton.styleFrom(
-                                foregroundColor: Colors.blue,
-                                side: const BorderSide(
-                                  color: Colors.blue,
-                                )),
-                            child: const Text(
-                              " Get Start ",
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          )
-                        else if (isNoStarted)
-                          const Text(
-                            "Completed",
-                            style: TextStyle(
-                                fontSize: 15,
-                                color: Color.fromARGB(255, 218, 22, 22)),
-                          )
-                        else if (isNStarted)
-                          OutlinedButton(
-                            onPressed: () {
-                              String title = '${data[index]['TITLE']}';
-                              String statuss = 'Completed';
-                              STARTIT(statuss, title).then((_) {
-                                fetchData();
-                              });
-                            },
-                            style: OutlinedButton.styleFrom(
-                                foregroundColor: Colors.green,
-                                side: BorderSide(
-                                  color: Colors.green,
-                                )),
-                            child: const Text(
-                              "Complete",
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
+                            ],
                           ),
-                      ],
-                    ),
-                  ),
-                ),
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        '${data[index]['DESCRIPTION']}',
-                        style: TextStyle(
-                          fontSize: 16, // Set text alignment to justify
-                        ),
+                          if (isNotStarted)
+                            OutlinedButton(
+                              onPressed: () {
+                                String title = '${data[index]['TITLE']}';
+                                String statuss = 'Started';
+
+                                STARTIT(statuss, title).then((_) {
+                                  fetchData();
+                                });
+                              },
+                              style: OutlinedButton.styleFrom(
+                                  foregroundColor: Colors.blue,
+                                  side: const BorderSide(
+                                    color: Colors.blue,
+                                  )),
+                              child: const Text(
+                                " Get Start ",
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            )
+                          else if (isNoStarted)
+                            const Text(
+                              "Completed",
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  color: Color.fromARGB(255, 218, 22, 22)),
+                            )
+                          else if (isNStarted)
+                            OutlinedButton(
+                              onPressed: () {
+                                String title = '${data[index]['TITLE']}';
+                                String statuss = 'Completed';
+                                STARTIT(statuss, title).then((_) {
+                                  fetchData();
+                                });
+                              },
+                              style: OutlinedButton.styleFrom(
+                                  foregroundColor: Colors.green,
+                                  side: BorderSide(
+                                    color: Colors.green,
+                                  )),
+                              child: const Text(
+                                "Complete",
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                        ],
                       ),
                     ),
                   ),
-                ],
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Align(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          '${data[index]['DESCRIPTION']}',
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           );
