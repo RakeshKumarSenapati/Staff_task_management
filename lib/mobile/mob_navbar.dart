@@ -22,7 +22,7 @@ class _NavPageState extends State<NavPage> {
     QrCodeScanner(),
     Mob_Add_Task(),
     DetailsMobile(),
-    ContactPrev(),
+    DetailsMobile(),
     Task_mgmt(),
   ];
 
@@ -31,8 +31,7 @@ class _NavPageState extends State<NavPage> {
   Future<void> fetchData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String userID = prefs.getString('userID') ?? '';
-    final response = await http
-        .get(Uri.parse('https://creativecollege.in/Flutter/Profile.php?id=$userID'));
+    final response = await http.get(Uri.parse('https://creativecollege.in/Flutter/Profile.php?id=$userID'));
 
     if (response.statusCode == 200) {
       final jsonData = json.decode(response.body);
@@ -71,6 +70,12 @@ class _NavPageState extends State<NavPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(100),
+            bottomRight: Radius.circular(100),
+          ),
+        ),
         actions: <Widget>[
           Container(
             margin: EdgeInsets.only(right: 16.0),
@@ -91,46 +96,51 @@ class _NavPageState extends State<NavPage> {
         title: Text('HI $name'),
       ),
       body: _pages[_currentIndex],
-      bottomNavigationBar: Container(
-        color: Colors.blue,
-        child: BottomNavigationBar(
-          currentIndex: _currentIndex,
-          onTap: (int index) {
-            setState(() {
-              _currentIndex = index;
-              if (index == 3) {
-                _showContactDialog(context);
-              }
-            });
-          },
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.qr_code),
-              label: 'Attendance',
-              backgroundColor: Color.fromARGB(255, 191, 1, 243),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.add_task),
-              label: 'Add Task',
-              backgroundColor: Color.fromARGB(255, 255, 124, 1),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.list),
-              label: 'Task Details',
-              backgroundColor: Colors.blue,
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.contact_phone),
-              label: 'Student Contact',
-              backgroundColor: Color.fromARGB(255, 35, 208, 0),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.task),
-              label: 'Task Management',
-              backgroundColor: Color.fromARGB(255, 255, 0, 0),
-            ),
-            
-          ],
+      bottomNavigationBar: ClipRRect(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(30),
+          topRight: Radius.circular(30),
+        ),
+        child: Container(
+          color: Color(0xFFC21E56),
+          child: BottomNavigationBar(
+            currentIndex: _currentIndex,
+            onTap: (int index) {
+              setState(() {
+                _currentIndex = index;
+                if (index == 3) {
+                  _showContactDialog(context);
+                }
+              });
+            },
+            items: [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.qr_code),
+                label: 'Attendance',
+                backgroundColor: Color(0xFFC21E56),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.add_task),
+                label: 'Add Task',
+                backgroundColor: Color(0xFFC21E56),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.list),
+                label: 'Task Details',
+                backgroundColor: Color(0xFFC21E56),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.contact_phone),
+                label: 'Student Contact',
+                backgroundColor: Color(0xFFC21E56),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.task),
+                label: 'Task Management',
+                backgroundColor: Color(0xFFC21E56),
+              ),
+            ],
+          ),
         ),
       ),
     );
