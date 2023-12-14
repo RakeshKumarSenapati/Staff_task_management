@@ -18,107 +18,120 @@ class NavPage extends StatefulWidget {
 
 class _NavPageState extends State<NavPage> {
   int _currentIndex = 2;
-  final List<Widget> _pages = [QrCodeScanner(), Mob_Add_Task(), DetailsMobile(),  ContactPrev(),Task_mgmt()];
+  final List<Widget> _pages = [
+    QrCodeScanner(),
+    Mob_Add_Task(),
+    DetailsMobile(),
+    ContactPrev(),
+    Task_mgmt(),
+  ];
 
   String name = '';
 
-    Future<void> fetchData() async {
-     SharedPreferences prefs = await SharedPreferences.getInstance();
+  Future<void> fetchData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     String userID = prefs.getString('userID') ?? '';
-    final response = await http.get(Uri.parse('https://creativecollege.in/Flutter/Profile.php?id=$userID'));
+    final response = await http
+        .get(Uri.parse('https://creativecollege.in/Flutter/Profile.php?id=$userID'));
 
     if (response.statusCode == 200) {
       final jsonData = json.decode(response.body);
 
-      // Check if jsonData is a list and not empty
       if (jsonData is List && jsonData.isNotEmpty) {
-        // Access the first element of the list (assuming there is only one element)
         final firstElement = jsonData[0];
-
-        // Access the specific fields within the first element
         setState(() {
           name = firstElement['name'];
         });
       } else {
-        // Handle the case where the JSON array is empty or not as expected
         setState(() {
           name = 'Data not found';
         });
       }
     } else {
-      // Handle the HTTP error
       throw Exception('Failed to load data');
     }
   }
 
-    @override
+  @override
   void initState() {
     super.initState();
     fetchData();
   }
 
+  void _showContactDialog(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return ContactPrev(); // Show ContactPrev screen directly
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         actions: <Widget>[
-            Container(
-              margin: EdgeInsets.only(right: 16.0),
-              child: IconButton(
-                icon: Icon(Icons.person, size: 40,),
-                onPressed: () {
-                  // Add your action here when the button is pressed.
-                  // For example, you can open a search page or perform a search action.
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => Profile()));
-                },
+          Container(
+            margin: EdgeInsets.only(right: 16.0),
+            child: IconButton(
+              icon: Icon(
+                Icons.person,
+                size: 40,
               ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Profile()),
+                );
+              },
             ),
-          ],
+          ),
+        ],
         title: Text('HI $name'),
       ),
       body: _pages[_currentIndex],
       bottomNavigationBar: Container(
-        color: Colors.blue, 
+        color: Colors.blue,
         child: BottomNavigationBar(
-          // fixedColor: Color.fromARGB(255, 0, 161, 51),
           currentIndex: _currentIndex,
           onTap: (int index) {
             setState(() {
               _currentIndex = index;
+              if (index == 3) {
+                _showContactDialog(context);
+              }
             });
           },
           items: [
             BottomNavigationBarItem(
               icon: Icon(Icons.qr_code),
               label: 'Attendance',
-              backgroundColor: Color.fromARGB(255, 191, 1, 243)
+              backgroundColor: Color.fromARGB(255, 191, 1, 243),
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.add_task),
               label: 'Add Task',
-              backgroundColor: Color.fromARGB(255, 255, 124, 1)
+              backgroundColor: Color.fromARGB(255, 255, 124, 1),
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.list),
               label: 'Task Details',
-              backgroundColor: Colors.blue
+              backgroundColor: Colors.blue,
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.contact_phone),
               label: 'Student Contact',
-              backgroundColor: Color.fromARGB(255, 35, 208, 0)
+              backgroundColor: Color.fromARGB(255, 35, 208, 0),
             ),
-             BottomNavigationBarItem(
+            BottomNavigationBarItem(
               icon: Icon(Icons.task),
               label: 'Task Management',
-              backgroundColor: Color.fromARGB(255, 255, 0, 0)
+              backgroundColor: Color.fromARGB(255, 255, 0, 0),
             ),
-            
           ],
         ),
       ),
     );
   }
 }
-

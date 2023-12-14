@@ -4,6 +4,29 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:url_launcher/url_launcher.dart';
 
+class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+  final String title;
+  final BorderRadiusGeometry borderRadius;
+
+  const CustomAppBar({required this.title, required this.borderRadius});
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      title: Text(
+        title,
+        style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+      ),
+      backgroundColor: const Color(0xFFC21E56),
+      shape: RoundedRectangleBorder(
+        borderRadius: borderRadius,
+      ),
+    );
+  }
+}
 
 class ContactPrev extends StatefulWidget {
   const ContactPrev({Key? key}) : super(key: key);
@@ -13,106 +36,66 @@ class ContactPrev extends StatefulWidget {
 }
 
 class _ContactPage extends State<ContactPrev> {
-  Map<String, bool> isYearVisible = {
-    'BSC': false,
-    'BCA': false,
-    'BBA': false,
-  };
+  List<String> allowedCourses = ['BSC', 'BCA', 'BBA'];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Course Selection'),
+      appBar: const CustomAppBar(
+        title: 'SELECT COURSE',
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(10),
+          topRight: Radius.circular(10),
+        ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              CardItem('BSC', Colors.blue),
-              CardItem('BCA', Colors.green),
-              CardItem('BBA', Colors.orange),
-            ],
+      body: Container(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                for (String course in allowedCourses)
+                  CardItem(course, const Color(0xFFC21E56)),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  Widget CardItem(String course, Color cardColor) {
-    return Card(
-      color: cardColor,
-      margin: EdgeInsets.only(bottom: 16),
-      child: InkWell(
-        onTap: () {
-          setState(() {
-            isYearVisible[course] = !isYearVisible[course]!;
-          });
-        },
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  course,
-                  style: const TextStyle(
-                    fontSize: 24,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              ListTile(
-                title: const Text(
-                  'Select Year',
-                  style: TextStyle(color: Colors.white),
-                ),
-                trailing: Icon(
-                  isYearVisible[course]!
-                      ? Icons.arrow_drop_up
-                      : Icons.arrow_drop_down,
-                  color: Colors.white,
-                ),
-              ),
-              if (isYearVisible[course]!)
-                Column(
-                  children: [
-                    YearButton(course, '1st Year', '1st'),
-                    const SizedBox(height: 8),
-                    YearButton(course, '2nd Year', '2nd'),
-                    const SizedBox(height: 8),
-                    YearButton(course, '3rd Year', '3rd'),
-                  ],
-                ),
-            ],
+ // ignore: non_constant_identifier_names
+ Widget CardItem(String course, Color cardColor) {
+  return Card(
+    color: cardColor,
+    margin: const EdgeInsets.only(top: 16),
+    child: InkWell(
+      onTap: () {
+        _navigateToContactPage(course);
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Center( // Center the text within the button
+          child: Text(
+            course,
+            style: const TextStyle(
+              fontSize: 24,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ),
-    );
-  }
+    ),
+  );
+}
 
-  Widget YearButton(String course, String label, String year) {
-    return FractionallySizedBox(
-      widthFactor: 1,
-      child: ElevatedButton(
-        onPressed: () => _navigateToContactPage(course, year),
-        style: ElevatedButton.styleFrom(
-          primary: Colors.white,
-          onPrimary: Colors.black,
-        ),
-        child: Text(label),
-      ),
-    );
-  }
 
-  void _navigateToContactPage(String course, String year) {
+  void _navigateToContactPage(String course) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => Contact(course: course, year: year),
+        builder: (context) => Contact(course: course, year: ''),
       ),
     );
   }
@@ -130,10 +113,8 @@ class Contact extends StatefulWidget {
 }
 
 class _Contact extends State<Contact> {
-
-  
-    int? expandedIndex;
-  
+  int? expandedIndex;
+  String selectedYear = '1st'; 
   directCall(String number) async {
     await FlutterPhoneDirectCaller.callNumber(number);
   }
@@ -143,9 +124,9 @@ class _Contact extends State<Contact> {
   String Year = '';
   bool isExpanded = false;
 
-  Future<void> fetchData() async {
+  Future<void> fetchDataForYear() async {
     Course = widget.course;
-    Year = widget.year;
+    Year = selectedYear; // Use the selected year
     var url = Uri.parse(
         'https://creativecollege.in/Flutter/StudentContact.php?Course=$Course&Year=$Year');
 
@@ -159,12 +140,11 @@ class _Contact extends State<Contact> {
       print('Failed to load data');
     }
   }
+
   @override
   void initState() {
     super.initState();
-    fetchData();
-
-    
+    fetchDataForYear();
   }
 
   Future<void> _makePhoneCall(String phoneNumber) async {
@@ -176,107 +156,344 @@ class _Contact extends State<Contact> {
     }
   }
 
+  Widget _buildYearButton(String label, String year) {
+    Color customColor = Color(0xFFC21E56);
+    Color innerColor = Color(0xFFF09FDE);
+
+    return Container(
+      child: ElevatedButton(
+        onPressed: () {
+          selectedYear = year; // Update the selected year
+          fetchDataForYear();
+        },
+        style: ElevatedButton.styleFrom(
+          primary: innerColor,
+          onPrimary: Colors.black,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30.0),
+            side: BorderSide(color: customColor),
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Align(
+            alignment: Alignment.center, // Center the text
+            child: Text(
+              label,
+              style:
+                  const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('CONTACT'),
+        title: Text(
+          '${widget.course}',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: Color(0xFFC21E56),
+        shape: ContinuousRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(80.0),
+            bottomRight: Radius.circular(80.0),
+          ),
+        ),
+        actions: [
+          Padding(
+            padding: EdgeInsets.only(right: 20.0),
+            child: IconButton(
+              icon: Icon(Icons.search),
+              onPressed: () {
+                showSearch(
+                  context: context,
+                  delegate: CustomSearchDelegate(data: data),
+                );
+              },
+            ),
+          ),
+        ],
       ),
-      body: ListView.builder(
-        itemCount: data.length,
-        itemBuilder: (context, index) {
-          return Container(
-            margin: const EdgeInsets.all(16.0),
-        
-            child: Card(
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+      body: Column(
+        children: [
+          Padding(padding: EdgeInsets.all(16.0)),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              _buildYearButton('1st Year', '1st'),
+              _buildYearButton('2nd Year', '2nd'),
+              _buildYearButton('3rd Year', '3rd'),
+            ],
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: data.length,
+              itemBuilder: (context, index) {
+                return Container(
+                  margin: const EdgeInsets.all(16.0),
+                  child: Card(
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text('ID: ${data[index]['ID']}',
-                                    style: TextStyle(fontSize: 18)),
-                                Text('Name: ${data[index]['NAME']}',
-                                    style: TextStyle(fontSize: 16)),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text('ID: ${data[index]['ID']}',
+                                          style: TextStyle(fontSize: 18)),
+                                      Text('Name: ${data[index]['NAME']}',
+                                          style: TextStyle(fontSize: 16)),
+                                    ],
+                                  ),
+                                ),
+                                IconButton(
+                                  icon: Icon(
+                                    isExpanded
+                                        ? Icons.arrow_drop_up
+                                        : Icons.arrow_drop_down,
+                                    size: 30,
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      expandedIndex = (expandedIndex == index)
+                                          ? null
+                                          : index;
+                                    });
+                                  },
+                                ),
                               ],
                             ),
-                          ),
-                          IconButton(
-                            icon: Icon(
-                              isExpanded
-                                  ? Icons.arrow_drop_up
-                                  : Icons.arrow_drop_down,
-                              size: 30,
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                expandedIndex = (expandedIndex == index) ? null : index;
-                              });
-                            },
-                          ),
-                        ],
-                      ),
-                      if (expandedIndex == index)
-                        Column(
-                          children: [
-                             Row(
-                            children: [
-                              Text('Student No: ${data[index]['MOB_NO']}',
-                                  style: TextStyle(fontSize: 18)),
-                              IconButton(
-                                icon: Icon(Icons.call),
-                                onPressed: () {
-                                  String num = data[index]['MOB_NO'];
-                                  directCall(num);
-                                },
+                            if (expandedIndex == index)
+                              Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text(
+                                          'Student No: ${data[index]['MOB_NO']}',
+                                          style: TextStyle(fontSize: 18)),
+                                      IconButton(
+                                        icon: Icon(Icons.call),
+                                        onPressed: () {
+                                          String num = data[index]['MOB_NO'];
+                                          directCall(num);
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text('Father No: ${data[index]['F_MOB']}',
+                                          style: TextStyle(fontSize: 18)),
+                                      IconButton(
+                                        icon: Icon(Icons.call),
+                                        onPressed: () {
+                                          String num = data[index]['F_MOB'];
+                                          directCall(num);
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text('Mother No: ${data[index]['M_MOB']}',
+                                          style: TextStyle(fontSize: 18)),
+                                      IconButton(
+                                        icon: Icon(Icons.call),
+                                        onPressed: () {
+                                          String num = data[index]['M_MOB'];
+                                          directCall(num);
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
-                             Row(
-                            children: [
-                              Text('Father No: ${data[index]['F_MOB']}',
-                                  style: TextStyle(fontSize: 18)),
-                              IconButton(
-                                icon: Icon(Icons.call),
-                                onPressed: () {
-                                  String num = data[index]['MOB_NO'];
-                                  directCall(num);
-                                },
-                              ),
-                            ],
-                          ),
-                             Row(
-                            children: [
-                              Text('Mother No: ${data[index]['M_MOB']}',
-                                  style: TextStyle(fontSize: 18)),
-                              IconButton(
-                                icon: Icon(Icons.call),
-                                onPressed: () {
-                                  String num = data[index]['MOB_NO'];
-                                  directCall(num);
-                                },
-                              ),
-                            ],
-                          ),
                           ],
                         ),
-                    ],
+                      ),
+                    ),
                   ),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class CustomSearchDelegate extends SearchDelegate<String> {
+  final List<dynamic> data;
+
+  CustomSearchDelegate({required this.data});
+
+  @override
+  List<Widget> buildActions(BuildContext context) {
+    return [
+      IconButton(
+        icon: Icon(Icons.clear),
+        onPressed: () {
+          query = '';
+        },
+      ),
+    ];
+  }
+
+  @override
+  Widget buildLeading(BuildContext context) {
+    return IconButton(
+      icon: Icon(Icons.arrow_back),
+      onPressed: () {
+        close(context, '');
+      },
+    );
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    List<dynamic> searchResults = data
+        .where((item) =>
+            item['ID'].toString().contains(query) ||
+            item['NAME'].toString().toLowerCase().contains(query.toLowerCase()))
+        .toList();
+
+    if (searchResults.isEmpty) {
+      return Center(
+        child: Text('No results found for: $query'),
+      );
+    }
+
+    return ListView.builder(
+      itemCount: searchResults.length,
+      itemBuilder: (context, index) {
+        return Container(
+          margin: const EdgeInsets.all(16.0),
+          child: Card(
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('ID: ${searchResults[index]['ID']}',
+                                  style: TextStyle(fontSize: 18)),
+                              Text('Name: ${searchResults[index]['NAME']}',
+                                  style: TextStyle(fontSize: 16)),
+                            ],
+                          ),
+                        ),
+                        IconButton(
+                          icon: Icon(
+                            Icons.arrow_drop_down,
+                            size: 30,
+                          ),
+                          onPressed: () {},
+                        ),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        Row(
+                          children: [
+                            Text(
+                                'Student No: ${searchResults[index]['MOB_NO']}',
+                                style: TextStyle(fontSize: 18)),
+                            IconButton(
+                              icon: Icon(Icons.call),
+                              onPressed: () {
+                                String num = searchResults[index]['MOB_NO'];
+                                // Add your phone call functionality here
+                              },
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text('Father No: ${searchResults[index]['F_MOB']}',
+                                style: TextStyle(fontSize: 18)),
+                            IconButton(
+                              icon: Icon(Icons.call),
+                              onPressed: () {
+                                String num = searchResults[index]['F_MOB'];
+                                // Add your phone call functionality here
+                              },
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text('Mother No: ${searchResults[index]['M_MOB']}',
+                                style: TextStyle(fontSize: 18)),
+                            IconButton(
+                              icon: Icon(Icons.call),
+                              onPressed: () {
+                                String num = searchResults[index]['M_MOB'];
+                                // Add your phone call functionality here
+                              },
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
+    );
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    List<dynamic> suggestionResults = data
+        .where((item) =>
+            item['ID'].toString().contains(query) ||
+            item['NAME'].toString().toLowerCase().contains(query.toLowerCase()))
+        .toList();
+
+    if (suggestionResults.isEmpty) {
+      return Center(
+        child: Text('No suggestions for: $query'),
+      );
+    }
+
+    return ListView.builder(
+      itemCount: suggestionResults.length,
+      itemBuilder: (context, index) {
+        return ListTile(
+          title: Text(
+            'ID: ${suggestionResults[index]['ID']} - Name: ${suggestionResults[index]['NAME']}',
+          ),
+          onTap: () {
+            query = suggestionResults[index]['ID'].toString();
+            showResults(context);
+          },
+        );
+      },
     );
   }
 }
