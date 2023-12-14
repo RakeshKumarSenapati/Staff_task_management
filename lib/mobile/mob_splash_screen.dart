@@ -77,7 +77,7 @@ class _Mob_Splash_screenState extends State<Mob_Splash_screen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Text(
-                        "Developed By TechnoCart",
+                        "Developed By TechnoCrat",
                         style: TextStyle(color: Colors.white),
                       ),
                       Image.asset(

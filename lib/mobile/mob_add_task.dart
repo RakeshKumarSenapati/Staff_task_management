@@ -16,7 +16,7 @@ class _Mob_Add_TaskState extends State<Mob_Add_Task> {
   TextEditingController TITLE = TextEditingController();
   TextEditingController DESCRIPTION = TextEditingController();
 
-  late String userID='';
+  late String userID = '';
 
   Future<void> retrieveStoredData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -51,8 +51,8 @@ class _Mob_Add_TaskState extends State<Mob_Add_Task> {
           backgroundColor: Colors.green,
           textColor: Colors.white,
         );
-        DESCRIPTION.text='';
-        TITLE.text='';
+        DESCRIPTION.text = '';
+        TITLE.text = '';
       } else {
         Fluttertoast.showToast(
           msg: 'Failed Loading',
@@ -129,17 +129,39 @@ class _Mob_Add_TaskState extends State<Mob_Add_Task> {
                       TextField(
                         controller: TITLE,
                         decoration: InputDecoration(
-                            hintText: "Enter The  work",
-                            // enabled: true,
-                            focusedBorder: const OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Color.fromARGB(232, 95, 1, 105),
-                                    width: 2)),
-                            enabledBorder: const OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.black, width: 1.5)),
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10))),
+                          hintText: "Enter The Work",
+                          hintStyle: TextStyle(color: Colors.grey),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Color.fromARGB(232, 95, 1, 105),
+                              width: 2,
+                            ),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.black,
+                              width: 1.5,
+                            ),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          fillColor:
+                              Colors.white, // Background color of the TextField
+                          filled:
+                              true, // Fill the background with the specified color
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 15, horizontal: 15),
+                          prefixIcon: Icon(Icons.work,
+                              color: Colors.grey), // Icon before the text
+                          suffixIcon: IconButton(
+                            icon: Icon(Icons.clear, color: Colors.grey),
+                            onPressed: () {
+                              TITLE
+                                  .clear(); // Clear the text when the clear icon is pressed
+                            },
+                          ),
+                          // Add more styling options as needed
+                        ),
                       )
                     ],
                   )),
@@ -156,26 +178,46 @@ class _Mob_Add_TaskState extends State<Mob_Add_Task> {
                             fontSize: 17, fontWeight: FontWeight.w400),
                       ),
                       SingleChildScrollView(
-                        child: TextFormField(
-                          controller: DESCRIPTION,
-                          maxLines: null,
-                          decoration: InputDecoration(
-                              hintText: "Enter The description of work",
-                              contentPadding: const EdgeInsets.only(
-                                  top: 35.0,
-                                  bottom: 35.0,
-                                  left: 15.0,
-                                  right: 15.0),
-                              focusedBorder: const OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Color.fromARGB(232, 95, 1, 105),
-                                      width: 2)),
-                              enabledBorder: const OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Colors.black, width: 1.5)),
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10))),
+                          child: TextFormField(
+                        controller: DESCRIPTION,
+                        maxLines: null, // Allows unlimited lines
+                        decoration: InputDecoration(
+                          hintText: "Enter The Description of Work",
+                          hintStyle: TextStyle(color: Colors.grey),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Color.fromARGB(232, 95, 1, 105),
+                              width: 2,
+                            ),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.black,
+                              width: 1.5,
+                            ),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          fillColor: Colors.white,
+                          filled: true,
+                          contentPadding: EdgeInsets.all(
+                              35), // Padding for the entire input field
+                          // Additional padding to create space for the hint text when the text is not focused
+                          isDense: true,
+                          prefixIcon:
+                              Icon(Icons.description, color: Colors.grey),
+                          suffixIcon: IconButton(
+                            icon: Icon(Icons.clear, color: Colors.grey),
+                            onPressed: () {
+                              DESCRIPTION.clear();
+                            },
+                          ),
+                          // Customize the appearance of the floating label
+                          floatingLabelBehavior: FloatingLabelBehavior.auto,
+                          labelText: "Description",
+                          labelStyle: TextStyle(color: Colors.black),
                         ),
+                      )
                       ),
                     ],
                   )),
@@ -189,19 +231,16 @@ class _Mob_Add_TaskState extends State<Mob_Add_Task> {
                     padding: const EdgeInsets.only(right: 23),
                     child: ElevatedButton(
                       onPressed: () {
-                       if(TITLE.text=='')
-                       {
-                           Fluttertoast.showToast(
+                        if (TITLE.text == '') {
+                          Fluttertoast.showToast(
                             msg: 'TITLE IS EMPTY',
                             gravity: ToastGravity.BOTTOM,
                             backgroundColor: Colors.green,
                             textColor: Colors.white,
                           );
-                       }
-                       
-                       else {
+                        } else {
                           _AddTaskk();
-                       }
+                        }
                       },
                       style: ButtonStyle(
                           foregroundColor:
@@ -231,12 +270,9 @@ class _Mob_Add_TaskState extends State<Mob_Add_Task> {
                       ),
                     ),
                   ),
-                  
                 ],
               ),
             ),
-            
-            
           ],
         ),
       ),

@@ -2,23 +2,24 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_application_1/web/admin_details.dart';
+import 'package:animate_do/animate_do.dart';
+
 class StaffList extends StatefulWidget {
-  const StaffList({super.key});
+  const StaffList({Key? key}) : super(key: key);
 
   @override
   State<StaffList> createState() => _StaffListState();
 }
 
 class _StaffListState extends State<StaffList> {
-
   List<dynamic> items = [];
 
-  Future<void> fetchData() async{
+  Future<void> fetchData() async {
     var url = Uri.parse('https://creativecollege.in/Flutter/staff_list.php');
 
     var response = await http.get(url);
 
-    if (response.statusCode == 200){
+    if (response.statusCode == 200) {
       setState(() {
         items = json.decode(response.body);
       });
@@ -27,7 +28,7 @@ class _StaffListState extends State<StaffList> {
     }
   }
 
-    @override
+  @override
   void initState() {
     super.initState();
     fetchData();
@@ -37,40 +38,52 @@ class _StaffListState extends State<StaffList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Work Status'),
-        backgroundColor: Color.fromARGB(255, 191, 1, 243)
+        title: Text(
+          'Staff List',
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),
+        ),
       ),
-       body: ListView.builder(
+      body: ListView.builder(
         itemCount: items.length,
         itemBuilder: (BuildContext context, int index) {
-          return ListItemWithButton(item: '${items[index]['name']}');
+          return FadeInUp(
+            duration: Duration(milliseconds: 1000),
+            delay: Duration(milliseconds: 300 * index),
+            child: StaffCard(item: items[index]),
+          );
         },
       ),
     );
   }
 }
 
-class ListItemWithButton extends StatelessWidget {
-  final String item;
+class StaffCard extends StatelessWidget {
+  final Map<String, dynamic> item;
 
-  ListItemWithButton({required this.item});
+  StaffCard({required this.item});
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(item),
-      trailing: ElevatedButton(
-        onPressed: () {
-          Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => Details_admin_web(
-          name: item,
-           ),
-      ),
-    );
-        },
-        child: Text('Show Work Status'),
+    return Card(
+      margin: EdgeInsets.all(7),
+      child: Padding(
+        padding: EdgeInsets.all(8),
+        child: ListTile(
+          title: Text(item['name']),
+          trailing: ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Details_admin_web(
+                    name: item['name'],
+                  ),
+                ),
+              );
+            },
+            child: Text('Show Work Status'),
+          ),
+        ),
       ),
     );
   }

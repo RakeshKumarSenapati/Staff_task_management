@@ -2,9 +2,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
+import 'package:animate_do/animate_do.dart'; // Import the animate_do package
 
 class StaffDelete extends StatefulWidget {
-  const StaffDelete({super.key});
+  const StaffDelete({Key? key}) : super(key: key);
 
   @override
   State<StaffDelete> createState() => _StaffDeleteState();
@@ -37,24 +38,30 @@ class _StaffDeleteState extends State<StaffDelete> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Delete Staff'),
-        backgroundColor: Color.fromARGB(255, 255, 0, 0),
+        title: Text(
+          'Delete Staff',
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),
+        ),
       ),
       body: ListView.builder(
         itemCount: items.length,
         itemBuilder: (BuildContext context, int index) {
-          return ListItemWithButton(item: '${items[index]['name']}', fetchData: fetchData);
+          return FadeInUp( // Wrap your widget with FadeInUp
+            duration: Duration(milliseconds: 1000),
+            delay: Duration(milliseconds: 300 * index),
+            child: StaffCard(item: items[index], fetchData: fetchData),
+          );
         },
       ),
     );
   }
 }
 
-class ListItemWithButton extends StatelessWidget {
-  final String item;
+class StaffCard extends StatelessWidget {
+  final Map<String, dynamic> item;
   final Function fetchData;
 
-  ListItemWithButton({required this.item, required this.fetchData});
+  StaffCard({required this.item, required this.fetchData});
 
   Future<void> delete(String name) async {
     var url = Uri.parse('https://creativecollege.in/Flutter/Delete_staff.php?name=$name');
@@ -84,16 +91,25 @@ class ListItemWithButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(item),
-      trailing: ElevatedButton(
-        onPressed: () {
-          delete(item);
-        },
-        style: ElevatedButton.styleFrom(
-          backgroundColor: const Color.fromARGB(255, 243, 33, 33), // Change the button's background color here
+    return Card(
+      margin: EdgeInsets.all(10),
+      child: Padding(
+        padding: EdgeInsets.all(8),
+        child: ListTile(
+          title: Text(item['name']),
+          trailing: ElevatedButton(
+            onPressed: () {
+              delete(item['name']);
+            },
+            style: ElevatedButton.styleFrom(
+              primary: const Color.fromARGB(255, 243, 33, 33),
+            ),
+            child: Text(
+              'Delete',
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
         ),
-        child: Text('Delete'),
       ),
     );
   }

@@ -77,7 +77,7 @@ class _Web_SplashScreenState extends State<Web_SplashScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text(
-                      "Developed By TechnoCart ",
+                      "Developed By TechnoCrat ",
                       style: TextStyle(color: Colors.white),
                     ),
                     Image.asset(

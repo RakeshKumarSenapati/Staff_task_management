@@ -29,7 +29,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
   late List<Task> originalTasks = tasks;
   TaskStatus filter = TaskStatus.all;
   DateTime selectedDate = DateTime.now();
-  DateTime lastWeek = DateTime.now().subtract(Duration(days: 7));
+  DateTime lastWeek = DateTime.now().subtract(const Duration(days: 7));
   DateTime? selectedMonth;
 
   @override
@@ -106,7 +106,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
     setState(() {
       setFilter(TaskStatus.all);
       filter = TaskStatus.all;
-      lastWeek = DateTime.now().subtract(Duration(days: 7));
+      lastWeek = DateTime.now().subtract(const Duration(days: 7));
       tasks = tasks.where((task) {
         final taskDate = DateFormat("yyyy-MM-dd").parse(task.date);
         return taskDate.isAfter(lastWeek) ||
@@ -167,10 +167,10 @@ class _TaskListScreenState extends State<TaskListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Activity Manager'),
+        title: const Text('Activity Manager',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.blue)),
         actions: [
           PopupMenuButton<String>(
-            icon: Icon(Icons.calendar_today),
+            icon: const Icon(Icons.calendar_today),
             onSelected: (choice) {
               if (choice == 'Last Week') {
                 filterTasksLastWeek();
@@ -196,7 +196,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
         children: [
           Container(
             color: Colors.white,
-            padding: EdgeInsets.symmetric(vertical: 10),
+            padding: const EdgeInsets.symmetric(vertical: 10),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -231,7 +231,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Card(
@@ -249,7 +249,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
             margin: EdgeInsets.zero,
             elevation: 2,
           ),
-          SizedBox(
+          const SizedBox(
             height: 18,
           ),
           Expanded(
@@ -257,16 +257,16 @@ class _TaskListScreenState extends State<TaskListScreen> {
               decoration: BoxDecoration(
                 color: Colors.blue,
                 border: Border.all(color: Colors.black),
-                borderRadius: BorderRadius.only(
+                borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(20),
                   topRight: Radius.circular(20),
                 ),
               ),
-              padding: EdgeInsets.only(top: 15),
+              padding: const EdgeInsets.only(top: 15),
               child: ListView.builder(
                 itemCount: tasks.length,
                 itemBuilder: (BuildContext context, int index) {
-                  final task = tasks[index];
+                  final task = tasks.reversed.toList()[index];
                   if (filter != TaskStatus.all && task.status != filter) {
                     return Container();
                   }
@@ -283,7 +283,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
                   }
 
                   return Padding(
-                    padding: EdgeInsets.only(left: 5, right: 5),
+                    padding: const EdgeInsets.only(left: 5, right: 5),
                     child: Card(
                       child: SizedBox(
                         height: 70,
@@ -366,7 +366,7 @@ class FilterOption extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
           color: selected ? Colors.blue : Colors.white,
           border: Border.all(color: Colors.black),
@@ -399,11 +399,11 @@ class TaskCount extends StatelessWidget {
         TaskStatusIcon(taskStatus),
         Text(
           '$count',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
         Text(
           taskStatus.toString().split('.').last.toUpperCase(),
-          style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+          style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
         ),
       ],
     );

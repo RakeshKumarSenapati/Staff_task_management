@@ -41,12 +41,8 @@ class _ContactPage extends State<ContactPrev> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(
-        title: 'SELECT COURSE',
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(10),
-          topRight: Radius.circular(10),
-        ),
+      appBar: AppBar(
+        title: const Text('Course Selection'),
       ),
       body: Container(
         child: SingleChildScrollView(
@@ -193,307 +189,103 @@ class _Contact extends State<Contact> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          '${widget.course}',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        backgroundColor: Color(0xFFC21E56),
-        shape: ContinuousRectangleBorder(
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(80.0),
-            bottomRight: Radius.circular(80.0),
-          ),
-        ),
-        actions: [
-          Padding(
-            padding: EdgeInsets.only(right: 20.0),
-            child: IconButton(
-              icon: Icon(Icons.search),
-              onPressed: () {
-                showSearch(
-                  context: context,
-                  delegate: CustomSearchDelegate(data: data),
-                );
-              },
-            ),
-          ),
-        ],
+        title: Text('CONTACT'),
       ),
-      body: Column(
-        children: [
-          Padding(padding: EdgeInsets.all(16.0)),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              _buildYearButton('1st Year', '1st'),
-              _buildYearButton('2nd Year', '2nd'),
-              _buildYearButton('3rd Year', '3rd'),
-            ],
-          ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: data.length,
-              itemBuilder: (context, index) {
-                return Container(
-                  margin: const EdgeInsets.all(16.0),
-                  child: Card(
-                    child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      body: ListView.builder(
+        itemCount: data.length,
+        itemBuilder: (context, index) {
+          return Container(
+            margin: const EdgeInsets.all(16.0),
+        
+            child: Card(
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text('ID: ${data[index]['ID']}',
-                                          style: TextStyle(fontSize: 18)),
-                                      Text('Name: ${data[index]['NAME']}',
-                                          style: TextStyle(fontSize: 16)),
-                                    ],
-                                  ),
-                                ),
-                                IconButton(
-                                  icon: Icon(
-                                    isExpanded
-                                        ? Icons.arrow_drop_up
-                                        : Icons.arrow_drop_down,
-                                    size: 30,
-                                  ),
-                                  onPressed: () {
-                                    setState(() {
-                                      expandedIndex = (expandedIndex == index)
-                                          ? null
-                                          : index;
-                                    });
-                                  },
-                                ),
+                                Text('ID: ${data[index]['ID']}',
+                                    style: TextStyle(fontSize: 18)),
+                                Text('Name: ${data[index]['NAME']}',
+                                    style: TextStyle(fontSize: 16)),
                               ],
                             ),
-                            if (expandedIndex == index)
-                              Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Text(
-                                          'Student No: ${data[index]['MOB_NO']}',
-                                          style: TextStyle(fontSize: 18)),
-                                      IconButton(
-                                        icon: Icon(Icons.call),
-                                        onPressed: () {
-                                          String num = data[index]['MOB_NO'];
-                                          directCall(num);
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text('Father No: ${data[index]['F_MOB']}',
-                                          style: TextStyle(fontSize: 18)),
-                                      IconButton(
-                                        icon: Icon(Icons.call),
-                                        onPressed: () {
-                                          String num = data[index]['F_MOB'];
-                                          directCall(num);
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text('Mother No: ${data[index]['M_MOB']}',
-                                          style: TextStyle(fontSize: 18)),
-                                      IconButton(
-                                        icon: Icon(Icons.call),
-                                        onPressed: () {
-                                          String num = data[index]['M_MOB'];
-                                          directCall(num);
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                          ],
-                        ),
+                          ),
+                          IconButton(
+                            icon: Icon(
+                              isExpanded
+                                  ? Icons.arrow_drop_up
+                                  : Icons.arrow_drop_down,
+                              size: 30,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                expandedIndex = (expandedIndex == index) ? null : index;
+                              });
+                            },
+                          ),
+                        ],
                       ),
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class CustomSearchDelegate extends SearchDelegate<String> {
-  final List<dynamic> data;
-
-  CustomSearchDelegate({required this.data});
-
-  @override
-  List<Widget> buildActions(BuildContext context) {
-    return [
-      IconButton(
-        icon: Icon(Icons.clear),
-        onPressed: () {
-          query = '';
-        },
-      ),
-    ];
-  }
-
-  @override
-  Widget buildLeading(BuildContext context) {
-    return IconButton(
-      icon: Icon(Icons.arrow_back),
-      onPressed: () {
-        close(context, '');
-      },
-    );
-  }
-
-  @override
-  Widget buildResults(BuildContext context) {
-    List<dynamic> searchResults = data
-        .where((item) =>
-            item['ID'].toString().contains(query) ||
-            item['NAME'].toString().toLowerCase().contains(query.toLowerCase()))
-        .toList();
-
-    if (searchResults.isEmpty) {
-      return Center(
-        child: Text('No results found for: $query'),
-      );
-    }
-
-    return ListView.builder(
-      itemCount: searchResults.length,
-      itemBuilder: (context, index) {
-        return Container(
-          margin: const EdgeInsets.all(16.0),
-          child: Card(
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                      if (expandedIndex == index)
+                        Column(
+                          children: [
+                             Row(
                             children: [
-                              Text('ID: ${searchResults[index]['ID']}',
+                              Text('Student No: ${data[index]['MOB_NO']}',
                                   style: TextStyle(fontSize: 18)),
-                              Text('Name: ${searchResults[index]['NAME']}',
-                                  style: TextStyle(fontSize: 16)),
+                              IconButton(
+                                icon: Icon(Icons.call),
+                                onPressed: () {
+                                  String num = data[index]['MOB_NO'];
+                                  directCall(num);
+                                },
+                              ),
                             ],
                           ),
-                        ),
-                        IconButton(
-                          icon: Icon(
-                            Icons.arrow_drop_down,
-                            size: 30,
+                             Row(
+                            children: [
+                              Text('Father No: ${data[index]['F_MOB']}',
+                                  style: TextStyle(fontSize: 18)),
+                              IconButton(
+                                icon: Icon(Icons.call),
+                                onPressed: () {
+                                  String num = data[index]['MOB_NO'];
+                                  directCall(num);
+                                },
+                              ),
+                            ],
                           ),
-                          onPressed: () {},
-                        ),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        Row(
-                          children: [
-                            Text(
-                                'Student No: ${searchResults[index]['MOB_NO']}',
-                                style: TextStyle(fontSize: 18)),
-                            IconButton(
-                              icon: Icon(Icons.call),
-                              onPressed: () {
-                                String num = searchResults[index]['MOB_NO'];
-                                // Add your phone call functionality here
-                              },
-                            ),
+                             Row(
+                            children: [
+                              Text('Mother No: ${data[index]['M_MOB']}',
+                                  style: TextStyle(fontSize: 18)),
+                              IconButton(
+                                icon: Icon(Icons.call),
+                                onPressed: () {
+                                  String num = data[index]['MOB_NO'];
+                                  directCall(num);
+                                },
+                              ),
+                            ],
+                          ),
                           ],
                         ),
-                        Row(
-                          children: [
-                            Text('Father No: ${searchResults[index]['F_MOB']}',
-                                style: TextStyle(fontSize: 18)),
-                            IconButton(
-                              icon: Icon(Icons.call),
-                              onPressed: () {
-                                String num = searchResults[index]['F_MOB'];
-                                // Add your phone call functionality here
-                              },
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Text('Mother No: ${searchResults[index]['M_MOB']}',
-                                style: TextStyle(fontSize: 18)),
-                            IconButton(
-                              icon: Icon(Icons.call),
-                              onPressed: () {
-                                String num = searchResults[index]['M_MOB'];
-                                // Add your phone call functionality here
-                              },
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        );
-      },
-    );
-  }
-
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    List<dynamic> suggestionResults = data
-        .where((item) =>
-            item['ID'].toString().contains(query) ||
-            item['NAME'].toString().toLowerCase().contains(query.toLowerCase()))
-        .toList();
-
-    if (suggestionResults.isEmpty) {
-      return Center(
-        child: Text('No suggestions for: $query'),
-      );
-    }
-
-    return ListView.builder(
-      itemCount: suggestionResults.length,
-      itemBuilder: (context, index) {
-        return ListTile(
-          title: Text(
-            'ID: ${suggestionResults[index]['ID']} - Name: ${suggestionResults[index]['NAME']}',
-          ),
-          onTap: () {
-            query = suggestionResults[index]['ID'].toString();
-            showResults(context);
-          },
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

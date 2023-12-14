@@ -53,6 +53,7 @@ dependencies:
   flutter_barcode_sdk: ^2.2.6
   url_launcher: ^6.2.1
   flutter_phone_direct_caller: ^2.1.1
+  animate_do: ^3.1.2
 
    
   

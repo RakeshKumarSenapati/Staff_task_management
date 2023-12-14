@@ -3,18 +3,18 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
-class Web_Add_TAsk extends StatefulWidget {
-  const Web_Add_TAsk({super.key});
+class Web_Add_Task extends StatefulWidget {
+  const Web_Add_Task({Key? key}) : super(key: key);
 
   @override
-  _Web_Add_TAskState createState() => _Web_Add_TAskState();
+  _WebAddTaskState createState() => _WebAddTaskState();
 }
 
-class _Web_Add_TAskState extends State<Web_Add_TAsk> {
-  TextEditingController TITLE = TextEditingController();
-  TextEditingController DESCRIPTION = TextEditingController();
+class _WebAddTaskState extends State<Web_Add_Task> {
+  TextEditingController titleController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
 
-  late String userID='';
+  late String userID = '';
 
   Future<void> retrieveStoredData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -29,40 +29,38 @@ class _Web_Add_TAskState extends State<Web_Add_TAsk> {
     });
   }
 
-   Future<void> _AdddTaskk() async {
-     final response = await http.post(
+  Future<void> addTask() async {
+    final response = await http.post(
       Uri.parse('https://creativecollege.in/Flutter/AddTask.php'),
       body: {
-        'TITLE': TITLE.text,
-        'DESCRIPTION': DESCRIPTION.text,
+        'TITLE': titleController.text,
+        'DESCRIPTION': descriptionController.text,
         'userID': userID,
-        // 'STARTDATE': currentDate.toLocal(),
       },
     );
     if (response.statusCode == 200) {
       if (response.body == 'Success') {
         Fluttertoast.showToast(
-          msg: 'WORK ADDED',
+          msg: 'Work Added',
           gravity: ToastGravity.BOTTOM,
           backgroundColor: Colors.green,
           textColor: Colors.white,
         );
-        DESCRIPTION.text='';
-        TITLE.text='';
+        descriptionController.text = '';
+        titleController.text = '';
       } else {
         Fluttertoast.showToast(
           msg: 'Failed Loading',
           gravity: ToastGravity.BOTTOM,
-          backgroundColor: Colors.green,
+          backgroundColor: Colors.red,
           textColor: Colors.white,
         );
-        
       }
     } else {
       Fluttertoast.showToast(
-        msg: 'EXCEPTION',
+        msg: 'Exception',
         gravity: ToastGravity.BOTTOM,
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.red,
         textColor: Colors.white,
       );
     }
@@ -71,216 +69,143 @@ class _Web_Add_TAskState extends State<Web_Add_TAsk> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SingleChildScrollView(
-      child: Container(
-        margin: const EdgeInsets.only(top: 10),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            const Center(
-              child: Text(
-                "ADD WORK",
-                style: TextStyle(fontSize: 23, fontWeight: FontWeight.w700),
-              ), ),
-            Row(
-              children: [
-                Container(
-                  margin: const EdgeInsets.only(left: 10),
-                  child: const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: CircleAvatar(
-                      backgroundColor: Colors.blue,
-                      backgroundImage:
-                          AssetImage("assets/images/technocart.png"),
-                      radius: 40,
-                    ),
-                  ),
-                ),
-                Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        const Text(
-                          "Hello  ",
-                          style: TextStyle(fontSize: 20),
-                        ),
-                        Text(
-                          userID,
-                          style: const TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.w800),
-                        ),
-                       
-                      ],
-                    ))
-              ],
-            ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
+      body: SingleChildScrollView(
+        child: Container(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Add Work',
+                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 20),
+              Row(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 50),
-                    child: Container(
-                      // color: Colors.amber,
-                      child: Column(children: [
-                        Padding(
-                          padding: const EdgeInsets.only(right: 12),
-                          child: SingleChildScrollView(
-                            child: Container(
-                                width: 400,
-                                child: Column(
-                                  children: [
-                                    const Text(
-                                      "Title Of Work:-",
-                                      style: TextStyle(
-                                          fontSize: 17,
-                                          fontWeight: FontWeight.w400),
-                                    ),
-                                    TextField(
-                                      controller:TITLE ,
-                                      decoration: InputDecoration(
-                                          hintText: "Enter The  work",
-                                          // enabled: true,
-                                          focusedBorder:
-                                              const OutlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                      color:
-                                                          Color
-                                                              .fromARGB(232, 95,
-                                                                  1, 105),
-                                                      width: 2)),
-                                          enabledBorder:
-                                              const OutlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                      color: Colors.black,
-                                                      width: 1.5)),
-                                          border: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10))),
-                                    )
-                                  ],
-                                )),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              top: 40, right: 12, left: 12),
-                          child: Container(
-                              width: 400,
-                              child: Column(
-                                children: [
-                                  const Text(
-                                    "Description Of Work:-",
-                                    style: TextStyle(
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                  SingleChildScrollView(
-                                    child: TextFormField(
-                                      controller: DESCRIPTION,
-                                      maxLines: null,
-                                      decoration: InputDecoration(
-                                          hintText:
-                                              "Enter The description of work",
-                                          contentPadding: const EdgeInsets.only(
-                                              top: 0.0,
-                                              bottom: 110.0,
-                                              left: 20.0,
-                                              right: 23.0),
-                                          focusedBorder:
-                                              const OutlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                      color:
-                                                          Color
-                                                              .fromARGB(232, 95,
-                                                                  1, 105),
-                                                      width: 2)),
-                                          enabledBorder:
-                                              const OutlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                      color: Colors.black,
-                                                      width: 1.5)),
-                                          border: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10))),
-                                    ),
-                                  ),
-                                ],
-                              )),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 25),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(right: 23),
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    if(TITLE.text=='')
-                                      {
-                                          Fluttertoast.showToast(
-                                            msg: 'TITLE IS EMPTY',
-                                            gravity: ToastGravity.BOTTOM,
-                                            backgroundColor: Colors.green,
-                                            textColor: Colors.white,
-                                          );
-                                      }
-                                      
-                                      else {
-                                          _AdddTaskk();
-                                      }
-                                  },
-                                  style: ButtonStyle(
-                                      foregroundColor:
-                                          MaterialStateProperty.all(
-                                              Colors.white),
-                                      backgroundColor:
-                                          MaterialStateProperty.all(
-                                              Colors.blue),
-                                      elevation:
-                                          MaterialStateProperty.all<double>(
-                                              5.0),
-                                      shadowColor:
-                                          MaterialStateProperty.all<Color>(
-                                              Colors.black),
-                                      minimumSize:
-                                          MaterialStateProperty.all<Size>(
-                                              const Size(100.0, 50.0)),
-                                      shape: MaterialStateProperty.all<
-                                          RoundedRectangleBorder>(
-                                        RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(13),
-                                            side: const BorderSide(
-                                                color: Colors.black, width: 2)),
-                                      ),
-                                      overlayColor: MaterialStateProperty.all(
-                                          const Color.fromARGB(
-                                              255, 51, 24, 148))),
-                                  child: const Text(
-                                    "Add",
-                                    style: TextStyle(
-                                      fontSize: 22,
-                                      fontWeight: FontWeight.w900,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              
-                            ],
-                          ),
-                        ),
-                      ]),
-                    ),
+                  CircleAvatar(
+                    backgroundColor: Colors.blue,
+                    backgroundImage: AssetImage("assets/images/technocart.png"),
+                    radius: 40,
                   ),
-                  
+                  const SizedBox(width: 10),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Hello,',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                      Text(
+                        userID,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
-            ),
-          ],
+              const SizedBox(height: 20),
+              TextField(
+                controller: titleController,
+                decoration: InputDecoration(
+                  hintText: 'Enter the work',
+                  focusedBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Color.fromARGB(232, 95, 1, 105),
+                      width: 2,
+                    ),
+                  ),
+                  enabledBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.black,
+                      width: 1.5,
+                    ),
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  contentPadding: const EdgeInsets.symmetric(
+                    vertical: 15,
+                    horizontal: 20,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              TextField(
+                controller: descriptionController,
+                maxLines: null, // Set maxLines to null for multiline input
+                decoration: InputDecoration(
+                  hintText: 'Enter the description of work',
+                  focusedBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Color.fromARGB(232, 95, 1, 105),
+                      width: 1,
+                    ),
+                  ),
+                  enabledBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.black,
+                      width: 1.5,
+                    ),
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  contentPadding: const EdgeInsets.symmetric(
+                    vertical:
+                        40, // Increase the vertical padding for more height
+                    horizontal: 20,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      if (titleController.text == '') {
+                        Fluttertoast.showToast(
+                          msg: 'Title is empty',
+                          gravity: ToastGravity.BOTTOM,
+                          backgroundColor: Colors.red,
+                          textColor: Colors.white,
+                        );
+                      } else {
+                        addTask();
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.blue,
+                      onPrimary: Colors.white,
+                      elevation: 5,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(13),
+                        side: const BorderSide(color: Colors.black, width: 2),
+                      ),
+                    ),
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(
+                        vertical: 10,
+                        horizontal: 20,
+                      ),
+                      child: Text(
+                        'Add',
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
-    ));
+    );
   }
 }
