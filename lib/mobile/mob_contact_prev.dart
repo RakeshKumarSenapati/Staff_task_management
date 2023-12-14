@@ -24,6 +24,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       shape: RoundedRectangleBorder(
         borderRadius: borderRadius,
       ),
+      elevation: 5, // Add elevation for shadow
     );
   }
 }
@@ -44,8 +45,8 @@ class _ContactPage extends State<ContactPrev> {
       appBar: CustomAppBar(
         title: 'SELECT COURSE',
         borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(10),
-          topRight: Radius.circular(10),
+          topLeft: Radius.circular(30),
+          topRight: Radius.circular(30),
         ),
       ),
       body: Container(
@@ -55,7 +56,7 @@ class _ContactPage extends State<ContactPrev> {
             child: Column(
               children: [
                 for (String course in allowedCourses)
-                  CardItem(course, const Color(0xFFC21E56)),
+                  CardItem(course, Color(0xFFC21E56)),
               ],
             ),
           ),
@@ -68,6 +69,7 @@ class _ContactPage extends State<ContactPrev> {
     return Card(
       color: cardColor,
       margin: EdgeInsets.only(top: 16),
+      elevation: 5, // Add elevation for shadow
       child: InkWell(
         onTap: () {
           _navigateToContactPage(course);
@@ -118,9 +120,6 @@ class Contact extends StatefulWidget {
 class _Contact extends State<Contact> {
   int? expandedIndex;
   String selectedYear = '1st'; // Added line to store the selected year
-  directCall(String number) async {
-    await FlutterPhoneDirectCaller.callNumber(number);
-  }
 
   List<dynamic> data = [];
   String Course = '';
@@ -160,37 +159,55 @@ class _Contact extends State<Contact> {
   }
 
   Widget _buildYearButton(String label, String year) {
-    Color customColor = Color(0xFFC21E56);
-    Color innerColor = Color(0xFFF09FDE);
+  Color customColor = Color(0xFFC21E56);
+  Color innerColor = Color(0xFFF09FDE);
+  Color selectedColor = Color(0xFFC21E56); // Set your selected color here
+  Color textColor = Colors.black; // Set the default text color
 
-    return Container(
-      child: ElevatedButton(
-        onPressed: () {
+  if (selectedYear == year) {
+    textColor = Colors.white; // Change text color to white for the selected button
+  }
+
+  return Container(
+    child: ElevatedButton(
+      onPressed: () {
+        setState(() {
           selectedYear = year; // Update the selected year
           fetchDataForYear();
-        },
-        style: ElevatedButton.styleFrom(
-          primary: innerColor,
-          onPrimary: Colors.black,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30.0),
-            side: BorderSide(color: customColor),
+        });
+      },
+      style: ElevatedButton.styleFrom(
+        primary: selectedYear == year ? selectedColor : innerColor,
+        onPrimary: textColor, // Set text color
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30.0),
+          side: BorderSide(color: customColor),
+        ),
+        elevation: 5, // Add elevation for shadow
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Text(
+          label,
+          style: TextStyle(
+            color: textColor, // Set text color
+            fontWeight: FontWeight.bold,
           ),
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(label, style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
-        ),
       ),
-    );
-  }
+    ),
+  );
+}
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('${widget.course}',
-          style: TextStyle(fontWeight: FontWeight.bold),),
+        title: Text(
+          '${widget.course}',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
         backgroundColor: Color(0xFFC21E56),
         shape: ContinuousRectangleBorder(
           borderRadius: BorderRadius.only(
@@ -201,6 +218,7 @@ class _Contact extends State<Contact> {
         actions: [
           Padding(
             padding: EdgeInsets.only(right: 20.0),
+            
             child: IconButton(
               icon: Icon(Icons.search),
               onPressed: () {
@@ -243,7 +261,8 @@ class _Contact extends State<Contact> {
                               children: [
                                 Expanded(
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text('ID: ${data[index]['ID']}',
                                           style: TextStyle(fontSize: 18)),
@@ -261,8 +280,9 @@ class _Contact extends State<Contact> {
                                   ),
                                   onPressed: () {
                                     setState(() {
-                                      expandedIndex =
-                                          (expandedIndex == index) ? null : index;
+                                      expandedIndex = (expandedIndex == index)
+                                          ? null
+                                          : index;
                                     });
                                   },
                                 ),
@@ -273,30 +293,41 @@ class _Contact extends State<Contact> {
                                 children: [
                                   Row(
                                     children: [
-                                      Icon(Icons.phone),
-                                      SizedBox(width: 8),
                                       Text(
-                                        'Phone: ${data[index]['PHONE']}',
-                                        style: TextStyle(fontSize: 16),
-                                      ),
-                                      SizedBox(width: 16),
-                                      ElevatedButton(
+                                          'Student No: ${data[index]['MOB_NO']}',
+                                          style: TextStyle(fontSize: 18)),
+                                      IconButton(
+                                        icon: Icon(Icons.call),
                                         onPressed: () {
-                                          _makePhoneCall(
-                                              data[index]['PHONE']);
+                                          String num = data[index]['MOB_NO'];
+                                          CustomSearchDelegate.directCall(num);
                                         },
-                                        child: Text('Call'),
                                       ),
                                     ],
                                   ),
-                                  SizedBox(height: 8),
                                   Row(
                                     children: [
-                                      Icon(Icons.email),
-                                      SizedBox(width: 8),
-                                      Text(
-                                        'Email: ${data[index]['EMAIL']}',
-                                        style: TextStyle(fontSize: 16),
+                                      Text('Father No: ${data[index]['F_MOB']}',
+                                          style: TextStyle(fontSize: 18)),
+                                      IconButton(
+                                        icon: Icon(Icons.call),
+                                        onPressed: () {
+                                          String num = data[index]['F_MOB'];
+                                          CustomSearchDelegate.directCall(num);
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text('Mother No: ${data[index]['M_MOB']}',
+                                          style: TextStyle(fontSize: 18)),
+                                      IconButton(
+                                        icon: Icon(Icons.call),
+                                        onPressed: () {
+                                          String num = data[index]['M_MOB'];
+                                          CustomSearchDelegate.directCall(num);
+                                        },
                                       ),
                                     ],
                                   ),
@@ -317,65 +348,180 @@ class _Contact extends State<Contact> {
   }
 }
 
-class CustomSearchDelegate extends SearchDelegate {
+class CustomSearchDelegate extends SearchDelegate<String> {
   final List<dynamic> data;
 
   CustomSearchDelegate({required this.data});
+
+  // Move the directCall method outside the CustomSearchDelegate class
+  static directCall(String number) async {
+    await FlutterPhoneDirectCaller.callNumber(number);
+  }
 
   @override
   List<Widget> buildActions(BuildContext context) {
     return [
       IconButton(
+        icon: Icon(Icons.clear),
         onPressed: () {
           query = '';
         },
-        icon: Icon(Icons.clear),
-      )
+      ),
     ];
   }
 
   @override
   Widget buildLeading(BuildContext context) {
     return IconButton(
+      icon: Icon(Icons.arrow_back),
       onPressed: () {
         close(context, '');
       },
-      icon: Icon(Icons.arrow_back),
     );
   }
 
   @override
   Widget buildResults(BuildContext context) {
-    List<dynamic> results = data
-        .where((element) =>
-            element['NAME'].toLowerCase().contains(query.toLowerCase()))
+    List<dynamic> searchResults = data
+        .where((item) =>
+            item['ID'].toString().contains(query) ||
+            item['NAME'].toString().toLowerCase().contains(query.toLowerCase()))
         .toList();
 
-    return _buildSearchResults(results);
+    if (searchResults.isEmpty) {
+      return Center(
+        child: Text('No results found for: $query'),
+      );
+    }
+
+    return ListView.builder(
+      itemCount: searchResults.length,
+      itemBuilder: (context, index) {
+        return Container(
+          margin: const EdgeInsets.all(16.0),
+          child: Card(
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('ID: ${searchResults[index]['ID']}',
+                                  style: TextStyle(fontSize: 18)),
+                              Text('Name: ${searchResults[index]['NAME']}',
+                                  style: TextStyle(fontSize: 16)),
+                            ],
+                          ),
+                        ),
+                        IconButton(
+                          icon: Icon(
+                            Icons.arrow_drop_down,
+                            size: 30,
+                          ),
+                          onPressed: () {},
+                        ),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        Row(
+                          children: [
+                            Text(
+                                'Student No: ${searchResults[index]['MOB_NO']}',
+                                style: TextStyle(fontSize: 18)),
+                            IconButton(
+                              icon: Icon(Icons.call),
+                              onPressed: () {
+                                String num =
+                                    searchResults[index]['MOB_NO'];
+                                CustomSearchDelegate.directCall(num);
+                              },
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                                'Father No: ${searchResults[index]['F_MOB']}',
+                                style: TextStyle(fontSize: 18)),
+                            IconButton(
+                              icon: Icon(Icons.call),
+                              onPressed: () {
+                                String num =
+                                    searchResults[index]['F_MOB'];
+                                CustomSearchDelegate.directCall(num);
+                              },
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                                'Mother No: ${searchResults[index]['M_MOB']}',
+                                style: TextStyle(fontSize: 18)),
+                            IconButton(
+                              icon: Icon(Icons.call),
+                              onPressed: () {
+                                String num =
+                                    searchResults[index]['M_MOB'];
+                                CustomSearchDelegate.directCall(num);
+                              },
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    List<dynamic> results = data
-        .where((element) =>
-            element['NAME'].toLowerCase().contains(query.toLowerCase()))
+    List<dynamic> suggestionResults = data
+        .where((item) =>
+            item['ID'].toString().contains(query) ||
+            item['NAME'].toString().toLowerCase().contains(query.toLowerCase()))
         .toList();
 
-    return _buildSearchResults(results);
-  }
+    if (suggestionResults.isEmpty) {
+      return Center(
+        child: Text('No suggestions for: $query'),
+      );
+    }
 
-  Widget _buildSearchResults(List<dynamic> results) {
     return ListView.builder(
-      itemCount: results.length,
+      itemCount: suggestionResults.length,
       itemBuilder: (context, index) {
         return ListTile(
-          title: Text(results[index]['NAME']),
-          subtitle: Text('ID: ${results[index]['ID']}'),
+          title: Text(
+            'ID: ${suggestionResults[index]['ID']} - Name: ${suggestionResults[index]['NAME']}',
+          ),
           onTap: () {
-            // Handle the item tap if needed
+            query = suggestionResults[index]['ID'].toString();
+            showResults(context);
           },
         );
       },
     );
   }
+}
+
+void main() {
+  runApp(MaterialApp(
+    home: ContactPrev(),
+  ));
 }
