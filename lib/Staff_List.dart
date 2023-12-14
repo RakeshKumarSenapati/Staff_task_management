@@ -46,7 +46,7 @@ class _StaffListState extends State<StaffList> {
       body: ListView.builder(
         itemCount: items.length,
         itemBuilder: (BuildContext context, int index) {
-          return FadeInUp(
+          return FadeInDown(
             duration: Duration(milliseconds: 1000),
             delay: Duration(milliseconds: 300 * index),
             child: StaffCard(item: items[index]),

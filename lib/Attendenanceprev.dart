@@ -48,7 +48,7 @@ class _Attendananceprev extends State<Attendananceprev> {
         itemBuilder: (BuildContext context, int index) {
           return Padding(
             padding: const EdgeInsets.only(top: 8),
-            child: FadeInUp(
+            child: FadeInRight(
               duration: Duration(milliseconds: 1000),
               delay: Duration(milliseconds: index * 300),
               child: Card(
