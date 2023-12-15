@@ -172,7 +172,9 @@ class _MobAddTaskState extends State<Mob_Add_Task> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  ElevatedButton(
+                  FadeInLeftBig(
+                    duration: Duration(milliseconds: 1500),
+                    child: ElevatedButton(
                 onPressed: () {
                   if (titleController.text.isEmpty) {
                     Fluttertoast.showToast(
@@ -196,8 +198,10 @@ class _MobAddTaskState extends State<Mob_Add_Task> {
                   'Add',
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.w900),
                 ),
-              ),
-              ElevatedButton(
+              ),),
+              FadeInRightBig(
+                duration: Duration(milliseconds: 1500),
+                child:  ElevatedButton(
                 onPressed: () {
                   titleController.clear();
                 descriptionController.clear();},
@@ -208,11 +212,11 @@ class _MobAddTaskState extends State<Mob_Add_Task> {
                     borderRadius: BorderRadius.circular(13),
                   ),
                 ),
-                child: const Text(
+                child:  Text(
                   'Clear',
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.w900),
                 ),
-              ),
+              ),)
                 ],
               )
             ),

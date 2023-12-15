@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
@@ -189,22 +190,24 @@ class _TaskListScreenState extends State<TaskListScreen> {
     return Padding(
       padding: const EdgeInsets.all(5),
       child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            buildFilterOption(" Today ", () => filterTasksToday()),
-            buildFilterOption(" This Week ", () => filterTasksLastWeek()),
-            buildFilterOption(" This Month ", () {
-              _selectMonth(context);
-            }),
-            buildFilterOption(" This Year ", () {
-              _selectYear(context);
-            }),
-            buildFilterOption(" All ", () => setFilter(TaskStatus.all)),
-          ],
-        ),
-      ),
+          scrollDirection: Axis.horizontal,
+          child: FadeInLeftBig(
+            duration: Duration(milliseconds: 1500),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                buildFilterOption(" Today ", () => filterTasksToday()),
+                buildFilterOption(" This Week ", () => filterTasksLastWeek()),
+                buildFilterOption(" This Month ", () {
+                  _selectMonth(context);
+                }),
+                buildFilterOption(" This Year ", () {
+                  _selectYear(context);
+                }),
+                buildFilterOption(" All ", () => setFilter(TaskStatus.all)),
+              ],
+            ),
+          )),
     );
   }
 
@@ -238,151 +241,121 @@ class _TaskListScreenState extends State<TaskListScreen> {
       key: _scaffoldKey,
       body: Column(
         children: [
-          ClipPath(
-            clipper: AppBarClipper(),
-            child: Container(
-              width: double.infinity,
-              height: 200,
-              decoration: BoxDecoration(
-                color: _color1,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      SizedBox(height: 30),
-                      Padding(
-                        padding: EdgeInsets.all(20),
-                        child: Icon(
-                          Icons.person,
-                          color: Colors.black,
-                          size: 75,
+          FadeInDown(
+            duration: Duration(milliseconds: 1500),
+            child: ClipPath(
+              clipper: AppBarClipper(),
+              child: Container(
+                width: double.infinity,
+                height: 200,
+                decoration: BoxDecoration(
+                  color: _color1,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 30),
+                        Padding(
+                          padding: EdgeInsets.all(20),
+                          child: Icon(
+                            Icons.person,
+                            color: Colors.black,
+                            size: 75,
+                          ),
                         ),
+                      ],
+                    ),
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(top: 90),
+                            child: Text(
+                              name,
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                  Expanded(
-                    child: Column(
+                    ),
+                    Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(top: 90),
-                          child: Text(
-                            name,
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
+                          padding: const EdgeInsets.only(
+                              top: 40, left: 16), // Adjust left padding
+                          child: Builder(
+                            builder: (context) => IconButton(
+                              icon: Icon(Icons.menu),
+                              iconSize: 35,
+                              onPressed: () {
+                                Scaffold.of(context).openEndDrawer();
+                              },
                             ),
                           ),
                         ),
                       ],
                     ),
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            top: 40, left: 16), // Adjust left padding
-                        child: Builder(
-                          builder: (context) => IconButton(
-                            icon: Icon(Icons.menu),
-                            iconSize: 35,
-                            onPressed: () {
-                              Scaffold.of(context).openEndDrawer();
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
-
-// Your existing code...
-
           buildFilterOptions(),
           SizedBox(
             height: 10,
           ),
           Container(
-            height: 370,
-            child: ListView.builder(
-              padding: EdgeInsets.zero,
-              itemCount: tasks.length,
-              itemBuilder: (BuildContext context, int index) {
-                final task = tasks.reversed.toList()[index];
+              height: 370,
+              child: ListView.builder(
+                padding: EdgeInsets.zero,
+                itemCount: tasks.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final task = tasks.reversed.toList()[index];
 
-                if (filter != TaskStatus.all && task.status != filter) {
-                  return Container();
-                }
+                  if (filter != TaskStatus.all && task.status != filter) {
+                    return Container();
+                  }
 
-                String dateToShow = '';
+                  String dateToShow = '';
 
-                if (task.status == TaskStatus.completed) {
-                  dateToShow = task.endDate;
-                } else if (task.status == TaskStatus.active) {
-                  dateToShow = task.startDate;
-                } else if (task.status == TaskStatus.pending) {
-                  dateToShow = task.date;
-                }
+                  if (task.status == TaskStatus.completed) {
+                    dateToShow = task.endDate;
+                  } else if (task.status == TaskStatus.active) {
+                    dateToShow = task.startDate;
+                  } else if (task.status == TaskStatus.pending) {
+                    dateToShow = task.date;
+                  }
 
-                return Padding(
-                  padding: EdgeInsets.only(left: 5, right: 5),
-                  child: Card(
-                    child: SizedBox(
-                      height: 70,
-                      child: Center(
-                        child: ListTile(
-                          leading: TaskStatusIcon(task.status),
-                          title: Text(task.name),
-                          trailing: Text(dateToShow),
+                  return Padding(
+                    padding: EdgeInsets.only(left: 5, right: 5),
+                    child: FadeInRightBig(
+                      duration: Duration(milliseconds: 1500),
+                      delay: Duration(milliseconds: index * 200),
+                      child: Card(
+                        child: SizedBox(
+                          height: 70,
+                          child: Center(
+                            child: ListTile(
+                              leading: TaskStatusIcon(task.status),
+                              title: Text(task.name),
+                              trailing: Text(dateToShow),
+                            ),
+                          ),
                         ),
+                        elevation: 1,
                       ),
                     ),
-                    elevation: 1,
-                  ),
-                );
-              },
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: _color1,
-                border: Border.all(color: Colors.black),
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(80),
-                  topRight: Radius.circular(80),
-                ),
-              ),
-              child: Center(
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(color: Colors.black, width: 2.0),
-                    borderRadius: BorderRadius.circular(0.0),
-                  ),
-                  elevation: 1,
-                  child: Container(
-                    width: 50,
-                    height: 50,
-                    child: Icon(
-                      Icons.checklist,
-                      size: 35,
-                    ),
-                  ),
-                  color: _color1,
-                ),
-              ),
-            ),
-          ),
+                  );
+                },
+              )),
         ],
       ),
       endDrawer: Drawer(
