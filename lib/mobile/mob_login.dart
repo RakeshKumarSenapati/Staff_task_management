@@ -89,198 +89,180 @@ class _Mob_Login_PageState extends State<Mob_Login_Page> {
     }
   }
 
-  @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Scaffold(
-      body: Container(
-        height: double.maxFinite,
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [g1, g2]),
-        ),
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.all(size.height * 0.030),
-            child: OverflowBar(
-              overflowAlignment: OverflowBarAlignment.center,
-              overflowSpacing: size.height * 0.014,
-              children: [
+        backgroundColor: Colors.white,
+        body: SingleChildScrollView(
+          child: Container(
+            child: Column(
+              children: <Widget>[
                 Container(
-                  // width: 280,
-                  // height: ,
-
-                  // padding: EdgeInsets.only(bottom: 20),
-                  padding: EdgeInsets.all(size.height * 0.065),
-                  decoration: const BoxDecoration(),
-                  child: Image.asset(image2),
-                ),
-                FadeInDown(
-                  duration: Duration(milliseconds: 2000),
-                  child: Text(
-                    "Welcome Back !",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 20,
-                      color: Colors.black,
-                    ),
+                  height: 400,
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: AssetImage('assets/images/background.png'),
+                          fit: BoxFit.fill)),
+                  child: Stack(
+                    children: <Widget>[
+                      Positioned(
+                        left: 30,
+                        width: 80,
+                        height: 200,
+                        child: FadeInUp(
+                            duration: Duration(seconds: 1),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: AssetImage(
+                                          'assets/images/light-1.png'))),
+                            )),
+                      ),
+                      Positioned(
+                        left: 140,
+                        width: 80,
+                        height: 150,
+                        child: FadeInUp(
+                            duration: Duration(milliseconds: 1200),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: AssetImage(
+                                          'assets/images/light-2.png'))),
+                            )),
+                      ),
+                      Positioned(
+                        right: 40,
+                        top: 40,
+                        width: 80,
+                        height: 150,
+                        child: FadeInUp(
+                            duration: Duration(milliseconds: 1300),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: AssetImage(
+                                          'assets/images/clock.png'))),
+                            )),
+                      ),
+                      Positioned(
+                        child: FadeInUp(
+                            duration: Duration(milliseconds: 1600),
+                            child: Container(
+                              margin: EdgeInsets.only(top: 50),
+                              child: Center(
+                                child: Text(
+                                  "Login",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 40,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            )),
+                      )
+                    ],
                   ),
                 ),
-                FadeInDown(
-                  duration: Duration(milliseconds: 2000),
-                  child: Text(
-                    "Please , Login",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 34,
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-                SizedBox(height: size.height * 0.024),
-                Form(
-                    child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    FadeInLeft(
-                        duration: Duration(milliseconds: 3000),
-                        child: TextFormField(
-                          controller: user,
-                          keyboardType: TextInputType.text,
-                          style: const TextStyle(color: kInputColor),
-                          decoration: InputDecoration(
-                            contentPadding:
-                                const EdgeInsets.symmetric(vertical: 25.0),
-                            filled: true,
-                            hintText: "User Name",
-                            prefixIcon: IconButton(
-                                onPressed: () {},
-                                icon: SvgPicture.asset(userIcon)),
-                            fillColor: kWhiteColor,
-                            border: OutlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.grey),
-                              borderRadius: BorderRadius.circular(36),
+                Padding(
+                  padding: EdgeInsets.all(30.0),
+                  child: Column(
+                    children: <Widget>[
+                      FadeInUp(
+                          duration: Duration(milliseconds: 1800),
+                          child: Container(
+                            padding: EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(
+                                    color: Color.fromRGBO(143, 148, 251, 1)),
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Color.fromRGBO(143, 148, 251, .2),
+                                      blurRadius: 20.0,
+                                      offset: Offset(0, 10))
+                                ]),
+                            child: Column(
+                              children: <Widget>[
+                                Container(
+                                  padding: EdgeInsets.all(8.0),
+                                  decoration: BoxDecoration(
+                                      border: Border(
+                                          bottom: BorderSide(
+                                              color: Color.fromRGBO(
+                                                  143, 148, 251, 1)))),
+                                  child: TextField(
+                                    controller: user,
+                                    decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                        hintText: "Username",
+                                        hintStyle:
+                                            TextStyle(color: Colors.grey[700])),
+                                  ),
+                                ),
+                                Container(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: TextField(
+                                    controller: pass,
+                                    obscureText: true,
+                                    decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                        hintText: "Password",
+                                        hintStyle:
+                                            TextStyle(color: Colors.grey[700])),
+                                  ),
+                                )
+                              ],
+                            ),
+                          )),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      FadeInUp(
+                        duration: Duration(milliseconds: 1900),
+                        child: InkWell(
+                          onTap: () {
+                            _login();
+                          },
+                          child: Container(
+                            height: 50,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              gradient: LinearGradient(
+                                colors: [
+                                  Color.fromRGBO(143, 148, 251, 1),
+                                  Color.fromRGBO(143, 148, 251, .6),
+                                ],
+                              ),
+                            ),
+                            child: Center(
+                              child: Text(
+                                "Login",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                             ),
                           ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter username';
-                            }
-                            return null;
-                          },
-                        )),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    FadeInRight(
-                        duration: Duration(milliseconds: 3000),
-                        child: TextFormField(
-                          controller: pass,
-                          obscureText: true,
-                          keyboardType: TextInputType.text,
-                          style: const TextStyle(color: kInputColor),
-                          decoration: InputDecoration(
-                            contentPadding:
-                                const EdgeInsets.symmetric(vertical: 25.0),
-                            filled: true,
-                            hintText: "Password",
-                            prefixIcon: IconButton(
-                                onPressed: () {},
-                                icon: SvgPicture.asset(keyIcon)),
-                            fillColor: kWhiteColor,
-                            border: OutlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.grey),
-                              borderRadius: BorderRadius.circular(36),
-                            ),
-                          ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter the password';
-                            }
-                            return null;
-                          },
-                        )),
-                  ],
-                )),
-                SizedBox(
-                  height: size.height * 0.014,
-                ),
-                FadeInUp(
-                  duration: Duration(milliseconds: 3000),
-                 
-                  child: CupertinoButton(
-                    padding: EdgeInsets.zero,
-                    child: Container(
-                      alignment: Alignment.center,
-                      width: double.infinity,
-                      height: size.height * 0.080,
-                      decoration: BoxDecoration(
-                        color: kButtonColor,
-                        borderRadius: BorderRadius.circular(37),
-                      ),
-                      child: const Text(
-                        "Login",
-                        style: TextStyle(
-                          color: kWhiteColor,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 24,
                         ),
                       ),
-                    ),
-                    onPressed: () {
-                      // insertrecord();
-
-                      _login();
-
-                      // ccc
-                      // }),
-                    }),),
-                SizedBox(
-                  height: size.height * 0.014,
-                ),
-                SvgPicture.asset("assets/icons/deisgn.svg"),
-                Container(
-                  padding: EdgeInsets.zero,
-                  child: Container(
-                    alignment: Alignment.center,
-                    width: double.infinity,
-                    height: size.height * 0.080,
-                    decoration: BoxDecoration(
-                      boxShadow: const [
-                        BoxShadow(
-                          blurRadius: 45,
-                          spreadRadius: 0,
-                          color: Color.fromRGBO(120, 37, 139, 0.25),
-                          offset: Offset(0, 25),
-                        ),
-                      ],
-                      borderRadius: BorderRadius.circular(15),
-                      color: const Color.fromRGBO(225, 225, 225, 0.28),
-                    ),
-                    child: const Center(
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 20),
-                        child: Text(
-                          "In case you can face any problem then contact Our Technical Team",
-                          style: TextStyle(
-                            color: Colors.pink,
-                            fontWeight: FontWeight.w100,
-                          ),
-                        ),
+                      SizedBox(
+                        height: 70,
                       ),
-                    ),
+                      FadeInUp(
+                          duration: Duration(milliseconds: 2000),
+                          child: Text(
+                            "Designed By Technocrat",
+                            style: TextStyle(
+                                color: Color.fromRGBO(143, 148, 251, 1)),
+                          )),
+                    ],
                   ),
-                ),
+                )
               ],
             ),
           ),
-        ),
-      ),
-    );
+        ));
   }
 }
