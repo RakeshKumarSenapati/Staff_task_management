@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -116,22 +117,28 @@ class _Mob_Login_PageState extends State<Mob_Login_Page> {
                   decoration: const BoxDecoration(),
                   child: Image.asset(image2),
                 ),
-                const Text(
-                  "Welcome Back !",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 20,
-                    color: Colors.black,
+                FadeInDown(
+                  duration: Duration(milliseconds: 2000),
+                  child: Text(
+                    "Welcome Back !",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 20,
+                      color: Colors.black,
+                    ),
                   ),
                 ),
-                const Text(
-                  "Please , Login",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 34,
-                    color: Colors.black,
+                FadeInDown(
+                  duration: Duration(milliseconds: 2000),
+                  child: Text(
+                    "Please , Login",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 34,
+                      color: Colors.black,
+                    ),
                   ),
                 ),
                 SizedBox(height: size.height * 0.024),
@@ -140,64 +147,73 @@ class _Mob_Login_PageState extends State<Mob_Login_Page> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    TextFormField(
-                      controller: user,
-                      keyboardType: TextInputType.text,
-                      style: const TextStyle(color: kInputColor),
-                      decoration: InputDecoration(
-                        contentPadding:
-                            const EdgeInsets.symmetric(vertical: 25.0),
-                        filled: true,
-                        hintText: "User Name",
-                        prefixIcon: IconButton(
-                            onPressed: () {}, icon: SvgPicture.asset(userIcon)),
-                        fillColor: kWhiteColor,
-                        border: OutlineInputBorder(
-                          borderSide: const BorderSide(color: Colors.grey),
-                          borderRadius: BorderRadius.circular(36),
-                        ),
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter username';
-                        }
-                        return null;
-                      },
-                    ),
+                    FadeInLeft(
+                        duration: Duration(milliseconds: 3000),
+                        child: TextFormField(
+                          controller: user,
+                          keyboardType: TextInputType.text,
+                          style: const TextStyle(color: kInputColor),
+                          decoration: InputDecoration(
+                            contentPadding:
+                                const EdgeInsets.symmetric(vertical: 25.0),
+                            filled: true,
+                            hintText: "User Name",
+                            prefixIcon: IconButton(
+                                onPressed: () {},
+                                icon: SvgPicture.asset(userIcon)),
+                            fillColor: kWhiteColor,
+                            border: OutlineInputBorder(
+                              borderSide: const BorderSide(color: Colors.grey),
+                              borderRadius: BorderRadius.circular(36),
+                            ),
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter username';
+                            }
+                            return null;
+                          },
+                        )),
                     const SizedBox(
                       height: 10,
                     ),
-                    TextFormField(
-                      controller: pass,
-                      obscureText: true,
-                      keyboardType: TextInputType.text,
-                      style: const TextStyle(color: kInputColor),
-                      decoration: InputDecoration(
-                        contentPadding:
-                            const EdgeInsets.symmetric(vertical: 25.0),
-                        filled: true,
-                        hintText: "Password",
-                        prefixIcon: IconButton(
-                            onPressed: () {}, icon: SvgPicture.asset(keyIcon)),
-                        fillColor: kWhiteColor,
-                        border: OutlineInputBorder(
-                          borderSide: const BorderSide(color: Colors.grey),
-                          borderRadius: BorderRadius.circular(36),
-                        ),
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter the password';
-                        }
-                        return null;
-                      },
-                    ),
+                    FadeInRight(
+                        duration: Duration(milliseconds: 3000),
+                        child: TextFormField(
+                          controller: pass,
+                          obscureText: true,
+                          keyboardType: TextInputType.text,
+                          style: const TextStyle(color: kInputColor),
+                          decoration: InputDecoration(
+                            contentPadding:
+                                const EdgeInsets.symmetric(vertical: 25.0),
+                            filled: true,
+                            hintText: "Password",
+                            prefixIcon: IconButton(
+                                onPressed: () {},
+                                icon: SvgPicture.asset(keyIcon)),
+                            fillColor: kWhiteColor,
+                            border: OutlineInputBorder(
+                              borderSide: const BorderSide(color: Colors.grey),
+                              borderRadius: BorderRadius.circular(36),
+                            ),
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter the password';
+                            }
+                            return null;
+                          },
+                        )),
                   ],
                 )),
                 SizedBox(
                   height: size.height * 0.014,
                 ),
-                CupertinoButton(
+                FadeInUp(
+                  duration: Duration(milliseconds: 3000),
+                 
+                  child: CupertinoButton(
                     padding: EdgeInsets.zero,
                     child: Container(
                       alignment: Alignment.center,
@@ -223,7 +239,7 @@ class _Mob_Login_PageState extends State<Mob_Login_Page> {
 
                       // ccc
                       // }),
-                    }),
+                    }),),
                 SizedBox(
                   height: size.height * 0.014,
                 ),
