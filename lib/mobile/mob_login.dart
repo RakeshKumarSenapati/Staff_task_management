@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_application_1/admin_home.dart';
 import 'package:flutter_application_1/mobile/mob_navbar.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import '../consts.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

@@ -83,20 +83,8 @@ class _MobAddTaskState extends State<Mob_Add_Task> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-             FadeInLeft(
-              duration: Duration(milliseconds: 2000),
-              child: Text(
-                'Hello',
-                style: TextStyle(fontSize: 20,fontWeight: FontWeight.w900),
-              ),
-            ),
-            FadeInLeft(
-              duration: Duration(milliseconds: 2000),
-              child: Text(
-                userID,
-                style: const TextStyle(fontSize: 20,fontWeight: FontWeight.w900),
-              ),
-            ),
+             
+            
             const SizedBox(height: 20),
             FadeInUp(
               duration: Duration(milliseconds: 2000),
@@ -172,8 +160,8 @@ class _MobAddTaskState extends State<Mob_Add_Task> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  FadeInLeftBig(
-                    duration: Duration(milliseconds: 1500),
+                  FadeInRight(
+                    duration: Duration(milliseconds: 2000),
                     child: ElevatedButton(
                 onPressed: () {
                   if (titleController.text.isEmpty) {
@@ -199,8 +187,8 @@ class _MobAddTaskState extends State<Mob_Add_Task> {
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.w900),
                 ),
               ),),
-              FadeInRightBig(
-                duration: Duration(milliseconds: 1500),
+              FadeInLeft(
+                duration: Duration(milliseconds: 2000),
                 child:  ElevatedButton(
                 onPressed: () {
                   titleController.clear();

@@ -86,9 +86,9 @@ class _Task_mgmt extends State<Task_mgmt> {
           bool isNStarted = data[index]['STATUS'] == 'Started';
 
           return Center(
-            child: FadeInRightBig( // Wrap the entire Card with FadeInUp animation
-              duration: const Duration(milliseconds: 1000),
-              delay: Duration(milliseconds: index * 500),
+            child: FadeInLeftBig( // Wrap the entire Card with FadeInUp animation
+              duration: const Duration(milliseconds: 1300),
+              delay: Duration(milliseconds: index * 300),
               child: Card(
                 elevation: 8,
                 child: ExpansionTile(

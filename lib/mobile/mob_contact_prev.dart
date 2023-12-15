@@ -519,9 +519,3 @@ class CustomSearchDelegate extends SearchDelegate<String> {
     );
   }
 }
-
-void main() {
-  runApp(MaterialApp(
-    home: ContactPrev(),
-  ));
-}
