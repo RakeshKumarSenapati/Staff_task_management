@@ -53,6 +53,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
         return TaskStatus.all;
     }
   }
+
 // data fetching from api
   Future<void> fetchData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -187,19 +188,22 @@ class _TaskListScreenState extends State<TaskListScreen> {
   Widget buildFilterOptions() {
     return Padding(
       padding: const EdgeInsets.all(5),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          buildFilterOption(" Today ", () => filterTasksToday()),
-          buildFilterOption(" Week ", () => filterTasksLastWeek()),
-          buildFilterOption(" Month ", () {
-            _selectMonth(context);
-          }),
-          buildFilterOption(" Year ", () {
-            _selectYear(context);
-          }),
-          buildFilterOption(" All ", () => setFilter(TaskStatus.all)),
-        ],
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            buildFilterOption(" Today ", () => filterTasksToday()),
+            buildFilterOption(" This Week ", () => filterTasksLastWeek()),
+            buildFilterOption(" This Month ", () {
+              _selectMonth(context);
+            }),
+            buildFilterOption(" This Year ", () {
+              _selectYear(context);
+            }),
+            buildFilterOption(" All ", () => setFilter(TaskStatus.all)),
+          ],
+        ),
       ),
     );
   }
@@ -235,68 +239,69 @@ class _TaskListScreenState extends State<TaskListScreen> {
       body: Column(
         children: [
           ClipPath(
-  clipper: AppBarClipper(),
-  child: Container(
-    width: double.infinity,
-    height: 250,
-    decoration: BoxDecoration(
-      color: _color1,
-    ),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            SizedBox(height: 30),
-            Padding(
-              padding: EdgeInsets.all(20),
-              child: Icon(
-                Icons.person,
-                color: Colors.black,
-                size: 75,
+            clipper: AppBarClipper(),
+            child: Container(
+              width: double.infinity,
+              height: 200,
+              decoration: BoxDecoration(
+                color: _color1,
               ),
-            ),
-          ],
-        ),
-        Expanded(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Padding(
-                padding: EdgeInsets.only(top: 90),
-                child: Text(
-                  name,
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 30),
+                      Padding(
+                        padding: EdgeInsets.all(20),
+                        child: Icon(
+                          Icons.person,
+                          color: Colors.black,
+                          size: 75,
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 40, left: 16), // Adjust left padding
-              child: Builder(
-                builder: (context) => IconButton(
-                  icon: Icon(Icons.menu),
-                  iconSize: 35,
-                  onPressed: () {
-                    Scaffold.of(context).openEndDrawer();
-                  },
-                ),
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(top: 90),
+                          child: Text(
+                            name,
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            top: 40, left: 16), // Adjust left padding
+                        child: Builder(
+                          builder: (context) => IconButton(
+                            icon: Icon(Icons.menu),
+                            iconSize: 35,
+                            onPressed: () {
+                              Scaffold.of(context).openEndDrawer();
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
-      ],
-    ),
-  ),
-),
+          ),
 
 // Your existing code...
 
@@ -310,7 +315,8 @@ class _TaskListScreenState extends State<TaskListScreen> {
               padding: EdgeInsets.zero,
               itemCount: tasks.length,
               itemBuilder: (BuildContext context, int index) {
-                final task = tasks[index];
+                final task = tasks.reversed.toList()[index];
+
                 if (filter != TaskStatus.all && task.status != filter) {
                   return Container();
                 }
@@ -419,6 +425,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
     );
   }
 }
+
 class AppBarClipper extends CustomClipper<Path> {
   final double controlPointPercentage;
 
@@ -431,8 +438,10 @@ class AppBarClipper extends CustomClipper<Path> {
     final p0 = size.height * 0.75;
     path.lineTo(0, p0);
 
-    final controlPoint = Offset(size.width * controlPointPercentage, size.height);
-    final endPoint = Offset(size.width, size.width < 600 ? size.height / 1.5 : size.height / 2);
+    final controlPoint =
+        Offset(size.width * controlPointPercentage, size.height);
+    final endPoint = Offset(
+        size.width, size.width < 600 ? size.height / 1.5 : size.height / 2);
     path.quadraticBezierTo(
         controlPoint.dx, controlPoint.dy, endPoint.dx, endPoint.dy);
 
@@ -446,7 +455,6 @@ class AppBarClipper extends CustomClipper<Path> {
   bool shouldReclip(covariant CustomClipper<Path> oldClipper) =>
       oldClipper != this;
 }
-
 
 enum TaskStatus { active, completed, pending, all }
 

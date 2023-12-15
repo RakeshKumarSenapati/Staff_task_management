@@ -150,11 +150,12 @@ class _MobAddTaskState extends State<Mob_Add_Task> {
                 ),
                 child: TextFormField(
                   controller: descriptionController,
+                  maxLines: 4,
                   decoration: InputDecoration(
                     labelText: 'Enter Description Of Work',
                     labelStyle: TextStyle(color: Colors.grey),
                     border: InputBorder.none,
-                    contentPadding: EdgeInsets.symmetric(vertical: 20),
+                    contentPadding: EdgeInsets.symmetric(vertical: 5),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
