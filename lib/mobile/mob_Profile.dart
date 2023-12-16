@@ -159,8 +159,8 @@ class _ProfilePageState extends State<Profile> {
                                 as ImageProvider<Object>?,
                       ),
                       Positioned(
-                        bottom: 15,
-                        left: 100,
+                        bottom: 13,
+                        left: 101,
                         child: GestureDetector(
                           onTap: () {
                            _pickImage();
@@ -168,7 +168,7 @@ class _ProfilePageState extends State<Profile> {
                           child: Icon(
                             Icons.add_a_photo_rounded,
                             size: 40, // Adjust the size of the plus icon
-                            color: const Color.fromARGB(255, 0, 0, 0), // Adjust the color of the plus icon
+                            color:const Color.fromARGB(255, 2, 95, 255) // Adjust the color of the plus icon
                           ),
                         ),
                       ),

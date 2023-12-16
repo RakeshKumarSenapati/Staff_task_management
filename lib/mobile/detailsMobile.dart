@@ -239,7 +239,8 @@ class _TaskListScreenState extends State<TaskListScreen> {
 
     return Scaffold(
       key: _scaffoldKey,
-      body: Column(
+      body: SingleChildScrollView(
+        child: Column(
         children: [
           FadeInDown(
             duration: Duration(milliseconds: 1500),
@@ -357,6 +358,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
                 },
               )),
         ],
+      ),
       ),
       endDrawer: Drawer(
           width: 300,
