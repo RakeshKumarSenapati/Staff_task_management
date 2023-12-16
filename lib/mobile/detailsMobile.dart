@@ -234,7 +234,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    String name = "MY PROFILE";
+    String name = "Activity Manager";
     const _color1 = Color(0xFFC21E56);
 
     return Scaffold(
@@ -247,24 +247,24 @@ class _TaskListScreenState extends State<TaskListScreen> {
               clipper: AppBarClipper(),
               child: Container(
                 width: double.infinity,
-                height: 200,
+                height: 180,
                 decoration: BoxDecoration(
                   color: _color1,
                 ),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  // mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         SizedBox(height: 30),
                         Padding(
-                          padding: EdgeInsets.all(20),
-                          child: Icon(
-                            Icons.person,
-                            color: Colors.black,
-                            size: 75,
-                          ),
+                          padding: EdgeInsets.all(0),
+                          // child: Icon(
+                          //   Icons.person,
+                          //   color: Colors.black,
+                          //   size: 75,
+                          // ),
                         ),
                       ],
                     ),
@@ -273,7 +273,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Padding(
-                            padding: EdgeInsets.only(top: 90),
+                            padding: EdgeInsets.only(top: 65),
                             child: Text(
                               name,
                               style: TextStyle(
@@ -313,7 +313,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
             height: 10,
           ),
           Container(
-              height: 370,
+              height: 400,
               child: ListView.builder(
                 padding: EdgeInsets.zero,
                 itemCount: tasks.length,
@@ -359,7 +359,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
         ],
       ),
       endDrawer: Drawer(
-          width: 200,
+          width: 300,
           child: ListView(
             children: [
               ListTile(

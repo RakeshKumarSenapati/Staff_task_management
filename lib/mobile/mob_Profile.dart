@@ -16,7 +16,6 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<Profile> {
-
   String name = '';
   String userName = '';
   String password = '';
@@ -69,23 +68,24 @@ class _ProfilePageState extends State<Profile> {
       throw Exception('Failed to load data');
     }
   }
- 
+
   Future<void> clearSharedPreferences() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  await prefs.remove('isLoggedIn');
-  await prefs.remove('isLoggedInAdmin');
-  await prefs.remove('userID');
-  await prefs.remove('password');
-  
-  Navigator.pushAndRemoveUntil(
-    context,
-    MaterialPageRoute(builder: (context) => Mob_Login_Page()),
-    (Route<dynamic> route) => false,
-  );
-} 
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('isLoggedIn');
+    await prefs.remove('isLoggedInAdmin');
+    await prefs.remove('userID');
+    await prefs.remove('password');
+
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => Mob_Login_Page()),
+      (Route<dynamic> route) => false,
+    );
+  }
 
   Future<void> _pickImage() async {
-    final XFile? pickedImage = await _picker.pickImage(source: ImageSource.gallery);
+    final XFile? pickedImage =
+        await _picker.pickImage(source: ImageSource.gallery);
 
     if (pickedImage != null) {
       pickedImagePath = pickedImage.path;
@@ -123,7 +123,10 @@ class _ProfilePageState extends State<Profile> {
             child: Column(
               children: [
                 IconButton(
-                  icon: Icon(Icons.logout_rounded,color: Color.fromARGB(255, 239, 61, 48),),
+                  icon: Icon(
+                    Icons.logout_rounded,
+                    color: Color.fromARGB(255, 239, 61, 48),
+                  ),
                   onPressed: () {
                     clearSharedPreferences();
                   },
@@ -141,91 +144,117 @@ class _ProfilePageState extends State<Profile> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                
                 GestureDetector(
-              onTap: () {
-                _pickImage();
-              },
-              child: CircleAvatar(
-                radius: 70,
-                backgroundImage: _pickedImage == null
-                    ? AssetImage('assets/images/technocart.png')
-                    : FileImage(File(_pickedImage!.path)) as ImageProvider<Object>?,
-              ),
-            ),
+                  onTap: () {
+                    _pickImage();
+                  },
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      CircleAvatar(
+                        radius: 70,
+                        backgroundImage: _pickedImage == null
+                            ? AssetImage('assets/images/technocart.png')
+                            : FileImage(File(_pickedImage!.path))
+                                as ImageProvider<Object>?,
+                      ),
+                      Positioned(
+                        bottom: 15,
+                        left: 100,
+                        child: GestureDetector(
+                          onTap: () {
+                           _pickImage();
+                          },
+                          child: Icon(
+                            Icons.add_a_photo_rounded,
+                            size: 40, // Adjust the size of the plus icon
+                            color: const Color.fromARGB(255, 0, 0, 0), // Adjust the color of the plus icon
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
             SizedBox(height: 10),
             FadeInUp(
               duration: Duration(milliseconds: 3000),
               child: Text(
-              '$name',
-              style: const TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
+                '$name',
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ), ),
+            ),
             const SizedBox(height: 8),
-           FadeInUp(
-            duration: Duration(milliseconds: 3000),
-            child:  Text(
-              '$designation',
-              style: const TextStyle(
-                fontSize: 18,
-                color: Colors.grey,
+            FadeInUp(
+              duration: Duration(milliseconds: 3000),
+              child: Text(
+                '$designation',
+                style: const TextStyle(
+                  fontSize: 18,
+                  color: Colors.grey,
+                ),
               ),
-            ),),
+            ),
             const SizedBox(height: 20),
             FadeInLeft(
               duration: Duration(milliseconds: 3000),
               child: Card(
-              margin: const EdgeInsets.only(left: 8, right: 8, top: 10),
-              elevation: 2,
-              child: ListTile(
-                leading: const Icon(Icons.person),
-                title: Text('$name'),
+                margin: const EdgeInsets.only(left: 8, right: 8, top: 10),
+                elevation: 2,
+                child: ListTile(
+                  leading: const Icon(Icons.person),
+                  title: Text('$name'),
+                ),
               ),
-            ),),
+            ),
             FadeInRight(
               duration: Duration(milliseconds: 3000),
               child: Card(
-              margin: const EdgeInsets.only(left: 8, right: 8, top: 10),
-              elevation: 2,
-              child: ListTile(
-                leading: const Icon(Icons.man_3_sharp),
-                title: Text('$userName'),
+                margin: const EdgeInsets.only(left: 8, right: 8, top: 10),
+                elevation: 2,
+                child: ListTile(
+                  leading: const Icon(Icons.man_3_sharp),
+                  title: Text('$userName'),
+                ),
               ),
-            ), ),
+            ),
             FadeInLeft(
               duration: Duration(milliseconds: 3000),
               child: Card(
-              margin: const EdgeInsets.only(left: 8, right: 8, top: 10),
-              elevation: 2,
-              child: ListTile(
-                leading: const Icon(Icons.email),
-                title: Text('$email'),
+                margin: const EdgeInsets.only(left: 8, right: 8, top: 10),
+                elevation: 2,
+                child: ListTile(
+                  leading: const Icon(Icons.email),
+                  title: Text('$email'),
+                ),
               ),
-            ),),
+            ),
             FadeInRight(
               duration: Duration(milliseconds: 3000),
               child: Card(
-              margin: const EdgeInsets.only(left: 8, right: 8, top: 10),
-              elevation: 2,
-              child: ListTile(
-                leading: const Icon(Icons.phone),
-                title: Text('$phone'),
+                margin: const EdgeInsets.only(left: 8, right: 8, top: 10),
+                elevation: 2,
+                child: ListTile(
+                  leading: const Icon(Icons.phone),
+                  title: Text('$phone'),
+                ),
               ),
-            ),),
+            ),
             FadeInLeft(
               duration: Duration(milliseconds: 3000),
               child: Card(
-              margin: const EdgeInsets.only(left: 8, right: 8, top: 10),
-              elevation: 2,
-              child: ListTile(
-                leading: const Icon(Icons.location_on),
-                title: Text('$address'),
+                margin: const EdgeInsets.only(left: 8, right: 8, top: 10),
+                elevation: 2,
+                child: ListTile(
+                  leading: const Icon(Icons.location_on),
+                  title: Text('$address'),
+                ),
               ),
-            ),),
+            ),
             const SizedBox(height: 20),
           ],
         ),

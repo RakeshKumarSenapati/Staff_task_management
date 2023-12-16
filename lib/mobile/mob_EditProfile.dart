@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
 
 class EditProfilePage extends StatefulWidget {
   final String name;
@@ -26,6 +30,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
   TextEditingController usernameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController addressController = TextEditingController();
+  XFile? _pickedImage;
+  late String pickedImagePath;
 
   Future<void> _editProfile() async {
     final response = await http.post(
@@ -57,14 +63,24 @@ class _EditProfilePageState extends State<EditProfilePage> {
   @override
   void initState() {
     super.initState();
-
-    // Initialize the TextFormFields with the passed values
+    loadImagePath();
     nameController.text = widget.name;
     emailController.text = widget.email;
     usernameController.text = widget.userName;
     phoneController.text = widget.phone;
     addressController.text = widget.address;
   }
+  Future<void> loadImagePath() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? savedImagePath = prefs.getString('pickedImagePath');
+
+    setState(() {
+      if (savedImagePath != null) {
+        _pickedImage = XFile(savedImagePath);
+      }
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -77,9 +93,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            const CircleAvatar(
+             CircleAvatar(
               radius: 70,
-              backgroundImage: AssetImage('assets/images/technocart.png'),
+              backgroundImage: _pickedImage == null
+                    ? AssetImage('assets/images/technocart.png')
+                    : FileImage(File(_pickedImage!.path)) as ImageProvider<Object>?,
             ),
             const SizedBox(height: 30),
             TextFormField(
