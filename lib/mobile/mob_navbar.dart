@@ -22,7 +22,7 @@ class _NavPageState extends State<NavPage> {
     QrCodeScanner(),
     Mob_Add_Task(),
     DetailsMobile(),
-    DetailsMobile(),
+    ContactPrev(),
     Task_mgmt(),
   ];
 

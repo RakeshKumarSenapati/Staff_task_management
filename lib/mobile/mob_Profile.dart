@@ -1,9 +1,12 @@
+import 'dart:convert';
+import 'dart:io';
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/mobile/mob_EditProfile.dart';
+import 'package:flutter_application_1/mobile/mob_login.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'mob_EditProfile.dart';
-import 'mob_login.dart';
 
 class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);
@@ -13,7 +16,7 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<Profile> {
-  // Define variables to store the retrieved data
+
   String name = '';
   String userName = '';
   String password = '';
@@ -21,8 +24,17 @@ class _ProfilePageState extends State<Profile> {
   String phone = '';
   String address = '';
   String designation = '';
+  final ImagePicker _picker = ImagePicker();
+  XFile? _pickedImage;
+  late String pickedImagePath;
 
-  // Function to fetch data from the API
+  @override
+  void initState() {
+    super.initState();
+    loadImagePath();
+    fetchData();
+  }
+
   Future<void> fetchData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String userID = prefs.getString('userID') ?? '';
@@ -57,20 +69,8 @@ class _ProfilePageState extends State<Profile> {
       throw Exception('Failed to load data');
     }
   }
-
-  // Future<void> clearSharedPreferences() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   await prefs.remove('isLoggedIn');
-  //   await prefs.remove('userID');
-  //   await prefs.remove('password');
-  //   Navigator.pushReplacement(
-  //     context,
-  //     MaterialPageRoute(
-  //         builder: (context) => Mob_Login_Page()), // Navigate to your login screen
-  //   );
-  // }
-
- Future<void> clearSharedPreferences() async {
+ 
+  Future<void> clearSharedPreferences() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   await prefs.remove('isLoggedIn');
   await prefs.remove('isLoggedInAdmin');
@@ -82,14 +82,35 @@ class _ProfilePageState extends State<Profile> {
     MaterialPageRoute(builder: (context) => Mob_Login_Page()),
     (Route<dynamic> route) => false,
   );
-}
+} 
 
+  Future<void> _pickImage() async {
+    final XFile? pickedImage = await _picker.pickImage(source: ImageSource.gallery);
 
+    if (pickedImage != null) {
+      pickedImagePath = pickedImage.path;
+      await saveImagePath(pickedImagePath);
 
-  @override
-  void initState() {
-    super.initState();
-    fetchData();
+      setState(() {
+        _pickedImage = pickedImage;
+      });
+    }
+  }
+
+  Future<void> saveImagePath(String imagePath) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('pickedImagePath', imagePath);
+  }
+
+  Future<void> loadImagePath() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? savedImagePath = prefs.getString('pickedImagePath');
+
+    setState(() {
+      if (savedImagePath != null) {
+        _pickedImage = XFile(savedImagePath);
+      }
+    });
   }
 
   @override
@@ -117,67 +138,94 @@ class _ProfilePageState extends State<Profile> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             const SizedBox(height: 20),
-            CircleAvatar(
-              radius: 80,
-              backgroundImage: AssetImage('assets/images/technocart.png'),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                
+                GestureDetector(
+              onTap: () {
+                _pickImage();
+              },
+              child: CircleAvatar(
+                radius: 70,
+                backgroundImage: _pickedImage == null
+                    ? AssetImage('assets/images/technocart.png')
+                    : FileImage(File(_pickedImage!.path)) as ImageProvider<Object>?,
+              ),
             ),
-            const SizedBox(height: 10),
-            Text(
+              ],
+            ),
+            SizedBox(height: 10),
+            FadeInUp(
+              duration: Duration(milliseconds: 3000),
+              child: Text(
               '$name',
               style: const TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
               ),
-            ),
+            ), ),
             const SizedBox(height: 8),
-            Text(
+           FadeInUp(
+            duration: Duration(milliseconds: 3000),
+            child:  Text(
               '$designation',
               style: const TextStyle(
                 fontSize: 18,
                 color: Colors.grey,
               ),
-            ),
+            ),),
             const SizedBox(height: 20),
-            Card(
+            FadeInLeft(
+              duration: Duration(milliseconds: 3000),
+              child: Card(
               margin: const EdgeInsets.only(left: 8, right: 8, top: 10),
               elevation: 2,
               child: ListTile(
                 leading: const Icon(Icons.person),
                 title: Text('$name'),
               ),
-            ),
-            Card(
+            ),),
+            FadeInRight(
+              duration: Duration(milliseconds: 3000),
+              child: Card(
               margin: const EdgeInsets.only(left: 8, right: 8, top: 10),
               elevation: 2,
               child: ListTile(
                 leading: const Icon(Icons.man_3_sharp),
                 title: Text('$userName'),
               ),
-            ),
-            Card(
+            ), ),
+            FadeInLeft(
+              duration: Duration(milliseconds: 3000),
+              child: Card(
               margin: const EdgeInsets.only(left: 8, right: 8, top: 10),
               elevation: 2,
               child: ListTile(
                 leading: const Icon(Icons.email),
                 title: Text('$email'),
               ),
-            ),
-            Card(
+            ),),
+            FadeInRight(
+              duration: Duration(milliseconds: 3000),
+              child: Card(
               margin: const EdgeInsets.only(left: 8, right: 8, top: 10),
               elevation: 2,
               child: ListTile(
                 leading: const Icon(Icons.phone),
                 title: Text('$phone'),
               ),
-            ),
-            Card(
+            ),),
+            FadeInLeft(
+              duration: Duration(milliseconds: 3000),
+              child: Card(
               margin: const EdgeInsets.only(left: 8, right: 8, top: 10),
               elevation: 2,
               child: ListTile(
                 leading: const Icon(Icons.location_on),
                 title: Text('$address'),
               ),
-            ),
+            ),),
             const SizedBox(height: 20),
           ],
         ),

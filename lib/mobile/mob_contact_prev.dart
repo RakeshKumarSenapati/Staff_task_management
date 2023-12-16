@@ -3,6 +3,7 @@ import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:animate_do/animate_do.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -246,8 +247,11 @@ class _Contact extends State<Contact> {
             child: ListView.builder(
               itemCount: data.length,
               itemBuilder: (context, index) {
-                return Container(
-                  margin: const EdgeInsets.all(16.0),
+                return FadeInLeft(
+                  duration: Duration(milliseconds: 1000),
+                  delay: Duration(milliseconds: index * 200),
+                  child: Container(
+                  margin: const EdgeInsets.all(10.0),
                   child: Card(
                     child: Container(
                       width: MediaQuery.of(context).size.width,
@@ -338,7 +342,7 @@ class _Contact extends State<Contact> {
                       ),
                     ),
                   ),
-                );
+                ),);
               },
             ),
           ),
