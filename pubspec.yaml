@@ -54,7 +54,8 @@ dependencies:
   flutter_phone_direct_caller: ^2.1.1
   animate_do: ^3.1.2
   image_picker: ^1.0.5
-
+  file_picker: ^6.1.1
+  dio: ^4.0.0
    
   
   

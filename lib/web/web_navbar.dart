@@ -1,10 +1,11 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/mobile/Report_Upload.dart';
 import 'package:flutter_application_1/mobile/mob_Profile.dart';
 import 'package:flutter_application_1/mobile/mob_contact_prev.dart';
 import 'package:flutter_application_1/mobile/mob_task_mgmt.dart';
 import 'package:flutter_application_1/scanner_page.dart';
+import 'package:flutter_application_1/web/Report.dart';
 import 'package:flutter_application_1/web/web_add_task.dart';
 import 'package:flutter_application_1/web/detailsWeb.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -22,7 +23,7 @@ class NavPage extends StatefulWidget {
 
 class _NavPageState extends State<NavPage> {
   int _currentIndex = 2;
-  final List<Widget> _pages = [QrCodeScanner(), Web_Add_Task(), DetailsWeb(),ContactPrev(),Task_mgmt()];
+  final List<Widget> _pages = [QrCodeScanner(), Web_Add_Task(), DetailsWeb(),ContactPrev(),Task_mgmt(),Report()];
   String name = '';
 
       Future<void> fetchData() async {
@@ -117,7 +118,11 @@ class _NavPageState extends State<NavPage> {
               label: 'Task Management',
               backgroundColor: Color.fromARGB(255, 255, 0, 0)
             ),
-           
+            BottomNavigationBarItem(
+              icon: Icon(Icons.report),
+              label: 'Report',
+              backgroundColor: Color.fromARGB(255, 255, 0, 0)
+            ),
           ],
         ),
       ),
