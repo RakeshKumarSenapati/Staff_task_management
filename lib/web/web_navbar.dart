@@ -5,13 +5,10 @@ import 'package:flutter_application_1/mobile/mob_Profile.dart';
 import 'package:flutter_application_1/mobile/mob_contact_prev.dart';
 import 'package:flutter_application_1/mobile/mob_task_mgmt.dart';
 import 'package:flutter_application_1/scanner_page.dart';
-import 'package:flutter_application_1/web/Report.dart';
 import 'package:flutter_application_1/web/web_add_task.dart';
 import 'package:flutter_application_1/web/detailsWeb.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-
-
 
 
 class NavPage extends StatefulWidget {
