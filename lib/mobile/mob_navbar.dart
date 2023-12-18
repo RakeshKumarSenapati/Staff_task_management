@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/mobile/Report_Upload.dart';
 import 'package:flutter_application_1/mobile/mob_Profile.dart';
-import 'package:flutter_application_1/mobile/mob_add_task.dart';
 import 'package:flutter_application_1/mobile/mob_task_mgmt.dart';
 import 'package:flutter_application_1/mobile/mob_contact_prev.dart';
 import 'package:flutter_application_1/mobile/detailsMobile.dart';
@@ -20,13 +19,14 @@ class NavPage extends StatefulWidget {
 }
 
 class _NavPageState extends State<NavPage> {
-  int _currentIndex = 2;
+  int _currentIndex = 1;
    XFile? _pickedImage;
   late String pickedImagePath;
   final List<Widget> _pages = [
     QrCodeScanner(),
-    Mob_Add_Task(),
+    // Mob_Add_Task(),
     DetailsMobile(),
+    // DetailsMobile(),
     ContactPrev(),
     Task_mgmt(),
     Report()
@@ -129,8 +129,8 @@ class _NavPageState extends State<NavPage> {
             onTap: (int index) {
               setState(() {
                 _currentIndex = index;
-                if (index == 3) {
-                  _showContactDialog(context);
+                if (index ==2) {
+                  // _showContactDialog(context);
                 }
               });
             },
@@ -140,11 +140,11 @@ class _NavPageState extends State<NavPage> {
                 label: 'Attendance',
                 backgroundColor: Color(0xFFC21E56),
               ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.add_task),
-                label: 'Add Task',
-                backgroundColor: Color(0xFFC21E56),
-              ),
+              // BottomNavigationBarItem(
+              //   icon: Icon(Icons.add_task),
+              //   label: 'Add Task',
+              //   backgroundColor: Color(0xFFC21E56),
+              // ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.list),
                 label: 'Task Details',
