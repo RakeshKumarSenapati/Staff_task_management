@@ -38,8 +38,16 @@ class _HomeNavState extends State<HomeNav> {
 
   @override
   Widget build(BuildContext context) {
+    const _color1 = Color.fromARGB(255, 194, 30, 86);
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: _color1,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(20),
+            bottomRight: Radius.circular(20),
+          ),
+        ),
         actions: <Widget>[
           Container(
             margin: EdgeInsets.only(right: 16.0),
@@ -58,42 +66,50 @@ class _HomeNavState extends State<HomeNav> {
         title: Text('Hi.. ,  Admin'),
       ),
       body: _pages[_currentIndex],
-      bottomNavigationBar: Container(
-        color: Colors.blue,
-        child: BottomNavigationBar(
-          
-          currentIndex: _currentIndex,
-          onTap: (int index) {
-            setState(() {
-              _currentIndex = index;
-            });
-          },
-          items: const [
+      bottomNavigationBar: ClipRRect(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+        child: Container(
+          color: Color(0xFFC21E56),
+          child: BottomNavigationBar(
+            currentIndex: _currentIndex,
+            onTap: (int index) {
+              setState(() {
+                _currentIndex = index;
+                if (index ==2) {
+                  // _showContactDialog(context);
+                }
+              });
+            },
+            items: const [
            BottomNavigationBarItem(
                 icon: Icon(Icons.list_alt),
                 label: 'Work Ststus',
-                backgroundColor: Color.fromARGB(255, 191, 1, 243)),
+                backgroundColor: _color1),
             BottomNavigationBarItem(
                 icon: Icon(Icons.add),
                 label: 'Add Staff',
-                backgroundColor: Color.fromARGB(255, 4, 203, 1)),
+                backgroundColor: _color1),
             BottomNavigationBarItem(
                 icon: Icon(Icons.delete),
                 label: 'Delete Staff',
-                backgroundColor:Color.fromARGB(255, 255, 0, 0)),
+                backgroundColor:_color1),
             BottomNavigationBarItem(
                 icon: Icon(Icons.delete_rounded),
                 label: 'Delete Work',
-                backgroundColor:Color.fromARGB(255, 226, 72, 1)),
+                backgroundColor:_color1),
             BottomNavigationBarItem(
                 icon: Icon(Icons.contact_phone),
                 label: 'Student Contacts',
-                backgroundColor:Color.fromARGB(255, 1, 147, 226)),
+                backgroundColor:_color1),
             BottomNavigationBarItem(
                 icon: Icon(Icons.co_present_outlined),
                 label: 'Atendance',
-                backgroundColor:Color.fromARGB(255, 1, 147, 226)),    
+                backgroundColor:_color1),    
           ],
+          ),
         ),
       ),
     );
