@@ -19,13 +19,14 @@ class NavPage extends StatefulWidget {
 }
 
 class _NavPageState extends State<NavPage> {
-  int _currentIndex = 2;
+  int _currentIndex = 1;
    XFile? _pickedImage;
   late String pickedImagePath;
   final List<Widget> _pages = [
     QrCodeScanner(),
-    Mob_Add_Task(),
+    // Mob_Add_Task(),
     DetailsMobile(),
+    // DetailsMobile(),
     ContactPrev(),
     Task_mgmt(),
   ];
@@ -127,8 +128,8 @@ class _NavPageState extends State<NavPage> {
             onTap: (int index) {
               setState(() {
                 _currentIndex = index;
-                if (index == 3) {
-                  _showContactDialog(context);
+                if (index ==2) {
+                  // _showContactDialog(context);
                 }
               });
             },
@@ -138,11 +139,11 @@ class _NavPageState extends State<NavPage> {
                 label: 'Attendance',
                 backgroundColor: Color(0xFFC21E56),
               ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.add_task),
-                label: 'Add Task',
-                backgroundColor: Color(0xFFC21E56),
-              ),
+              // BottomNavigationBarItem(
+              //   icon: Icon(Icons.add_task),
+              //   label: 'Add Task',
+              //   backgroundColor: Color(0xFFC21E56),
+              // ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.list),
                 label: 'Task Details',
