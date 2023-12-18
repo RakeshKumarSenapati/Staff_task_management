@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:animate_do/animate_do.dart';
+const _color1 = Color(0xFFC21E56);
 
 class Mob_Add_Task extends StatefulWidget {
   const Mob_Add_Task({Key? key}) : super(key: key);
@@ -66,6 +67,7 @@ class _MobAddTaskState extends State<Mob_Add_Task> {
 
   @override
   Widget build(BuildContext context) {
+    const _color1 = Color(0xFFC21E56);
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -83,8 +85,6 @@ class _MobAddTaskState extends State<Mob_Add_Task> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-             
-            
             const SizedBox(height: 20),
             FadeInUp(
               duration: Duration(milliseconds: 2000),
@@ -176,7 +176,7 @@ class _MobAddTaskState extends State<Mob_Add_Task> {
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.blue,
+                  backgroundColor: Color.fromARGB(255, 194, 30, 86),
                   minimumSize: const Size(100.0, 50.0),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(13),
@@ -184,7 +184,7 @@ class _MobAddTaskState extends State<Mob_Add_Task> {
                 ),
                 child: const Text(
                   'Add',
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.w900),
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.w900,color: Colors.white),
                 ),
               ),),
               FadeInLeft(
@@ -194,7 +194,7 @@ class _MobAddTaskState extends State<Mob_Add_Task> {
                   titleController.clear();
                 descriptionController.clear();},
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.blue,
+                  backgroundColor: Color.fromARGB(255, 194, 30, 86),
                   minimumSize: const Size(100.0, 50.0),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(13),
@@ -202,7 +202,7 @@ class _MobAddTaskState extends State<Mob_Add_Task> {
                 ),
                 child:  Text(
                   'Clear',
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.w900),
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.w900,color: Colors.white),
                 ),
               ),)
                 ],

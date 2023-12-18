@@ -1,6 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/mobile/mob_Profile.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:animate_do/animate_do.dart';
@@ -32,6 +37,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
 class ContactPrev extends StatefulWidget {
   const ContactPrev({Key? key}) : super(key: key);
+  
 
   @override
   State<ContactPrev> createState() => _ContactPage();
@@ -39,16 +45,60 @@ class ContactPrev extends StatefulWidget {
 
 class _ContactPage extends State<ContactPrev> {
   List<String> allowedCourses = ['BSC', 'BCA', 'BBA'];
+  XFile? _pickedImage;
+  late String pickedImagePath;
+
+   Future<void> loadImagePath() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? savedImagePath = prefs.getString('pickedImagePath');
+
+    setState(() {
+      if (savedImagePath != null) {
+        _pickedImage = XFile(savedImagePath);
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadImagePath();
+  }
 
   @override
   Widget build(BuildContext context) {
+    const _color1 = Color(0xFFC21E56);
     return Scaffold(
-      appBar: CustomAppBar(
-        title: 'SELECT COURSE',
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(30),
-          topRight: Radius.circular(30),
+      appBar: AppBar(
+        backgroundColor: _color1,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(30),
+            bottomRight: Radius.circular(30),
+          ),
         ),
+        actions: <Widget>[
+          Container(
+            margin: EdgeInsets.only(right: 10.0),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Profile(),
+            ),
+          );
+              },
+              child: CircleAvatar(
+                radius: 20,
+                backgroundImage: _pickedImage == null
+                    ? AssetImage('assets/images/technocart.png')
+                    : FileImage(File(_pickedImage!.path)) as ImageProvider<Object>?,
+              ),
+            ),
+          ),
+        ],
+        title: Text('SELECT COURSE',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white),),
       ),
       body: Container(
         child: SingleChildScrollView(

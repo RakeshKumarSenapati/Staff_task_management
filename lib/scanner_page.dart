@@ -55,9 +55,17 @@ class _QRScannerScreenState extends State<QrCodeScanner> {
 
   @override
   Widget build(BuildContext context) {
+    const _color1 = Color(0xFFC21E56);
     return Scaffold(
       backgroundColor: bgColor,
       appBar: AppBar(
+        backgroundColor: _color1,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(30),
+            bottomRight: Radius.circular(30),
+          ),
+        ),
         actions: [
           IconButton(
               onPressed: () {
@@ -82,12 +90,11 @@ class _QRScannerScreenState extends State<QrCodeScanner> {
                 color: isFrontCamera ? Colors.blue : Colors.grey,
               ))
         ],
-        centerTitle: true,
         title: const Text(
-          "QR Scaner",
+          "QR SCANNER",
           style: TextStyle(
             fontSize: 20,
-            color: Colors.black87,
+            color: Colors.white,
             fontWeight: FontWeight.bold,
             letterSpacing: 1,
           ),

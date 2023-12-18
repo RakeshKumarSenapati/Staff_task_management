@@ -1,7 +1,10 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/mobile/mob_Profile.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:animate_do/animate_do.dart'; // Import the package
 
@@ -16,6 +19,8 @@ class _Task_mgmt extends State<Task_mgmt> {
   List<dynamic> data = [];
   String Course = '';
   String Year = '';
+  XFile? _pickedImage;
+  late String pickedImagePath;
 
   Future<void> fetchData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -64,19 +69,57 @@ class _Task_mgmt extends State<Task_mgmt> {
       );
     }
   }
+  Future<void> loadImagePath() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? savedImagePath = prefs.getString('pickedImagePath');
+
+    setState(() {
+      if (savedImagePath != null) {
+        _pickedImage = XFile(savedImagePath);
+      }
+    });
+  }
 
   @override
   void initState() {
     super.initState();
     fetchData();
+    loadImagePath();
   }
 
   @override
   Widget build(BuildContext context) {
+    const _color1 = Color(0xFFC21E56);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Task Management',
-            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blue)),
+        backgroundColor: _color1,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(20),
+            bottomRight: Radius.circular(20),
+          ),
+        ),
+        actions: <Widget>[
+          Container(
+            margin: EdgeInsets.only(right: 10.0),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Profile(),
+            ),
+          );
+              },
+              child: CircleAvatar(
+                radius: 20,
+                backgroundImage: _pickedImage == null
+                    ? AssetImage('assets/images/technocart.png')
+                    : FileImage(File(_pickedImage!.path)) as ImageProvider<Object>?,
+              ),
+            ),
+          ),
+        ],title: Text('Task Management',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white),),
       ),
       body: ListView.builder(
         itemCount: data.length,

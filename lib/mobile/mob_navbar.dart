@@ -19,6 +19,7 @@ class NavPage extends StatefulWidget {
 }
 
 class _NavPageState extends State<NavPage> {
+  
   int _currentIndex = 1;
    XFile? _pickedImage;
   late String pickedImagePath;
@@ -84,37 +85,40 @@ class _NavPageState extends State<NavPage> {
 
   @override
   Widget build(BuildContext context) {
+    const _color1 = Color(0xFFC21E56);
+    // const _color2 = Color(0xFFF09FDE);
     return Scaffold(
-      appBar: AppBar(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(100),
-            bottomRight: Radius.circular(100),
-          ),
-        ),
-        actions: <Widget>[
-          Container(
-            margin: EdgeInsets.only(right: 10.0),
-            child: GestureDetector(
-              onTap: () {
-                Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => Profile(),
-            ),
-          );
-              },
-              child: CircleAvatar(
-                radius: 20,
-                backgroundImage: _pickedImage == null
-                    ? AssetImage('assets/images/technocart.png')
-                    : FileImage(File(_pickedImage!.path)) as ImageProvider<Object>?,
-              ),
-            ),
-          ),
-        ],
-        title: Text('HI $name'),
-      ),
+      // appBar: AppBar(
+      //   backgroundColor: _color1,
+      //   shape: RoundedRectangleBorder(
+      //     borderRadius: BorderRadius.only(
+      //       bottomLeft: Radius.circular(100),
+      //       bottomRight: Radius.circular(100),
+      //     ),
+      //   ),
+      //   actions: <Widget>[
+      //     Container(
+      //       margin: EdgeInsets.only(right: 10.0),
+      //       child: GestureDetector(
+      //         onTap: () {
+      //           Navigator.push(
+      //       context,
+      //       MaterialPageRoute(
+      //         builder: (context) => Profile(),
+      //       ),
+      //     );
+      //         },
+      //         child: CircleAvatar(
+      //           radius: 20,
+      //           backgroundImage: _pickedImage == null
+      //               ? AssetImage('assets/images/technocart.png')
+      //               : FileImage(File(_pickedImage!.path)) as ImageProvider<Object>?,
+      //         ),
+      //       ),
+      //     ),
+      //   ],
+      //   title: Text('HI $name'),
+      // ),
       body: _pages[_currentIndex],
       bottomNavigationBar: ClipRRect(
         borderRadius: BorderRadius.only(
