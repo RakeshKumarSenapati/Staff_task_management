@@ -29,7 +29,6 @@ class _NavPageState extends State<NavPage> {
     // DetailsMobile(),
     ContactPrev(),
     Task_mgmt(),
-    Report()
   ];
 
   String name = '';
@@ -160,11 +159,7 @@ class _NavPageState extends State<NavPage> {
                 label: 'Task Management',
                 backgroundColor: Color(0xFFC21E56),
               ),
-               BottomNavigationBarItem(
-                icon: Icon(Icons.report),
-                label: 'Report',
-                backgroundColor: Color(0xFFC21E56),
-              ),
+               
             ],
           ),
         ),
