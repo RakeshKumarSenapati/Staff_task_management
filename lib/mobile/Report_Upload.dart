@@ -112,7 +112,7 @@ Future<void> uploadFile(File file) async {
     final response = await request.send();
     if (response.statusCode == 200) {
       Fluttertoast.showToast(
-        msg: 'File uploaded successfully',
+        msg: response.toString(),
         gravity: ToastGravity.BOTTOM,
         backgroundColor: Colors.green,
         textColor: Colors.white,

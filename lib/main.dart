@@ -29,7 +29,6 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(title: Text('Responsive App')),
       body: LayoutBuilder(
         builder: (context, constraints) {
           if (constraints.maxWidth <= 900) {
@@ -49,7 +48,7 @@ class MyHomePage extends StatelessWidget {
             return MaterialApp(
               debugShowCheckedModeBanner: false,
               // home:  ,
-              home: const Web_SplashScreen(),
+              home: const Mob_Splash_screen(),
               themeMode: ThemeMode.light,
               theme: ThemeData(
                   primaryColor: const Color.fromARGB(255, 0, 127, 139),
