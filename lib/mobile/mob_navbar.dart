@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/mobile/Report_Upload.dart';
 import 'package:flutter_application_1/mobile/mob_Profile.dart';
 import 'package:flutter_application_1/mobile/mob_add_task.dart';
 import 'package:flutter_application_1/mobile/mob_task_mgmt.dart';
@@ -29,6 +30,7 @@ class _NavPageState extends State<NavPage> {
     // DetailsMobile(),
     ContactPrev(),
     Task_mgmt(),
+    Report()
   ];
 
   String name = '';
@@ -157,6 +159,11 @@ class _NavPageState extends State<NavPage> {
               BottomNavigationBarItem(
                 icon: Icon(Icons.task),
                 label: 'Task Management',
+                backgroundColor: Color(0xFFC21E56),
+              ),
+               BottomNavigationBarItem(
+                icon: Icon(Icons.report),
+                label: 'Report',
                 backgroundColor: Color(0xFFC21E56),
               ),
             ],
