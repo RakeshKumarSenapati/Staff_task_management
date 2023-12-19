@@ -130,8 +130,8 @@ class _Task_mgmt extends State<Task_mgmt> {
 
           return Center(
             child: FadeInLeftBig( // Wrap the entire Card with FadeInUp animation
-              duration: const Duration(milliseconds: 1300),
-              delay: Duration(milliseconds: index * 300),
+              duration: const Duration(milliseconds: 400),
+              delay: Duration(milliseconds: index * 200),
               child: Card(
                 elevation: 8,
                 child: ExpansionTile(
