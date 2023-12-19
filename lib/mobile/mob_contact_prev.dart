@@ -408,11 +408,11 @@ class _Contact extends State<Contact> {
                                                 builder: (context) =>
                                                     Contact_Edit(
                                                   course: '${widget.course}',
-                                                  sem: data[index]['SEMESTER'],
-                                                  id:data[index]['ID'],
-                                                  sMob: data[index]['MOB_NO'],
-                                                  mMob:data[index]['M_MOB'],
-                                                  fMob:data[index]['F_MOB']
+                                                  sem: data[index]['SEMESTER'] ?? "Enter new",
+                                                  id:data[index]['ID'] ?? "Enter new",
+                                                  sMob: data[index]['MOB_NO'] ?? "Enter new",
+                                                  mMob:data[index]['M_MOB'] ?? "Enter new",
+                                                  fMob:data[index]['F_MOB'] ?? "Enter new"
                                                 ),
                                               ),
                                             );
