@@ -334,9 +334,16 @@ class _TaskListScreenState extends State<TaskListScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SizedBox(height: 80,),
-                        Icon(Icons.add_task_rounded,size: 40,),
-                        SizedBox(height: 20,),
+                        SizedBox(
+                          height: 80,
+                        ),
+                        Icon(
+                          Icons.add_task_rounded,
+                          size: 40,
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
                         Text(
                           "There is nothing scheduled",
                           style: TextStyle(
@@ -354,7 +361,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
                     ),
                   )
                 : Container(
-                    height: 400,
+                    height: MediaQuery.of(context).size.height,
                     child: ListView.builder(
                       padding: EdgeInsets.zero,
                       itemCount: tasks.length,
@@ -379,7 +386,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
                           padding: EdgeInsets.only(left: 5, right: 5),
                           child: FadeInRightBig(
                             duration: Duration(milliseconds: 800),
-                            delay: Duration(milliseconds: index * 100),
+                            delay: Duration(milliseconds: index * 50),
                             child: Card(
                               child: SizedBox(
                                 height: 70,
@@ -387,7 +394,14 @@ class _TaskListScreenState extends State<TaskListScreen> {
                                   child: ListTile(
                                     leading: TaskStatusIcon(task.status),
                                     title: Text(task.name),
-                                    trailing: Text(dateToShow),
+                                    trailing: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        Text("start : " + task.startDate),
+                                        Text("complete : " + task.endDate),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
@@ -556,5 +570,3 @@ class TaskCount extends StatelessWidget {
     );
   }
 }
-
-
