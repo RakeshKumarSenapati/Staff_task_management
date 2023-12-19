@@ -33,7 +33,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
   late List<Task> originalTasks = [];
   TaskStatus filter = TaskStatus.all;
   DateTime selectedDate = DateTime.now();
-  DateTime lastWeek = DateTime.now().subtract(Duration(days: 7));
+  DateTime lastWeek = DateTime.now().subtract(const Duration(days: 7));
   DateTime? selectedMonth;
   int selectedFilterIndex = 0;
   XFile? _pickedImage;
@@ -153,7 +153,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
     setState(() {
       setFilter(TaskStatus.all);
       filter = TaskStatus.all;
-      lastWeek = DateTime.now().subtract(Duration(days: 7));
+      lastWeek = DateTime.now().subtract(const Duration(days: 7));
       tasks = originalTasks.where((task) {
         final taskDate = DateFormat("yyyy-MM-dd").parse(task.date);
         return taskDate.isAfter(lastWeek) ||
@@ -238,7 +238,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
     // Replace AddTaskScreen with the actual screen you want to navigate to
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => Mob_Add_Task()),
+      MaterialPageRoute(builder: (context) => const Mob_Add_Task()),
     );
   }
 
@@ -248,7 +248,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: FadeInLeftBig(
-          duration: Duration(milliseconds: 1500),
+          duration: const Duration(milliseconds: 1500),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -278,7 +278,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
       color: bgColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20.0),
-        side: BorderSide(color: _color1),
+        side: const BorderSide(color: _color1),
       ),
       child: InkWell(
         onTap: () {
@@ -312,18 +312,18 @@ class _TaskListScreenState extends State<TaskListScreen> {
         child: Column(
           children: [
             FadeInDown(
-              duration: Duration(milliseconds: 1500),
+              duration: const Duration(milliseconds: 1500),
               child: ClipPath(
                 clipper: AppBarClipper(),
                 child: Container(
                   width: double.infinity,
                   height: 180,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: _color1,
                   ),
                   child: Row(
                     children: [
-                      Column(
+                      const Column(
                         children: [
                           SizedBox(height: 30),
                         ],
@@ -332,10 +332,10 @@ class _TaskListScreenState extends State<TaskListScreen> {
                         child: Column(
                           children: [
                             Padding(
-                              padding: EdgeInsets.only(top: 45),
+                              padding: const EdgeInsets.only(top: 45),
                               child: Row(
                                 children: [
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 20,
                                   ),
                                   GestureDetector(
@@ -343,27 +343,27 @@ class _TaskListScreenState extends State<TaskListScreen> {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => Profile(),
+                                          builder: (context) => const Profile(),
                                         ),
                                       );
                                     },
                                     child: CircleAvatar(
                                       radius: 30,
                                       backgroundImage: _pickedImage == null
-                                          ? AssetImage(
+                                          ? const AssetImage(
                                               'assets/images/technocart.png')
                                           : FileImage(File(_pickedImage!.path))
                                               as ImageProvider<Object>?,
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 15,
                                   ),
                                   
                                   Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Text(
+                                      const Text(
                                     
                                         "Hi!",
                                         style: TextStyle(
@@ -374,7 +374,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
                                       ),
                                       Text(
                                         name,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontSize: 18,
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold,
@@ -394,7 +394,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
                             padding: const EdgeInsets.only(top: 40, left: 16),
                             child: Builder(
                               builder: (context) => IconButton(
-                                icon: Icon(Icons.menu,color: Colors.white,),
+                                icon: const Icon(Icons.menu,color: Colors.white,),
                                 iconSize: 35,
                                 onPressed: () {
                                   Scaffold.of(context).openEndDrawer();
@@ -410,12 +410,12 @@ class _TaskListScreenState extends State<TaskListScreen> {
               ),
             ),
             buildFilterOptions(),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             // Check if tasks list is empty
             tasks.isEmpty
-                ? Center(
+                ? const Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -468,9 +468,9 @@ class _TaskListScreenState extends State<TaskListScreen> {
                         }
 
                         return Padding(
-                          padding: EdgeInsets.only(left: 5, right: 5),
+                          padding: const EdgeInsets.only(left: 5, right: 5),
                           child: FadeInRightBig(
-                            duration: Duration(milliseconds: 420),
+                            duration: const Duration(milliseconds: 420),
                             delay: Duration(milliseconds: index * 22),
                             child: Card(
                               child: SizedBox(
@@ -505,7 +505,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
         child: ListView(
           children: [
             ListTile(
-              title: Text("All"),
+              title: const Text("All"),
               selected: filter == TaskStatus.all,
               onTap: () {
                 setFilter(TaskStatus.all);
@@ -513,7 +513,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
               },
             ),
             ListTile(
-              title: Text("Active"),
+              title: const Text("Active"),
               selected: filter == TaskStatus.active,
               onTap: () {
                 setFilter(TaskStatus.active);
@@ -521,7 +521,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
               },
             ),
             ListTile(
-              title: Text("Pending"),
+              title: const Text("Pending"),
               selected: filter == TaskStatus.pending,
               onTap: () {
                 setFilter(TaskStatus.pending);
@@ -529,7 +529,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
               },
             ),
             ListTile(
-              title: Text("Completed"),
+              title: const Text("Completed"),
               selected: filter == TaskStatus.completed,
               onTap: () {
                 setFilter(TaskStatus.completed);
@@ -542,13 +542,13 @@ class _TaskListScreenState extends State<TaskListScreen> {
       floatingActionButton: Container(
         decoration: BoxDecoration(
             border: Border.all(width: 2, color: _color1),
-            borderRadius: BorderRadius.all(Radius.circular(18))),
+            borderRadius: const BorderRadius.all(Radius.circular(18))),
         child: FloatingActionButton(
           backgroundColor: _color2,
           onPressed: () {
             _navigateToAddTaskScreen(context);
           },
-          child: Icon(
+          child: const Icon(
             Icons.add,
             size: 30,
           ),
@@ -645,11 +645,11 @@ class TaskCount extends StatelessWidget {
         TaskStatusIcon(taskStatus),
         Text(
           '$count',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
         Text(
           taskStatus.toString().split('.').last.toUpperCase(),
-          style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+          style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
         ),
       ],
     );
