@@ -300,8 +300,8 @@ class _Contact extends State<Contact> {
               itemCount: data.length,
               itemBuilder: (context, index) {
                 return FadeInLeft(
-                  duration: Duration(milliseconds: 1000),
-                  delay: Duration(milliseconds: index * 200),
+                  duration: Duration(milliseconds: 420),
+                  delay: Duration(milliseconds: index * 21),
                   child: Container(
                     margin: const EdgeInsets.all(10.0),
                     child: Card(
