@@ -47,8 +47,8 @@ class _StaffListState extends State<StaffList> {
         itemCount: items.length,
         itemBuilder: (BuildContext context, int index) {
           return FadeInDown(
-            duration: Duration(milliseconds: 1000),
-            delay: Duration(milliseconds: 300 * index),
+            duration: Duration(milliseconds: 400),
+            delay: Duration(milliseconds: 100 * index),
             child: StaffCard(item: items[index]),
           );
         },

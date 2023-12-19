@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Report extends StatefulWidget {
   @override
@@ -96,6 +97,8 @@ class _Report extends State<Report> {
 }
 
 Future<void> uploadFile(File file) async {
+   SharedPreferences prefs = await SharedPreferences.getInstance();
+            String userID = prefs.getString('userID') ?? '';
   var request = http.MultipartRequest(
     'POST',
     Uri.parse('https://creativecollege.in/Flutter/Report/upload.php'),
@@ -107,12 +110,14 @@ Future<void> uploadFile(File file) async {
       file.path,
     ),
   );
+  // Add the user ID to the request body
+  request.fields['userId'] = userID;
 
   try {
     final response = await request.send();
     if (response.statusCode == 200) {
       Fluttertoast.showToast(
-        msg: response.toString(),
+        msg: "Uploaded Sucessfully",
         gravity: ToastGravity.BOTTOM,
         backgroundColor: Colors.green,
         textColor: Colors.white,

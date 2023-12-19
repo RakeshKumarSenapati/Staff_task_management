@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/mobile/Report_Upload.dart';
 import 'package:flutter_application_1/mobile/mob_task_mgmt.dart';
 import 'package:flutter_application_1/mobile/mob_contact_prev.dart';
 import 'package:flutter_application_1/mobile/detailsMobile.dart';
@@ -24,7 +25,7 @@ class _NavPageState extends State<NavPage> {
     DetailsMobile(),
     // DetailsMobile(),
     const ContactPrev(),
-    Task_mgmt(),
+    Report(),
   ];
 
   String name = '';
