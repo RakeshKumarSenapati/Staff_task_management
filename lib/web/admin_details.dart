@@ -1,53 +1,86 @@
 import 'dart:convert';
+import 'dart:io';
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/mobile/mob_Profile.dart';
+import 'package:flutter_application_1/mobile/mob_add_task.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:month_picker_dialog/month_picker_dialog.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
-class Details_admin_web extends StatelessWidget {
+class Details_admin_web extends StatefulWidget {
   final String name;
 
-  const Details_admin_web({Key? key, required this.name}) : super(key: key);
-
+  Details_admin_web({required this.name});
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Activity Manager',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: TaskListScreen(name: name),
-    );
-  }
+  _Details_admin_web createState() => _Details_admin_web();
 }
 
-class TaskListScreen extends StatefulWidget {
-  final String name;
-
-  TaskListScreen({required this.name});
-
-  @override
-  _TaskListScreenState createState() => _TaskListScreenState(name: name);
-}
-
-class _TaskListScreenState extends State<TaskListScreen> {
+class _Details_admin_web extends State<Details_admin_web> {
   List<Task> tasks = [];
   late List<Task> originalTasks = [];
   TaskStatus filter = TaskStatus.all;
   DateTime selectedDate = DateTime.now();
-  DateTime lastWeek = DateTime.now().subtract(Duration(days: 7));
+  DateTime lastWeek = DateTime.now().subtract(const Duration(days: 7));
   DateTime? selectedMonth;
-  final String name;
+  int selectedFilterIndex = 0;
+  XFile? _pickedImage;
+  late String pickedImagePath;
+  String name='';
 
-  _TaskListScreenState({required this.name});
+  Future<void> loadImagePath() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? savedImagePath = prefs.getString('pickedImagePath');
+
+    setState(() {
+      if (savedImagePath != null) {
+        _pickedImage = XFile(savedImagePath);
+      }
+    });
+  }
+
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    fetchData(widget.name);
+    // data fetching method call
+     name = widget.name;
+    initializeData();
+    loadImagePath();
+    fetchData();
   }
 
+ 
+  String designation = '';
+
+  Future<void> initializeData() async {
+  
+    final response = await http.get(
+        Uri.parse('https://creativecollege.in/Flutter/Admin_staff_details.php?name=$name'));
+
+    if (response.statusCode == 200) {
+      final jsonData = json.decode(response.body);
+
+      if (jsonData is List && jsonData.isNotEmpty) {
+        final firstElement = jsonData[0];
+        setState(() {
+          name = firstElement['name'];
+        });
+      } else {
+        setState(() {
+          name = 'Data not found';
+        });
+      }
+    } else {
+      throw Exception('Failed to load data');
+    }
+    await fetchData();
+    filterTasksToday();
+  }
+
+  // status convert
   TaskStatus taskStatusFromString(String status) {
     switch (status) {
       case 'Started':
@@ -61,14 +94,15 @@ class _TaskListScreenState extends State<TaskListScreen> {
     }
   }
 
-  Future<void> fetchData(String name) async {
+  // data fetching from api
+  Future<void> fetchData() async {
     final response = await http.get(Uri.parse(
         'https://creativecollege.in/Flutter/Admin_staff_details.php?name=$name'));
 
     if (response.statusCode == 200) {
       final List<dynamic> responseData = jsonDecode(response.body);
       setState(() {
-        originalTasks = responseData.map((taskData) {
+        tasks = responseData.map((taskData) {
           return Task(
               taskData['TITLE'],
               taskStatusFromString(taskData['STATUS']),
@@ -76,9 +110,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
               taskData['STARTDATE'],
               taskData['ENDDATE']);
         }).toList();
-
-        // Make a copy of the original tasks
-        tasks = List.from(originalTasks);
+        originalTasks = List.from(tasks);
       });
     } else {
       throw Exception('Error while fetching data');
@@ -99,7 +131,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
       setFilter(TaskStatus.all);
       filter = TaskStatus.all;
       selectedDate = date;
-      tasks = tasks.where((task) {
+      tasks = originalTasks.where((task) {
         final taskDate = DateFormat("yyyy-MM-dd").parse(task.date);
         return taskDate.isAtSameMomentAs(date);
       }).toList();
@@ -110,10 +142,41 @@ class _TaskListScreenState extends State<TaskListScreen> {
     setState(() {
       setFilter(TaskStatus.all);
       filter = TaskStatus.all;
-      lastWeek = DateTime.now().subtract(Duration(days: 7));
-      tasks = tasks.where((task) {
+      lastWeek = DateTime.now().subtract(const Duration(days: 7));
+      tasks = originalTasks.where((task) {
         final taskDate = DateFormat("yyyy-MM-dd").parse(task.date);
-        return taskDate.isAfter(lastWeek) || taskDate.isAtSameMomentAs(lastWeek);
+        return taskDate.isAfter(lastWeek) ||
+            taskDate.isAtSameMomentAs(lastWeek);
+      }).toList();
+    });
+  }
+
+  void filterTasksToday() {
+    setState(() {
+      setFilter(TaskStatus.all);
+      filter = TaskStatus.all;
+      selectedDate = DateTime.now();
+      tasks = originalTasks.where((task) {
+        final taskDate = DateTime.parse(task.date).toLocal();
+        final todayStart = DateTime(selectedDate.year, selectedDate.month,
+                selectedDate.day, 0, 0, 0)
+            .toLocal();
+        final todayEnd = DateTime(selectedDate.year, selectedDate.month,
+                selectedDate.day, 23, 59, 59)
+            .toLocal();
+        return taskDate.isAtSameMomentAs(todayStart) ||
+            (taskDate.isAfter(todayStart) && taskDate.isBefore(todayEnd));
+      }).toList();
+    });
+  }
+
+  void filterTasksByYear(int year) {
+    setState(() {
+      setFilter(TaskStatus.all);
+      filter = TaskStatus.all;
+      tasks = originalTasks.where((task) {
+        final taskDate = DateFormat("yyyy-MM-dd").parse(task.date);
+        return taskDate.year == year;
       }).toList();
     });
   }
@@ -127,7 +190,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
       setFilter(TaskStatus.all);
       filter = TaskStatus.all;
       selectedMonth = month;
-      tasks = tasks.where((task) {
+      tasks = originalTasks.where((task) {
         final taskDate = DateFormat("yyyy-MM-dd").parse(task.date);
         return taskDate.month == month.month && taskDate.year == month.year;
       }).toList();
@@ -150,160 +213,368 @@ class _TaskListScreenState extends State<TaskListScreen> {
     }
   }
 
-  void _selectMonth(BuildContext context) async {
-    DateTime? picked = await showMonthPicker(
-      context: context,
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2101),
-    );
+  void _selectMonth(BuildContext context) {
+    DateTime now = DateTime.now();
+    filterTasksByMonth(DateTime(now.year, now.month));
+  }
 
-    if (picked != null) {
-      filterTasksByMonth(picked);
-    }
+  void _selectYear(BuildContext context) {
+    int currentYear = DateTime.now().year;
+    filterTasksByYear(currentYear);
+  }
+
+  void _navigateToAddTaskScreen(BuildContext context) {
+    // Replace AddTaskScreen with the actual screen you want to navigate to
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const Mob_Add_Task()),
+    );
+  }
+
+  Widget buildFilterOptions() {
+    return Padding(
+      padding: const EdgeInsets.all(5),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: FadeInLeftBig(
+          duration: const Duration(milliseconds: 1500),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              buildFilterOption(" Today ", 0, () => filterTasksToday()),
+              buildFilterOption(" This Week ", 1, () => filterTasksLastWeek()),
+              buildFilterOption(" This Month ", 2, () {
+                _selectMonth(context);
+              }),
+              buildFilterOption(" This Year ", 3, () {
+                _selectYear(context);
+              }),
+              buildFilterOption(" All ", 4, () => setFilter(TaskStatus.all)),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildFilterOption(String label, int index, VoidCallback onPressed) {
+    const _color1 = Color(0xFFC21E56);
+    const _color2 = Color(0xFFF09FDE);
+    final isSelected = selectedFilterIndex == index;
+    final bgColor = isSelected ? _color1 : _color2;
+
+    return Card(
+      color: bgColor,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20.0),
+        side: const BorderSide(color: _color1),
+      ),
+      child: InkWell(
+        onTap: () {
+          setState(() {
+            selectedFilterIndex = index;
+          });
+          onPressed();
+        },
+        borderRadius: BorderRadius.circular(20.0),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 5),
+          child: Text(
+            label,
+            style: TextStyle(
+              color: isSelected ? Colors.white : Colors.black,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget build(BuildContext context) {
+    String N = name;
+    const _color1 = Color(0xFFC21E56);
+    const _color2 = Color(0xFFF09FDE);
+
+    return Scaffold(
+      key: _scaffoldKey,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            FadeInDown(
+              duration: const Duration(milliseconds: 1500),
+              child: ClipPath(
+                clipper: AppBarClipper(),
+                child: Container(
+                  width: double.infinity,
+                  height: 180,
+                  decoration: const BoxDecoration(
+                    color: _color1,
+                  ),
+                  child: Row(
+                    children: [
+                      const Column(
+                        children: [
+                          SizedBox(height: 30),
+                        ],
+                      ),
+                      Expanded(
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 45),
+                              child: Row(
+                                children: [
+                                  const SizedBox(
+                                    width: 20,
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => const Profile(),
+                                        ),
+                                      );
+                                    },
+                                    child: CircleAvatar(
+                                      radius: 30,
+                                      backgroundImage: _pickedImage == null
+                                          ? const AssetImage(
+                                              'assets/images/technocart.png')
+                                          : FileImage(File(_pickedImage!.path))
+                                              as ImageProvider<Object>?,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 15,
+                                  ),
+                                  
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      const Text(
+                                    
+                                        "Hi!",
+                                        style: TextStyle(
+                                          fontSize: 28,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      Text(
+                                        name,
+                                        style: const TextStyle(
+                                          fontSize: 18,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 40, left: 16),
+                            child: Builder(
+                              builder: (context) => IconButton(
+                                icon: const Icon(Icons.menu,color: Colors.white,),
+                                iconSize: 35,
+                                onPressed: () {
+                                  Scaffold.of(context).openEndDrawer();
+                                },
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            buildFilterOptions(),
+            const SizedBox(
+              height: 10,
+            ),
+            // Check if tasks list is empty
+            tasks.isEmpty
+                ? const Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          height: 80,
+                        ),
+                        Icon(
+                          Icons.add_task_rounded,
+                          size: 40,
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          "There is nothing scheduled",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          "Try adding new activities",
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                : Container(
+                    height: MediaQuery.of(context).size.height,
+                    child: ListView.builder(
+                      padding: EdgeInsets.zero,
+                      itemCount: tasks.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        final task = tasks.reversed.toList()[index];
+
+                        if (filter != TaskStatus.all && task.status != filter) {
+                          return Container();
+                        }
+
+                        String dateToShow = '';
+
+                        if (task.status == TaskStatus.completed) {
+                          dateToShow = task.endDate;
+                        } else if (task.status == TaskStatus.active) {
+                          dateToShow = task.startDate;
+                        } else if (task.status == TaskStatus.pending) {
+                          dateToShow = task.date;
+                        }
+
+                        return Padding(
+                          padding: const EdgeInsets.only(left: 5, right: 5),
+                          child: FadeInRightBig(
+                            duration: const Duration(milliseconds: 420),
+                            delay: Duration(milliseconds: index * 22),
+                            child: Card(
+                              child: SizedBox(
+                                height: 70,
+                                child: Center(
+                                  child: ListTile(
+                                    leading: TaskStatusIcon(task.status),
+                                    title: Text(task.name),
+                                    trailing: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        Text("start : " + task.startDate),
+                                        Text("complete : " + task.endDate),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              elevation: 1,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+          ],
+        ),
+      ),
+      endDrawer: Drawer(
+        width: 300,
+        child: ListView(
+          children: [
+            ListTile(
+              title: const Text("All"),
+              selected: filter == TaskStatus.all,
+              onTap: () {
+                setFilter(TaskStatus.all);
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: const Text("Active"),
+              selected: filter == TaskStatus.active,
+              onTap: () {
+                setFilter(TaskStatus.active);
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: const Text("Pending"),
+              selected: filter == TaskStatus.pending,
+              onTap: () {
+                setFilter(TaskStatus.pending);
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: const Text("Completed"),
+              selected: filter == TaskStatus.completed,
+              onTap: () {
+                setFilter(TaskStatus.completed);
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
+      ),
+      // floatingActionButton: Container(
+      //   decoration: BoxDecoration(
+      //       border: Border.all(width: 2, color: _color1),
+      //       borderRadius: const BorderRadius.all(Radius.circular(18))),
+      //   child: FloatingActionButton(
+      //     backgroundColor: _color2,
+      //     onPressed: () {
+      //       _navigateToAddTaskScreen(context);
+      //     },
+      //     child: const Icon(
+      //       Icons.add,
+      //       size: 30,
+      //     ),
+      //   ),
+      // ),
+    );
+  }
+}
+
+class AppBarClipper extends CustomClipper<Path> {
+  final double controlPointPercentage;
+
+  AppBarClipper({this.controlPointPercentage = 0.5});
+
+  @override
+  Path getClip(Size size) {
+    var path = Path();
+
+    final p0 = size.height * 0.75;
+    path.lineTo(0, p0);
+
+    final controlPoint =
+        Offset(size.width * controlPointPercentage, size.height);
+    final endPoint = Offset(
+        size.width, size.width < 600 ? size.height / 1.5 : size.height / 2);
+    path.quadraticBezierTo(
+        controlPoint.dx, controlPoint.dy, endPoint.dx, endPoint.dy);
+
+    path.lineTo(size.width, 0);
+    path.close();
+
+    return path;
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Activity Manager'),
-        actions: [
-          PopupMenuButton<String>(
-            icon: Icon(Icons.calendar_today),
-            onSelected: (choice) {
-              if (choice == 'Last Week') {
-                filterTasksLastWeek();
-              } else if (choice == 'Select Month') {
-                _selectMonth(context);
-              } else if (choice == 'Select Date') {
-                _selectDate(context);
-              }
-            },
-            itemBuilder: (BuildContext context) {
-              return {'Last Week', 'Select Month', 'Select Date'}
-                  .map((String choice) {
-                return PopupMenuItem<String>(
-                  value: choice,
-                  child: Text(choice),
-                );
-              }).toList();
-            },
-          ),
-        ],
-      ),
-      body: Column(
-        children: [
-          Container(
-            color: Colors.white,
-            padding: EdgeInsets.symmetric(vertical: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                FilterOption(
-                  label: '     All     ',
-                  selected: filter == TaskStatus.all,
-                  onTap: () {
-                    setFilter(TaskStatus.all);
-                  },
-                ),
-                FilterOption(
-                  label: '  Active  ',
-                  selected: filter == TaskStatus.active,
-                  onTap: () {
-                    setFilter(TaskStatus.active);
-                  },
-                ),
-                FilterOption(
-                  label: 'Pending',
-                  selected: filter == TaskStatus.pending,
-                  onTap: () {
-                    setFilter(TaskStatus.pending);
-                  },
-                ),
-                FilterOption(
-                  label: 'Completed',
-                  selected: filter == TaskStatus.completed,
-                  onTap: () {
-                    setFilter(TaskStatus.completed);
-                  },
-                ),
-              ],
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  TaskCount(taskStatus: TaskStatus.active, tasks: tasks),
-                  TaskCount(taskStatus: TaskStatus.completed, tasks: tasks),
-                  TaskCount(taskStatus: TaskStatus.pending, tasks: tasks),
-                ],
-              ),
-            ),
-            margin: EdgeInsets.zero,
-            elevation: 2,
-          ),
-          SizedBox(
-            height: 18,
-          ),
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-                border: Border.all(color: Colors.black),
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(20),
-                ),
-              ),
-              padding: EdgeInsets.only(top: 15),
-              child: ListView.builder(
-                itemCount: tasks.length,
-                itemBuilder: (BuildContext context, int index) {
-                  final task = tasks[index];
-                  if (filter != TaskStatus.all && task.status != filter) {
-                    return Container();
-                  }
-
-                  String dateToShow = '';
-
-                  if (task.status == TaskStatus.completed) {
-                    dateToShow = task.endDate;
-                  } else if (task.status == TaskStatus.active) {
-                    dateToShow = task.startDate;
-                  } else if (task.status == TaskStatus.pending) {
-                    dateToShow = task.date;
-                  }
-
-                  return Padding(
-                    padding: EdgeInsets.only(left: 5, right: 5),
-                    child: Card(
-                      child: SizedBox(
-                        height: 70,
-                        child: Center(
-                          child: ListTile(
-                            leading: TaskStatusIcon(task.status),
-                            title: Text(task.name),
-                            trailing: Text(dateToShow),
-                          ),
-                        ),
-                      ),
-                      elevation: 1,
-                    ),
-                  );
-                },
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+  bool shouldReclip(covariant CustomClipper<Path> oldClipper) =>
+      oldClipper != this;
 }
 
 enum TaskStatus { active, completed, pending, all }
@@ -348,40 +619,6 @@ class TaskStatusIcon extends StatelessWidget {
   }
 }
 
-class FilterOption extends StatelessWidget {
-  final String label;
-  final bool selected;
-  final VoidCallback onTap;
-
-  FilterOption({
-    required this.label,
-    required this.selected,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          color: selected ? Colors.blue : Colors.white,
-          border: Border.all(color: Colors.black),
-          borderRadius: BorderRadius.circular(18),
-        ),
-        child: Text(
-          label,
-          style: TextStyle(
-            color: selected ? Colors.white : Colors.black,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
 class TaskCount extends StatelessWidget {
   final TaskStatus taskStatus;
   final List<Task> tasks;
@@ -397,11 +634,11 @@ class TaskCount extends StatelessWidget {
         TaskStatusIcon(taskStatus),
         Text(
           '$count',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
         Text(
           taskStatus.toString().split('.').last.toUpperCase(),
-          style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+          style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
         ),
       ],
     );
