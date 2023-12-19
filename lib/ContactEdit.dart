@@ -221,7 +221,7 @@ class _Mob_Contact_Edit extends State<Contact_Edit> {
                                 ),
                               ),
                               child: TextField(
-                                controller: mmob,
+                                controller: fmob,
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
                                   label: Text('Enter New Number'),
@@ -243,7 +243,7 @@ class _Mob_Contact_Edit extends State<Contact_Edit> {
                               ),
                               child: TextField(
                               
-                                controller: fmob,
+                                controller: mmob,
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
                                   label: Text('Enter New Number'),
