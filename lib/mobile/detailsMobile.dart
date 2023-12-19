@@ -13,7 +13,11 @@ class DetailsMobile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+<<<<<<< HEAD
       // use Profile icon in this part
+=======
+      
+>>>>>>> 93639d104943d1f56f877720df1aae81e505e584
       title: 'Activity Manager',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(

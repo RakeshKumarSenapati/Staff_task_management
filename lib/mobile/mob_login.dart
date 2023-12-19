@@ -146,16 +146,24 @@ class _Mob_Login_PageState extends State<Mob_Login_Page> {
                         child: FadeInUp(
                             duration: Duration(milliseconds: 1600),
                             child: Container(
-                              margin: EdgeInsets.only(top: 50),
+                              margin: EdgeInsets.only(top: 150),
                               child: Center(
-                                child: Text(
-                                  "Login",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 40,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
+                                  child: Column(
+                                children: [
+                                  Image.asset(
+                                    'assets/images/ctclogo.png',
+                                    width:
+                                        150, // Set the width as needed for larger screens
+                                  ),
+                                  Text(
+                                    "Login",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 40,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              )),
                             )),
                       )
                     ],

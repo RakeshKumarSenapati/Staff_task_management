@@ -50,26 +50,22 @@ class _Mob_Contact_Edit extends State<Contact_Edit> {
     final response = await http.post(
       Uri.parse('https://creativecollege.in/Flutter/Contact.php'),
       body: {
-        'user': user.text,
-        'course': course.text,
-        'sem': sem.text,
-        'smob': smob.text,
-        'fmob': fmob.text,
-        'mmob': mmob.text,
+        'user': user.text.trim().trim(),
+        'course': course.text.trim(),
+        'sem': sem.text.trim(),
+        'smob': smob.text.trim(),
+        'fmob': fmob.text.trim(),
+        'mmob': mmob.text.trim(),
       },
     );
 
-    if (response.statusCode == 200) {
       Fluttertoast.showToast(
           msg: response.body,
           gravity: ToastGravity.BOTTOM,
           backgroundColor: Colors.green,
           textColor: Colors.white,
         );
-    } else {
-      // Handle other HTTP status codes
-      print("Error: ${response.statusCode}");
-    }
+    
   }
 
   Widget build(BuildContext context) {
@@ -221,7 +217,7 @@ class _Mob_Contact_Edit extends State<Contact_Edit> {
                                 ),
                               ),
                               child: TextField(
-                                controller: mmob,
+                                controller: fmob,
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
                                   label: Text('Enter New Number'),
@@ -243,7 +239,7 @@ class _Mob_Contact_Edit extends State<Contact_Edit> {
                               ),
                               child: TextField(
                               
-                                controller: fmob,
+                                controller: mmob,
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
                                   label: Text('Enter New Number'),

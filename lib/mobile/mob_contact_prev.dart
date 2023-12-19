@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/ContactEdit.dart';
 import 'package:flutter_application_1/mobile/mob_Profile.dart';
@@ -407,7 +406,7 @@ class _Contact extends State<Contact> {
                                               MaterialPageRoute(
                                                 builder: (context) =>
                                                     Contact_Edit(
-                                                  course: '${widget.course}',
+                                                  course: data[index]['COURSE'] ?? "Enter new",
                                                   sem: data[index]['SEMESTER'] ?? "Enter new",
                                                   id:data[index]['ID'] ?? "Enter new",
                                                   sMob: data[index]['MOB_NO'] ?? "Enter new",
