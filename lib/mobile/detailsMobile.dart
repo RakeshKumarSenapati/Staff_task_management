@@ -1,7 +1,10 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/mobile/mob_Profile.dart';
 import 'package:flutter_application_1/mobile/mob_add_task.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -10,6 +13,7 @@ class DetailsMobile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      // use Profile icon in this part
       title: 'Activity Manager',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -33,6 +37,19 @@ class _TaskListScreenState extends State<TaskListScreen> {
   DateTime lastWeek = DateTime.now().subtract(Duration(days: 7));
   DateTime? selectedMonth;
   int selectedFilterIndex = 0;
+  XFile? _pickedImage;
+  late String pickedImagePath;
+
+  Future<void> loadImagePath() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? savedImagePath = prefs.getString('pickedImagePath');
+
+    setState(() {
+      if (savedImagePath != null) {
+        _pickedImage = XFile(savedImagePath);
+      }
+    });
+  }
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -41,9 +58,34 @@ class _TaskListScreenState extends State<TaskListScreen> {
     super.initState();
     // data fetching method call
     initializeData();
+    loadImagePath();
   }
 
+  String name = '';
+  String designation = '';
+
   Future<void> initializeData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String userID = prefs.getString('userID') ?? '';
+    final response = await http.get(
+        Uri.parse('https://creativecollege.in/Flutter/Profile.php?id=$userID'));
+
+    if (response.statusCode == 200) {
+      final jsonData = json.decode(response.body);
+
+      if (jsonData is List && jsonData.isNotEmpty) {
+        final firstElement = jsonData[0];
+        setState(() {
+          name = firstElement['name'];
+        });
+      } else {
+        setState(() {
+          name = 'Data not found';
+        });
+      }
+    } else {
+      throw Exception('Failed to load data');
+    }
     await fetchData();
     filterTasksToday();
   }
@@ -261,7 +303,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
   }
 
   Widget build(BuildContext context) {
-    String name = "Activity Manager";
+    String N = name;
     const _color1 = Color(0xFFC21E56);
     const _color2 = Color(0xFFF09FDE);
 
@@ -291,13 +333,57 @@ class _TaskListScreenState extends State<TaskListScreen> {
                         child: Column(
                           children: [
                             Padding(
-                              padding: EdgeInsets.only(top: 65),
-                              child: Text(
-                                name,
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                              padding: EdgeInsets.only(top: 45),
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => Profile(),
+                                        ),
+                                      );
+                                    },
+                                    child: CircleAvatar(
+                                      radius: 30,
+                                      backgroundImage: _pickedImage == null
+                                          ? AssetImage(
+                                              'assets/images/technocart.png')
+                                          : FileImage(File(_pickedImage!.path))
+                                              as ImageProvider<Object>?,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 15,
+                                  ),
+                                  
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                    
+                                        "Hi!",
+                                        style: TextStyle(
+                                          fontSize: 28,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      Text(
+                                        name,
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                ],
                               ),
                             ),
                           ],
@@ -309,7 +395,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
                             padding: const EdgeInsets.only(top: 40, left: 16),
                             child: Builder(
                               builder: (context) => IconButton(
-                                icon: Icon(Icons.menu),
+                                icon: Icon(Icons.menu,color: Colors.white,),
                                 iconSize: 35,
                                 onPressed: () {
                                   Scaffold.of(context).openEndDrawer();
@@ -385,8 +471,8 @@ class _TaskListScreenState extends State<TaskListScreen> {
                         return Padding(
                           padding: EdgeInsets.only(left: 5, right: 5),
                           child: FadeInRightBig(
-                            duration: Duration(milliseconds: 800),
-                            delay: Duration(milliseconds: index * 50),
+                            duration: Duration(milliseconds: 420),
+                            delay: Duration(milliseconds: index * 22),
                             child: Card(
                               child: SizedBox(
                                 height: 70,
