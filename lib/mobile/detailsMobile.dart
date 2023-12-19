@@ -9,26 +9,12 @@ import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-class DetailsMobile extends StatelessWidget {
+class DetailsMobile extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Activity Manager',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: TaskListScreen(),
-    );
-  }
+  _DetailsMobileState createState() => _DetailsMobileState();
 }
 
-class TaskListScreen extends StatefulWidget {
-  @override
-  _TaskListScreenState createState() => _TaskListScreenState();
-}
-
-class _TaskListScreenState extends State<TaskListScreen> {
+class _DetailsMobileState extends State<DetailsMobile> {
   List<Task> tasks = [];
   late List<Task> originalTasks = [];
   TaskStatus filter = TaskStatus.all;

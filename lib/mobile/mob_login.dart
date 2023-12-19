@@ -146,15 +146,11 @@ class _Mob_Login_PageState extends State<Mob_Login_Page> {
                         child: FadeInUp(
                             duration: Duration(milliseconds: 1600),
                             child: Container(
-                              margin: EdgeInsets.only(top: 150),
+                              margin: EdgeInsets.only(top: 250),
                               child: Center(
                                   child: Column(
                                 children: [
-                                  Image.asset(
-                                    'assets/images/ctclogo.png',
-                                    width:
-                                        150, // Set the width as needed for larger screens
-                                  ),
+                                  
                                   Text(
                                     "Login",
                                     style: TextStyle(
@@ -162,6 +158,13 @@ class _Mob_Login_PageState extends State<Mob_Login_Page> {
                                         fontSize: 40,
                                         fontWeight: FontWeight.bold),
                                   ),
+                                  SizedBox(height: 20,),
+                                  Image.asset(
+                                    'assets/images/ctclogo.png',
+                                    width:
+                                        125, // Set the width as needed for larger screens
+                                  ),
+
                                 ],
                               )),
                             )),
@@ -258,11 +261,24 @@ class _Mob_Login_PageState extends State<Mob_Login_Page> {
                       ),
                       FadeInUp(
                           duration: Duration(milliseconds: 2000),
-                          child: Text(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
                             "Designed By Technocrat",
                             style: TextStyle(
                                 color: Color.fromRGBO(143, 148, 251, 1)),
-                          )),
+                          ),
+                          SizedBox(width: 2,),
+                           Image.asset(
+                                    'assets/images/technocart.png',
+                                    width:
+                                        25,
+                                         // Set the width as needed for larger screens
+                                  ),
+                            ],
+                          )
+                          ),
                     ],
                   ),
                 )
