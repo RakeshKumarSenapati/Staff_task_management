@@ -1,13 +1,9 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/mobile/Report_Upload.dart';
-import 'package:flutter_application_1/mobile/mob_Profile.dart';
 import 'package:flutter_application_1/mobile/mob_task_mgmt.dart';
 import 'package:flutter_application_1/mobile/mob_contact_prev.dart';
 import 'package:flutter_application_1/mobile/detailsMobile.dart';
 import 'package:flutter_application_1/scanner_page.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -21,14 +17,13 @@ class NavPage extends StatefulWidget {
 class _NavPageState extends State<NavPage> {
   
   int _currentIndex = 1;
-   XFile? _pickedImage;
   late String pickedImagePath;
   final List<Widget> _pages = [
     QrCodeScanner(),
     // Mob_Add_Task(),
     DetailsMobile(),
     // DetailsMobile(),
-    ContactPrev(),
+    const ContactPrev(),
     Task_mgmt(),
   ];
 
@@ -64,28 +59,18 @@ class _NavPageState extends State<NavPage> {
     fetchData();
   }
 
-  void _showContactDialog(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return ContactPrev(); // Show ContactPrev screen directly
-      },
-    );
-  }
    Future<void> loadImagePath() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? savedImagePath = prefs.getString('pickedImagePath');
 
     setState(() {
       if (savedImagePath != null) {
-        _pickedImage = XFile(savedImagePath);
       }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    const _color1 = Color(0xFFC21E56);
     // const _color2 = Color(0xFFF09FDE);
     return Scaffold(
       // appBar: AppBar(
