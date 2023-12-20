@@ -55,6 +55,27 @@ class _LeavePageState extends State<Leave_Page> {
     }
   }
 
+   Future<void> _Delete(String Reason,String Startdate) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String userID = prefs.getString('userID') ?? '';
+    final response = await http.post(
+      Uri.parse('https://creativecollege.in/Flutter/Delete_Leave.php'),
+      body: {
+        'ID': userID.trim(),
+        'reason': Reason,
+        'startdate': Startdate,
+      },
+    );
+
+    Fluttertoast.showToast(
+      msg: response.body,
+      gravity: ToastGravity.BOTTOM,
+      backgroundColor: Colors.green,
+      textColor: Colors.white,
+    );
+    reason.text = '';
+  }
+
   Future<void> _leave() async {
     final String formattedStartDate =
         startDate != null ? DateFormat('yyyy-MM-dd').format(startDate!) : '';
@@ -259,17 +280,11 @@ class _LeavePageState extends State<Leave_Page> {
                               textColor: Colors.white,
                             );
                           } else {
-                            _leave();
-
-                            endDate = null;
-                            startDate = null;
-                            fetchData();
-                            // Navigator.pushReplacement(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) => Staff_Attendanance(),
-                            //   ),
-                            // );
+                            _leave().then((value) => {
+                                fetchData()
+                            });
+                            
+            
                           }
                         },
                         child: Container(
@@ -331,10 +346,18 @@ class _LeavePageState extends State<Leave_Page> {
                                       'Start Date: ${data[index]['Start_Date']}'),
                                   Text(
                                       'Last Date: ${data[index]['Last_Date']}'),
+                                   Text(
+                                      'Last Date: ${data[index]['Status']}'),
                                 ],
                               ),
                               trailing: GestureDetector(
-                                onTap: () {},
+                                onTap: () {
+                                  String Reason=data[index]['Reason'];
+                                  String Startdate=data[index]['Start_Date'];
+                                  _Delete(Reason,Startdate).then((value) => {
+                                    fetchData()
+                                  });
+                                },
                                 child: Icon(
                                   Icons.delete,
                                   color: Colors.red,
