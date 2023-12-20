@@ -19,42 +19,41 @@ class _LeavePageState extends State<Leave_Page> {
   List<dynamic> data = [];
 
   Future<void> fetchData() async {
-  var url = Uri.parse('https://creativecollege.in/Flutter/Leave_Data.php');
+    var url = Uri.parse('https://creativecollege.in/Flutter/Leave_Data.php');
 
-  var response = await http.get(url);
+    var response = await http.get(url);
 
-  if (response.statusCode == 200) {
-    List<dynamic> allData = json.decode(response.body);
+    if (response.statusCode == 200) {
+      List<dynamic> allData = json.decode(response.body);
 
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-    String userID = prefs.getString('userID') ?? '';
-    List<dynamic> filteredData = allData.where((item) {
-      // Replace 'userID' with the actual key in your data structure
-      return item['ID'] == userID;
-    }).toList();
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String userID = prefs.getString('userID') ?? '';
+      List<dynamic> filteredData = allData.where((item) {
+        // Replace 'userID' with the actual key in your data structure
+        return item['ID'] == userID;
+      }).toList();
 
-    setState(() {
-      data = filteredData;
-    });
+      setState(() {
+        data = filteredData;
+      });
 
-    if (filteredData.isEmpty) {
+      if (filteredData.isEmpty) {
+        Fluttertoast.showToast(
+          msg: 'No Leave Found for userID: $userID',
+          gravity: ToastGravity.BOTTOM,
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+        );
+      }
+    } else {
       Fluttertoast.showToast(
-        msg: 'No Leave Found for userID: $userID',
+        msg: 'Error fetching data',
         gravity: ToastGravity.BOTTOM,
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.red,
         textColor: Colors.white,
       );
     }
-  } else {
-    Fluttertoast.showToast(
-      msg: 'Error fetching data',
-      gravity: ToastGravity.BOTTOM,
-      backgroundColor: Colors.red,
-      textColor: Colors.white,
-    );
   }
-}
-
 
   Future<void> _leave() async {
     final String formattedStartDate =
@@ -91,38 +90,41 @@ class _LeavePageState extends State<Leave_Page> {
 
   @override
   Widget build(BuildContext context) {
+    const _color1 = Color(0xFFC21E56);
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: _color1,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(20),
+            bottomRight: Radius.circular(20),
+          ),
+        ),
+        actions: <Widget>[
+          Container(
+            margin: EdgeInsets.only(right: 10.0),
+            child: GestureDetector(
+                onTap: () {},
+                child: Row(
+                  children: [
+                   
+                  ],
+                )),
+          ),
+        ],
+        title: Text(
+          'Leave Request' ,
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+        ),
+      ),
+      
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
           child: SingleChildScrollView(
         child: Container(
           child: Column(
             children: <Widget>[
-              Container(
-                height: 100,
-                child: Stack(
-                  children: <Widget>[
-                    Positioned(
-                      child: FadeInUp(
-                        duration: const Duration(milliseconds: 1600),
-                        child: Container(
-                          margin: const EdgeInsets.only(top: 30),
-                          child: const Center(
-                            child: Text(
-                              "Leave Request",
-                              style: TextStyle(
-                                color: Colors.blue,
-                                fontSize: 35,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
+              
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
@@ -135,7 +137,7 @@ class _LeavePageState extends State<Leave_Page> {
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(
-                            color: const Color.fromRGBO(143, 148, 251, 1),
+                            color:  _color1,
                           ),
                           boxShadow: [
                             const BoxShadow(
@@ -276,8 +278,8 @@ class _LeavePageState extends State<Leave_Page> {
                             borderRadius: BorderRadius.circular(10),
                             gradient: const LinearGradient(
                               colors: [
-                                Color.fromRGBO(143, 148, 251, 1),
-                                Color.fromRGBO(143, 148, 251, .6),
+                                _color1,
+                                _color1
                               ],
                             ),
                           ),
@@ -302,51 +304,50 @@ class _LeavePageState extends State<Leave_Page> {
               FadeInUp(
                 duration: const Duration(milliseconds: 1900),
                 child: Card(
-                margin: const EdgeInsets.symmetric(horizontal: 20),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                elevation: 5,
-                child: Container(
-                  padding: const EdgeInsets.all(10),
-                  height: 280,
-                  child: ListView.builder(
-                    itemCount: data.length,
-                    itemBuilder: (context, index) {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ListTile(
-                            title: Text(
-                              'Reason: ${data[index]['Reason']}',
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            subtitle: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                    'Start Date: ${data[index]['Start_Date']}'),
-                                Text('Last Date: ${data[index]['Last_Date']}'),
-                              ],
-                            ),
-                            trailing: GestureDetector(
-                              onTap: () {
-                               
-                              },
-                              child: Icon(
-                                Icons.delete,
-                                color: Colors.red,
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  elevation: 5,
+                  child: Container(
+                    padding: const EdgeInsets.all(10),
+                    height: 280,
+                    child: ListView.builder(
+                      itemCount: data.length,
+                      itemBuilder: (context, index) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ListTile(
+                              title: Text(
+                                'Reason: ${data[index]['Reason']}',
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                      'Start Date: ${data[index]['Start_Date']}'),
+                                  Text(
+                                      'Last Date: ${data[index]['Last_Date']}'),
+                                ],
+                              ),
+                              trailing: GestureDetector(
+                                onTap: () {},
+                                child: Icon(
+                                  Icons.delete,
+                                  color: Colors.red,
+                                ),
                               ),
                             ),
-                          ),
-                          if (index < data.length - 1) Divider(),
-                        ],
-                      );
-                    },
+                            if (index < data.length - 1) Divider(),
+                          ],
+                        );
+                      },
+                    ),
                   ),
                 ),
-              ),
               )
             ],
           ),

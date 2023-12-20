@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:animate_do/animate_do.dart'; // Import the package
+import 'package:animate_do/animate_do.dart';
 
 class Task_mgmt extends StatefulWidget {
   Task_mgmt({Key? key}) : super(key: key);
@@ -21,18 +21,23 @@ class _Task_mgmt extends State<Task_mgmt> {
   String Year = '';
   XFile? _pickedImage;
   late String pickedImagePath;
+  String filterStatus = 'All'; // Default filter
+  int activeCount = 0;
+  int pendingCount = 0;
+  int completedCount = 0;
 
   Future<void> fetchData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String userID = prefs.getString('userID') ?? '';
-    var url = Uri.parse(
-        'https://creativecollege.in/Flutter/Task_mgmt.php?id=$userID');
+    var url =
+        Uri.parse('https://creativecollege.in/Flutter/Task_mgmt.php?id=$userID');
 
     var response = await http.get(url);
 
     if (response.statusCode == 200) {
       setState(() {
         data = json.decode(response.body);
+        updateCounts(); // Update counts after fetching data
       });
     } else {
       Fluttertoast.showToast(
@@ -69,6 +74,7 @@ class _Task_mgmt extends State<Task_mgmt> {
       );
     }
   }
+
   Future<void> loadImagePath() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? savedImagePath = prefs.getString('pickedImagePath');
@@ -78,6 +84,12 @@ class _Task_mgmt extends State<Task_mgmt> {
         _pickedImage = XFile(savedImagePath);
       }
     });
+  }
+
+  void updateCounts() {
+    activeCount = data.where((task) => task['STATUS'] == 'Started').length;
+    pendingCount = data.where((task) => task['STATUS'] == 'Not Started').length;
+    completedCount = data.where((task) => task['STATUS'] == 'Completed').length;
   }
 
   @override
@@ -99,17 +111,41 @@ class _Task_mgmt extends State<Task_mgmt> {
             bottomRight: Radius.circular(20),
           ),
         ),
+        title: Text(
+          'Manage Task',
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+        ),
         actions: <Widget>[
+          
+          Container(
+            margin: EdgeInsets.only(right: 10.0),
+            child: DropdownButton<String>(
+              value: filterStatus,
+              onChanged: (String? newValue) {
+                setState(() {
+                  filterStatus = newValue!;
+                });
+              },
+              items: <String>['All', 'Pending', 'Active']
+                  .map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value,style: TextStyle(color: Colors.blue,fontSize: 20),),
+                );
+              }).toList(),
+              style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),
+            ),
+          ),
           Container(
             margin: EdgeInsets.only(right: 10.0),
             child: GestureDetector(
               onTap: () {
                 Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => Profile(),
-            ),
-          );
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Profile(),
+                  ),
+                );
               },
               child: CircleAvatar(
                 radius: 20,
@@ -119,121 +155,147 @@ class _Task_mgmt extends State<Task_mgmt> {
               ),
             ),
           ),
-        ],title: Text('Task Management',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white),),
+        ],
       ),
-      body: ListView.builder(
-        itemCount: data.length,
-        itemBuilder: (context, index) {
-          bool isNotStarted = data[index]['STATUS'] == 'Not Started';
-          bool isNoStarted = data[index]['STATUS'] == 'Completed';
-          bool isNStarted = data[index]['STATUS'] == 'Started';
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 10,bottom: 10,left: 30,right: 30),
+            child: Row(
+              
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('Active: $activeCount',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold)),
+                Text('Pending: $pendingCount',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold)),
+                // Text('Completed: $completedCount',style: TextStyle(fontSize: 17)),
+              ],
+            ),
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: data.length,
+              itemBuilder: (context, index) {
+                bool isNotStarted = data[index]['STATUS'] == 'Not Started';
+                bool isNoStarted = data[index]['STATUS'] == 'Completed';
+                bool isNStarted = data[index]['STATUS'] == 'Started';
 
-          return Center(
-            child: FadeInLeftBig( // Wrap the entire Card with FadeInUp animation
-              duration: const Duration(milliseconds: 400),
-              delay: Duration(milliseconds: index * 200),
-              child: Card(
-                elevation: 8,
-                child: ExpansionTile(
-                  title: Container(
-                    margin: const EdgeInsets.only(left: 16.0, top: 5, bottom: 15),
-                    child: ListTile(
-                      subtitle: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SizedBox(
-                                width: 100,
-                                child: Text(
-                                  '${data[index]['TITLE']}',
-                                  style: const TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black),
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
+                // Apply filter
+                if (filterStatus == 'Pending' && !isNotStarted) {
+                  return Container(); // Skip if not pending
+                } else if (filterStatus == 'Active' && !isNStarted) {
+                  return Container(); // Skip if not active
+                }
+
+                return Center(
+                  child: FadeInLeftBig(
+                    duration: const Duration(milliseconds: 400),
+                    delay: Duration(milliseconds: index * 200),
+                    child: Card(
+                      elevation: 8,
+                      child: ExpansionTile(
+                        title: Container(
+                          margin: const EdgeInsets.only(left: 16.0, top: 5, bottom: 15),
+                          child: ListTile(
+                            subtitle: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    SizedBox(
+                                      width: 100,
+                                      child: Text(
+                                        '${data[index]['TITLE']}',
+                                        style: const TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black),
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                    Text(
+                                      '${data[index]['STATUS']}',
+                                      style: const TextStyle(
+                                          fontSize: 17,
+                                          color: Color.fromARGB(255, 218, 22, 22)),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ],
+                                ),
+                                if (isNotStarted)
+                                  OutlinedButton(
+                                    onPressed: () {
+                                      String title = '${data[index]['TITLE']}';
+                                      String statuss = 'Started';
+
+                                      STARTIT(statuss, title).then((_) {
+                                        fetchData();
+                                      });
+                                    },
+                                    style: OutlinedButton.styleFrom(
+                                        foregroundColor: Colors.blue,
+                                        side: const BorderSide(
+                                          color: Colors.blue,
+                                        )),
+                                    child: const Text(
+                                      " Get Start ",
+                                      style: TextStyle(fontWeight: FontWeight.bold),
+                                    ),
+                                  )
+                                else if (isNoStarted)
+                                  const Text(
+                                    "Completed",
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        color: Color.fromARGB(255, 218, 22, 22)),
+                                  )
+                                else if (isNStarted)
+                                  OutlinedButton(
+                                    onPressed: () {
+                                      String title = '${data[index]['TITLE']}';
+                                      String statuss = 'Completed';
+                                      STARTIT(statuss, title).then((_) {
+                                        fetchData();
+                                      });
+                                    },
+                                    style: OutlinedButton.styleFrom(
+                                        foregroundColor: Colors.green,
+                                        side: BorderSide(
+                                          color: Colors.green,
+                                        )),
+                                    child: const Text(
+                                      "Complete",
+                                      style: TextStyle(fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Align(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                '${data[index]['DESCRIPTION']}',
+                                style: TextStyle(
+                                  fontSize: 16,
                                 ),
                               ),
-                              Text(
-                                '${data[index]['STATUS']}',
-                                style: const TextStyle(
-                                    fontSize: 17,
-                                    color: Color.fromARGB(255, 218, 22, 22)),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ],
-                          ),
-                          if (isNotStarted)
-                            OutlinedButton(
-                              onPressed: () {
-                                String title = '${data[index]['TITLE']}';
-                                String statuss = 'Started';
-
-                                STARTIT(statuss, title).then((_) {
-                                  fetchData();
-                                });
-                              },
-                              style: OutlinedButton.styleFrom(
-                                  foregroundColor: Colors.blue,
-                                  side: const BorderSide(
-                                    color: Colors.blue,
-                                  )),
-                              child: const Text(
-                                " Get Start ",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                            )
-                          else if (isNoStarted)
-                            const Text(
-                              "Completed",
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  color: Color.fromARGB(255, 218, 22, 22)),
-                            )
-                          else if (isNStarted)
-                            OutlinedButton(
-                              onPressed: () {
-                                String title = '${data[index]['TITLE']}';
-                                String statuss = 'Completed';
-                                STARTIT(statuss, title).then((_) {
-                                  fetchData();
-                                });
-                              },
-                              style: OutlinedButton.styleFrom(
-                                  foregroundColor: Colors.green,
-                                  side: BorderSide(
-                                    color: Colors.green,
-                                  )),
-                              child: const Text(
-                                "Complete",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
                             ),
+                          ),
                         ],
                       ),
                     ),
                   ),
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          '${data[index]['DESCRIPTION']}',
-                          style: TextStyle(
-                            fontSize: 16,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+                );
+              },
             ),
-          );
-        },
+          ),
+        ],
       ),
     );
   }
