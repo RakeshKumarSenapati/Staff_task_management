@@ -258,7 +258,7 @@ class _StaffListState extends State<Staff_Attendanance> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => Admin_Leave_Page(),
+                builder: (context) => Leave_Page(),
               ),
             );
           },
