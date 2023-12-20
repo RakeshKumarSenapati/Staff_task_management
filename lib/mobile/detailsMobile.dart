@@ -288,7 +288,6 @@ class _DetailsMobileState extends State<DetailsMobile> {
   }
 
   Widget build(BuildContext context) {
-    String N = name;
     const _color1 = Color(0xFFC21E56);
     const _color2 = Color(0xFFF09FDE);
 
@@ -345,12 +344,11 @@ class _DetailsMobileState extends State<DetailsMobile> {
                                   const SizedBox(
                                     width: 15,
                                   ),
-                                  
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       const Text(
-                                    
                                         "Hi!",
                                         style: TextStyle(
                                           fontSize: 28,
@@ -380,7 +378,10 @@ class _DetailsMobileState extends State<DetailsMobile> {
                             padding: const EdgeInsets.only(top: 40, left: 16),
                             child: Builder(
                               builder: (context) => IconButton(
-                                icon: const Icon(Icons.menu,color: Colors.white,),
+                                icon: const Icon(
+                                  Icons.menu,
+                                  color: Colors.white,
+                                ),
                                 iconSize: 35,
                                 onPressed: () {
                                   Scaffold.of(context).openEndDrawer();
@@ -443,28 +444,22 @@ class _DetailsMobileState extends State<DetailsMobile> {
                           return Container();
                         }
 
-                        String dateToShow = '';
-
-                        if (task.status == TaskStatus.completed) {
-                          dateToShow = task.endDate;
-                        } else if (task.status == TaskStatus.active) {
-                          dateToShow = task.startDate;
-                        } else if (task.status == TaskStatus.pending) {
-                          dateToShow = task.date;
-                        }
-
                         return Padding(
                           padding: const EdgeInsets.only(left: 5, right: 5),
                           child: FadeInRightBig(
-                            duration: const Duration(milliseconds: 420),
-                            delay: Duration(milliseconds: index * 22),
+                            duration: Duration(milliseconds: 800),
+                            delay: Duration(milliseconds: index * 50),
                             child: Card(
                               child: SizedBox(
-                                height: 70,
+                                height: 80,
                                 child: Center(
                                   child: ListTile(
                                     leading: TaskStatusIcon(task.status),
-                                    title: Text(task.name),
+                                    title: Flexible(
+                                        child: Text(
+                                      task.name,
+                                      style: TextStyle(fontSize: 13),
+                                    )),
                                     trailing: Column(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/mobile/Report_Upload.dart';
+import 'package:flutter_application_1/mobile/Staff_Attendance.dart';
 import 'package:flutter_application_1/mobile/mob_task_mgmt.dart';
 import 'package:flutter_application_1/mobile/mob_contact_prev.dart';
 import 'package:flutter_application_1/mobile/detailsMobile.dart';
@@ -21,12 +22,10 @@ class _NavPageState extends State<NavPage> {
   late String pickedImagePath;
   final List<Widget> _pages = [
     QrCodeScanner(),
-    // Mob_Add_Task(),
     DetailsMobile(),
-    // DetailsMobile(),
-    const ContactPrev(),
+    ContactPrev(),
     Task_mgmt(),
-    Report(),
+    Staff_Attendanance(),
   ];
 
   String name = '';
@@ -130,11 +129,6 @@ class _NavPageState extends State<NavPage> {
                 label: 'Attendance',
                 backgroundColor: Color(0xFFC21E56),
               ),
-              // BottomNavigationBarItem(
-              //   icon: Icon(Icons.add_task),
-              //   label: 'Add Task',
-              //   backgroundColor: Color(0xFFC21E56),
-              // ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.list),
                 label: 'Task Details',
@@ -150,9 +144,10 @@ class _NavPageState extends State<NavPage> {
                 label: 'Task Management',
                 backgroundColor: Color(0xFFC21E56),
               ),
+             
                BottomNavigationBarItem(
-                icon: Icon(Icons.report),
-                label: 'Task Management',
+                icon: Icon(Icons.present_to_all),
+                label: 'Attendnance',
                 backgroundColor: Color(0xFFC21E56),
               ),
             ],

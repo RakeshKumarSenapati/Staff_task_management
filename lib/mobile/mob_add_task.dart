@@ -67,7 +67,6 @@ class _MobAddTaskState extends State<Mob_Add_Task> {
 
   @override
   Widget build(BuildContext context) {
-    const _color1 = Color(0xFFC21E56);
     return Scaffold(
       appBar: AppBar(
         title: Row(
