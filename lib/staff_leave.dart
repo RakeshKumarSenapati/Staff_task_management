@@ -400,7 +400,7 @@ class _LeavePageState extends State<Leave_Page> {
 
 Color getStatusColor(String status) {
   switch (status.toLowerCase()) {
-    case 'pending':  
+    case 'pending':
       return Colors.blue; // Choose the color for Pending status
     case 'approved':
       return Colors.green; // Choose the color for Approved status
