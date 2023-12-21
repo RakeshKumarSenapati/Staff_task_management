@@ -451,7 +451,7 @@ class _DetailsMobileState extends State<DetailsMobile> {
                             delay: Duration(milliseconds: index * 50),
                             child: Card(
                               child: SizedBox(
-                                height: 80,
+                                height: 93,
                                 child: Center(
                                   child: ListTile(
                                     leading: TaskStatusIcon(task.status),
