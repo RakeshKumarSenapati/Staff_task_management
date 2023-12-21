@@ -14,27 +14,18 @@ class _LeavePageState extends State<Admin_Leave_Page> {
   DateTime? startDate;
   DateTime? endDate;
   List<dynamic> data = [];
+  String name='';
 
-  Future<void> fetchData() async {
+    Future<void> fetchData() async {
     var url = Uri.parse('https://creativecollege.in/Flutter/Leave_Data.php');
 
     var response = await http.get(url);
 
     if (response.statusCode == 200) {
-
-
       setState(() {
-        data = json.decode(response.body);
+        List<dynamic> pendingData = json.decode(response.body);
+        data= pendingData.where((item) => item['Status'] == 'Pending').toList();
       });
-
-      if (data.isEmpty) {
-        Fluttertoast.showToast(
-          msg: 'No Leave Found for userID',
-          gravity: ToastGravity.BOTTOM,
-          backgroundColor: Colors.green,
-          textColor: Colors.white,
-        );
-      }
     } else {
       Fluttertoast.showToast(
         msg: 'Error fetching data',
@@ -44,6 +35,28 @@ class _LeavePageState extends State<Admin_Leave_Page> {
       );
     }
   }
+   Future<void> _status(String Reason,String Startdate,String Status) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String userID = prefs.getString('userID') ?? '';
+    final response = await http.post(
+      Uri.parse('https://creativecollege.in/Flutter/Leave_status.php'),
+      body: {
+        'ID': userID.trim(),
+        'reason': Reason,
+        'startdate': Startdate,
+        'Status':Status
+      },
+    );
+
+    Fluttertoast.showToast(
+      msg: response.body,
+      gravity: ToastGravity.BOTTOM,
+      backgroundColor: Colors.green,
+      textColor: Colors.white,
+    );
+    reason.text = '';
+  }
+  
 
    Future<void> _Delete(String Reason,String Startdate) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -104,7 +117,8 @@ class _LeavePageState extends State<Admin_Leave_Page> {
       ),
       
       backgroundColor: Colors.white,
-      body: ListView.builder(
+      body: Padding(padding: EdgeInsets.all(20),
+      child: ListView.builder(
     itemCount: data.length,
     itemBuilder: (context, index) {
       return Column(
@@ -112,16 +126,39 @@ class _LeavePageState extends State<Admin_Leave_Page> {
         children: [
           ListTile(
             title: Text(
-              'Reason: ${data[index]['Reason']}',
+              'Name: ${data[index]['Name']}',
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Text('Reason: ${data[index]['Reason']}'),
                 Text('Start Date: ${data[index]['Start_Date']}'),
                 Text('Last Date: ${data[index]['Last_Date']}'),
-                Text('Status: ${data[index]['Status']}'), // Corrected key name
+                Text('Status: ${data[index]['Status']}'),
+                
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ElevatedButton(onPressed: (){
+                      String reason = data[index]['Reason'];
+                      String startDate = data[index]['Start_Date'];
+                      String Status='Rejected';
+                      _status(reason, startDate,Status).then((value) => {
+                        fetchData()
+                      });
+                    }, child: Text(' Reject ')),
+                    ElevatedButton(onPressed: (){
+                      String reason = data[index]['Reason'];
+                      String startDate = data[index]['Start_Date'];
+                      String Status='Approved';
+                      _status(reason, startDate,Status).then((value) => {
+                        fetchData()
+                      });
+                    }, child: Text(' Approve '))
+                  ]
+                )
               ],
             ),
             trailing: GestureDetector(
@@ -143,6 +180,7 @@ class _LeavePageState extends State<Admin_Leave_Page> {
       );
     },
   ),
+      )
 );
   }
 }
