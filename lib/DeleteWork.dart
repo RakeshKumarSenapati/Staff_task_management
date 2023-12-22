@@ -50,8 +50,8 @@ class _WorkDeleteState extends State<WorkDelete> {
         itemCount: reversedItems.length,
         itemBuilder: (BuildContext context, int index) {
           return FadeInUp( // Wrap your widget with FadeInUp
-            duration: Duration(milliseconds: 400),
-            delay: Duration(milliseconds: 100 * index), // Apply different delay to each item
+            duration: Duration(milliseconds: 200),
+            delay: Duration(milliseconds: 50 * index), // Apply different delay to each item
             child: Card(
               elevation: 3,
               margin: EdgeInsets.all(8),

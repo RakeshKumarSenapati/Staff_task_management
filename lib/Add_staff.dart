@@ -66,8 +66,8 @@ class _StaffAddState extends State<StaffAdd> {
             child: Column(
               children: <Widget>[
                 FadeInUp(
-                  duration: Duration(milliseconds: 3000),
-                  delay: Duration(milliseconds: 500),
+                  duration: Duration(milliseconds: 1000),
+                  delay: Duration(milliseconds: 50),
                   child: Container(
                     padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                     decoration: BoxDecoration(
@@ -100,8 +100,8 @@ class _StaffAddState extends State<StaffAdd> {
                   ),
                 ),
                 FadeInUp(
-                  duration: Duration(milliseconds: 3000),
-                  delay: Duration(milliseconds: 500),
+                  duration: Duration(milliseconds: 1000),
+                  delay: Duration(milliseconds: 50),
                   child: Container(
                     margin: EdgeInsets.symmetric(vertical: 10),
                     padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
@@ -135,8 +135,8 @@ class _StaffAddState extends State<StaffAdd> {
                   ),
                 ),
                 FadeInUp(
-                  duration: Duration(milliseconds: 3000),
-                  delay: Duration(milliseconds: 500),
+                  duration: Duration(milliseconds: 1000),
+                  delay: Duration(milliseconds: 50),
                   child: Container(
                     margin: EdgeInsets.symmetric(vertical: 10),
                     padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
@@ -175,7 +175,7 @@ class _StaffAddState extends State<StaffAdd> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     FadeInLeftBig(
-                      duration: Duration(milliseconds: 3000),
+                      duration: Duration(milliseconds: 1000),
                       child: 
                     ElevatedButton(
                       onPressed: () {
@@ -186,7 +186,7 @@ class _StaffAddState extends State<StaffAdd> {
                       child: Text('Submit'),
                     ),),
                     FadeInRightBig(
-                      duration: Duration(milliseconds: 3000),
+                      duration: Duration(milliseconds: 1000),
             
                       child: 
                     ElevatedButton(

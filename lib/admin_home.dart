@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/Admin_leave_Mgmt.dart';
 import 'package:flutter_application_1/Attendenanceprev.dart';
 import 'package:flutter_application_1/DeleteWork.dart';
 import 'package:flutter_application_1/Staff_List.dart';
 import 'package:flutter_application_1/Add_staff.dart';
+import 'package:flutter_application_1/admin_Leave.dart';
 import 'package:flutter_application_1/del_staff.dart';
 import 'package:flutter_application_1/main.dart';
 import 'package:flutter_application_1/mobile/mob_contact_prev.dart';
@@ -18,7 +20,7 @@ class HomeNav extends StatefulWidget {
 class _HomeNavState extends State<HomeNav> {
   int _currentIndex = 0;
 
-  final List<Widget> _pages = [StaffList(), StaffAdd(), StaffDelete(),WorkDelete(), ContactPrev(),Attendananceprev()];
+  final List<Widget> _pages = [StaffList(), StaffAdd(), StaffDelete(),Admin_Leave_Page(), ContactPrev(),Attendananceprev()];
 
 
   Future<void> clearSharedPreferences() async {
@@ -97,8 +99,8 @@ class _HomeNavState extends State<HomeNav> {
                 label: 'Delete Staff',
                 backgroundColor:_color1),
             BottomNavigationBarItem(
-                icon: Icon(Icons.delete_rounded),
-                label: 'Delete Work',
+                icon: Icon(Icons.present_to_all_outlined),
+                label: 'Leave',
                 backgroundColor:_color1),
             BottomNavigationBarItem(
                 icon: Icon(Icons.contact_phone),

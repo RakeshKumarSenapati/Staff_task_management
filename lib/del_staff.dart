@@ -47,8 +47,8 @@ class _StaffDeleteState extends State<StaffDelete> {
         itemCount: items.length,
         itemBuilder: (BuildContext context, int index) {
           return FadeInLeft( // Wrap your widget with FadeInUp
-            duration: Duration(milliseconds: 400),
-            delay: Duration(milliseconds: index * 100),
+            duration: Duration(milliseconds: 300),
+            delay: Duration(milliseconds: index * 50),
             child: StaffCard(item: items[index], fetchData: fetchData),
           );
         },

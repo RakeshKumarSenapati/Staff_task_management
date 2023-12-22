@@ -136,7 +136,7 @@ class _StaffListState extends State<Attendanance> {
           Expanded(
             child: FadeInUp(
               // Wrap the widget with the FadeInUp animation
-              duration: const Duration(milliseconds: 1000),
+              duration: const Duration(milliseconds: 200),
               child: ListView.builder(
                 itemCount: reversedItems.length,
                 itemBuilder: (BuildContext context, int index) {

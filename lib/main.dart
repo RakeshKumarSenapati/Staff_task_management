@@ -43,7 +43,6 @@ class MyHomePage extends StatelessWidget {
               darkTheme: ThemeData(brightness: Brightness.dark),
             );
           } else {
-            // For tablets and larger devices
             return MaterialApp(
               debugShowCheckedModeBanner: false,
               // home:  ,

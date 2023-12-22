@@ -4,12 +4,12 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-class Admin_Leave_Page extends StatefulWidget {
+class Admin_Leave extends StatefulWidget {
   @override
   _LeavePageState createState() => _LeavePageState();
 }
 
-class _LeavePageState extends State<Admin_Leave_Page> {
+class _LeavePageState extends State<Admin_Leave> {
   TextEditingController reason = TextEditingController();
   DateTime? startDate;
   DateTime? endDate;
@@ -90,6 +90,29 @@ class _LeavePageState extends State<Admin_Leave_Page> {
   Widget build(BuildContext context) {
     const _color1 = Color(0xFFC21E56);
     return Scaffold(
+        appBar: AppBar(
+          backgroundColor: _color1,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(20),
+              bottomRight: Radius.circular(20),
+            ),
+          ),
+          actions: <Widget>[
+            Container(
+              margin: EdgeInsets.only(right: 10.0),
+              child: GestureDetector(
+                  onTap: () {},
+                  child: Row(
+                    children: [],
+                  )),
+            ),
+          ],
+          title: Text(
+            'Leave Request',
+            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+          ),
+        ),
         backgroundColor: Colors.white,
         body: Padding(
           padding: EdgeInsets.all(20),

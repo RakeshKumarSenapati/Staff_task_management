@@ -49,8 +49,8 @@ class _Attendananceprev extends State<Attendananceprev> {
           return Padding(
             padding: const EdgeInsets.only(top: 8),
             child: FadeInRight(
-              duration: Duration(milliseconds: 400),
-              delay: Duration(milliseconds: index * 100),
+              duration: Duration(milliseconds: 200),
+              delay: Duration(milliseconds: index * 50),
               child: Card(
                 elevation: 3,
                 child: Padding(

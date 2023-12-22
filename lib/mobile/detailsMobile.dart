@@ -445,21 +445,20 @@ class _DetailsMobileState extends State<DetailsMobile> {
                         }
 
                         return Padding(
-                          padding: const EdgeInsets.only(left: 5, right: 5),
+                          padding: const EdgeInsets.only(left: 5, right: 5,top:5),
                           child: FadeInRightBig(
-                            duration: Duration(milliseconds: 800),
-                            delay: Duration(milliseconds: index * 50),
+                            // duration: Duration(milliseconds: 800),
+                            // delay: Duration(milliseconds: index * 50),
                             child: Card(
                               child: SizedBox(
-                                height: 93,
+                                height: 90,
                                 child: Center(
                                   child: ListTile(
                                     leading: TaskStatusIcon(task.status),
-                                    title: Flexible(
-                                        child: Text(
+                                    title: Text(
                                       task.name,
                                       style: TextStyle(fontSize: 13),
-                                    )),
+                                    ),
                                     trailing: Column(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
