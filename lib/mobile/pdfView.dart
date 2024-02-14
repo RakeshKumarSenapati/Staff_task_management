@@ -16,6 +16,8 @@ class PDFViewer extends StatefulWidget {
 class _PDFViewerState extends State<PDFViewer> {
   bool isLoading = true;
   late String downloadedFilePath;
+  int currentPage = 0;
+  int totalPages = 0;
 
   @override
   void initState() {
@@ -44,13 +46,47 @@ class _PDFViewerState extends State<PDFViewer> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('PDF Viewer'),
+        title: Text(
+          'PDF Viewer',
+          style: TextStyle(color: Colors.white, fontSize: 20.0),
+        ),
+        backgroundColor: Colors.blueAccent,
+        elevation: 0,
       ),
       body: Center(
         child: isLoading
-            ? CircularProgressIndicator()
-            : PDFView(
-                filePath: downloadedFilePath,
+            ? CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.blueAccent),
+              )
+            : Column(
+                children: [
+                  Expanded(
+                    child: PDFView(
+                      filePath: downloadedFilePath,
+                      onPageChanged: (page, total) {
+                        setState(() {
+                          currentPage = page!;
+                          totalPages = total!;
+                        });
+                      },
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(vertical: 10.0),
+                    color: Colors.blueAccent,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        
+                        Text(
+                          'Page ${currentPage + 1} of $totalPages',
+                          style: TextStyle(color: Colors.white, fontSize: 16.0),
+                        ),
+                        
+                      ],
+                    ),
+                  ),
+                ],
               ),
       ),
     );

@@ -95,29 +95,32 @@ class _Report extends State<Report> {
     );
   }
 }
-
 Future<void> uploadFile(File file) async {
-   SharedPreferences prefs = await SharedPreferences.getInstance();
-            String userID = prefs.getString('userID') ?? '';
-  var request = http.MultipartRequest(
-    'POST',
-    Uri.parse('https://creativecollege.in/Flutter/Report_Upload.php'),
-  );
-
-  request.files.add(
-    await http.MultipartFile.fromPath(
-      'file',
-      file.path,
-    ),
-  );
-  // Add the user ID to the request body
-  request.fields['userId'] = userID;
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String userID = prefs.getString('userID') ?? '';
 
   try {
-    final response = await request.send();
+    var request = http.MultipartRequest(
+      'POST',
+      Uri.parse('https://creativecollege.in/Flutter/Report_Upload.php'),
+    );
+
+    // Adding the file to the request
+    request.files.add(
+      await http.MultipartFile.fromPath(
+        'file',
+        file.path,
+      ),
+    );
+
+    // Setting the 'userId' field in the request
+    request.fields['userId'] = userID;
+
+    var response = await request.send();
+
     if (response.statusCode == 200) {
       Fluttertoast.showToast(
-        msg: "Uploaded Sucessfully",
+        msg: "Uploaded Successfully",
         gravity: ToastGravity.BOTTOM,
         backgroundColor: Colors.green,
         textColor: Colors.white,
