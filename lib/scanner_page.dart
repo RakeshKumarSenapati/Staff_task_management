@@ -13,6 +13,9 @@ class QrCodeScanner extends StatefulWidget {
   _QRScannerScreenState createState() => _QRScannerScreenState();
 }
 
+
+
+
 class _QRScannerScreenState extends State<QrCodeScanner> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   bool isScanCompleted = false;
@@ -23,6 +26,9 @@ class _QRScannerScreenState extends State<QrCodeScanner> {
   bool showFailureAlert = false;
   String scannedCode = '';
   MobileScannerController controller = MobileScannerController();
+
+
+
 
   Future<void> ATTENDANCE() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -52,6 +58,9 @@ class _QRScannerScreenState extends State<QrCodeScanner> {
   void closeScreen() {
     isScanCompleted = false;
   }
+
+
+
 
   @override
   Widget build(BuildContext context) {

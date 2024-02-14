@@ -7,6 +7,8 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+
+
 class Leave_Page extends StatefulWidget {
   @override
   _LeavePageState createState() => _LeavePageState();
@@ -22,6 +24,8 @@ class _LeavePageState extends State<Leave_Page> {
 
   // List to store leave request data
   List<dynamic> data = [];
+
+
 
   // Method to fetch leave data from the server
   Future<void> fetchData() async {
@@ -61,6 +65,8 @@ class _LeavePageState extends State<Leave_Page> {
     }
   }
 
+
+
   // Method to delete a leave request
   Future<void> _Delete(String Reason, String Startdate) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -82,6 +88,8 @@ class _LeavePageState extends State<Leave_Page> {
     );
     reason.text = '';
   }
+
+
 
   // Method to submit a leave request
   Future<void> _leave() async {
@@ -116,6 +124,8 @@ class _LeavePageState extends State<Leave_Page> {
     super.initState();
     fetchData();
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -397,6 +407,8 @@ class _LeavePageState extends State<Leave_Page> {
     );
   }
 }
+
+
 
 Color getStatusColor(String status) {
   switch (status.toLowerCase()) {

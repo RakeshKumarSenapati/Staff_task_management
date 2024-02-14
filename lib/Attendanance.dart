@@ -50,7 +50,6 @@ class _StaffListState extends State<Attendanance> {
     }
   }
 
-
   @override
   void initState() {
     super.initState();
@@ -65,7 +64,6 @@ class _StaffListState extends State<Attendanance> {
       initialDate: selectedDate!,
       firstDate: DateTime(2022),
       lastDate: DateTime(2030, 12, 31),
-      
     );
     if (picked != null && picked != selectedDate) {
       setState(() {
@@ -77,6 +75,7 @@ class _StaffListState extends State<Attendanance> {
       fetchDataMonthly(selectedDate!.year, selectedDate!.month);
     }
   }
+
   void calculateTotalPresent() {
     totalPresent = 0;
     for (var item in items) {
@@ -94,7 +93,6 @@ class _StaffListState extends State<Attendanance> {
     List<dynamic> reversedItems = List.from(items.reversed);
 
     return Scaffold(
-      
       appBar: AppBar(
         backgroundColor: _color1,
         shape: RoundedRectangleBorder(
@@ -107,32 +105,44 @@ class _StaffListState extends State<Attendanance> {
           Container(
             margin: EdgeInsets.only(right: 10.0),
             child: GestureDetector(
-              onTap: () {
-                
-              },
-              child: Row(
-                children: [ 
-                  Text('${totalPresent}',style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,fontSize: 20
-                  ),),
-                  SizedBox(width: 8,),
-                  IconButton(onPressed: (){
-               _selectDate(context);
-              }, icon: Icon(Icons.calendar_month,color: Colors.white,)),
-              SizedBox(width: 8,)
-                ],
-              )
-            ),
+                onTap: () {},
+                child: Row(
+                  children: [
+                    Text(
+                      '${totalPresent}',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20),
+                    ),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    IconButton(
+                        onPressed: () {
+                          _selectDate(context);
+                        },
+                        icon: Icon(
+                          Icons.calendar_month,
+                          color: Colors.white,
+                        )),
+                    SizedBox(
+                      width: 8,
+                    )
+                  ],
+                )),
           ),
-        ],title: Text('Attendance',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white),),
+        ],
+        title: Text(
+          'Attendance',
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+        ),
       ),
       body: Column(
         children: [
           const SizedBox(
             height: 10,
           ),
-          
           Expanded(
             child: FadeInUp(
               // Wrap the widget with the FadeInUp animation
@@ -160,8 +170,8 @@ class _StaffListState extends State<Attendanance> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Padding(
-                                    padding:
-                                        const EdgeInsets.symmetric(horizontal: 8),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8),
                                     child: Text(
                                       'Date: ${reversedItems[index]['DATE']}',
                                       style: const TextStyle(
@@ -170,15 +180,15 @@ class _StaffListState extends State<Attendanance> {
                                   ),
                                   const SizedBox(height: 8),
                                   Padding(
-                                    padding:
-                                        const EdgeInsets.symmetric(horizontal: 8),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8),
                                     child: Text(
                                       'Check In: ${reversedItems[index]['CHECK_IN_TIME']}',
                                     ),
                                   ),
                                   Padding(
-                                    padding:
-                                        const EdgeInsets.symmetric(horizontal: 8),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8),
                                     child: Text(
                                       'Check Out: ${reversedItems[index]['CHECK_OUT_TIME']}',
                                     ),

@@ -46,7 +46,8 @@ class _StaffDeleteState extends State<StaffDelete> {
       body: ListView.builder(
         itemCount: items.length,
         itemBuilder: (BuildContext context, int index) {
-          return FadeInLeft( // Wrap your widget with FadeInUp
+          return FadeInLeft(
+            // Wrap your widget with FadeInUp
             duration: Duration(milliseconds: 300),
             delay: Duration(milliseconds: index * 50),
             child: StaffCard(item: items[index], fetchData: fetchData),
@@ -64,7 +65,8 @@ class StaffCard extends StatelessWidget {
   StaffCard({required this.item, required this.fetchData});
 
   Future<void> delete(String name) async {
-    var url = Uri.parse('https://creativecollege.in/Flutter/Delete_staff.php?name=$name');
+    var url = Uri.parse(
+        'https://creativecollege.in/Flutter/Delete_staff.php?name=$name');
 
     var response = await http.get(url);
     if (response.statusCode == 200) {

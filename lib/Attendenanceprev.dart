@@ -55,7 +55,8 @@ class _Attendananceprev extends State<Attendananceprev> {
                 elevation: 3,
                 child: Padding(
                   padding: const EdgeInsets.all(8),
-                  child: FadeIn( // Add this widget for the inner fade-in effect
+                  child: FadeIn(
+                    // Add this widget for the inner fade-in effect
                     duration: Duration(milliseconds: 1500),
                     child: ListItemWithButton(item: '${items[index]['name']}'),
                   ),

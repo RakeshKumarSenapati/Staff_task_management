@@ -16,6 +16,7 @@ class _LeavePageState extends State<Admin_Leave> {
   List<dynamic> data = [];
   String name = '';
 
+
   Future<void> fetchData() async {
     var url = Uri.parse('https://creativecollege.in/Flutter/Leave_Data.php');
 
@@ -37,6 +38,7 @@ class _LeavePageState extends State<Admin_Leave> {
     }
   }
 
+
   Future<void> _status(String Reason, String Startdate, String Status) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String userID = prefs.getString('userID') ?? '';
@@ -49,6 +51,7 @@ class _LeavePageState extends State<Admin_Leave> {
         'Status': Status
       },
     );
+
 
     Fluttertoast.showToast(
       msg: response.body,
@@ -85,6 +88,7 @@ class _LeavePageState extends State<Admin_Leave> {
     super.initState();
     fetchData();
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -189,6 +193,7 @@ class _LeavePageState extends State<Admin_Leave> {
         ));
   }
 }
+
 
 Color getStatusColor(String status) {
   switch (status.toLowerCase()) {

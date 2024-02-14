@@ -4,10 +4,12 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+
 class Admin_Leave_Page extends StatefulWidget {
   @override
   _LeavePageState createState() => _LeavePageState();
 }
+
 
 class _LeavePageState extends State<Admin_Leave_Page> {
   TextEditingController reason = TextEditingController();
@@ -15,6 +17,7 @@ class _LeavePageState extends State<Admin_Leave_Page> {
   DateTime? endDate;
   List<dynamic> data = [];
   String name = '';
+
 
   Future<void> fetchData() async {
     var url = Uri.parse('https://creativecollege.in/Flutter/Leave_Data.php');
@@ -36,6 +39,7 @@ class _LeavePageState extends State<Admin_Leave_Page> {
       );
     }
   }
+
 
   Future<void> _status(String Reason, String Startdate, String Status) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -85,6 +89,7 @@ class _LeavePageState extends State<Admin_Leave_Page> {
     super.initState();
     fetchData();
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -166,6 +171,7 @@ class _LeavePageState extends State<Admin_Leave_Page> {
         ));
   }
 }
+
 
 Color getStatusColor(String status) {
   switch (status.toLowerCase()) {

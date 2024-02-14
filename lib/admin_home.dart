@@ -20,23 +20,28 @@ class HomeNav extends StatefulWidget {
 class _HomeNavState extends State<HomeNav> {
   int _currentIndex = 0;
 
-  final List<Widget> _pages = [StaffList(), StaffAdd(), StaffDelete(),Admin_Leave_Page(), ContactPrev(),Attendananceprev()];
-
+  final List<Widget> _pages = [
+    StaffList(),
+    StaffAdd(),
+    StaffDelete(),
+    Admin_Leave_Page(),
+    ContactPrev(),
+    Attendananceprev()
+  ];
 
   Future<void> clearSharedPreferences() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  await prefs.remove('isLoggedIn');
-  await prefs.remove('isLoggedInAdmin');
-  await prefs.remove('userID');
-  await prefs.remove('password');
-  
-  Navigator.pushAndRemoveUntil(
-    context,
-    MaterialPageRoute(builder: (context) => MyApp()),
-    (Route<dynamic> route) => false,
-  );
-}
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('isLoggedIn');
+    await prefs.remove('isLoggedInAdmin');
+    await prefs.remove('userID');
+    await prefs.remove('password');
 
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => MyApp()),
+      (Route<dynamic> route) => false,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,37 +85,37 @@ class _HomeNavState extends State<HomeNav> {
             onTap: (int index) {
               setState(() {
                 _currentIndex = index;
-                if (index ==2) {
+                if (index == 2) {
                   // _showContactDialog(context);
                 }
               });
             },
             items: const [
-           BottomNavigationBarItem(
-                icon: Icon(Icons.list_alt),
-                label: 'Work Ststus',
-                backgroundColor: _color1),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.add),
-                label: 'Add Staff',
-                backgroundColor: _color1),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.delete),
-                label: 'Delete Staff',
-                backgroundColor:_color1),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.present_to_all_outlined),
-                label: 'Leave',
-                backgroundColor:_color1),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.contact_phone),
-                label: 'Student Contacts',
-                backgroundColor:_color1),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.co_present_outlined),
-                label: 'Atendance',
-                backgroundColor:_color1),    
-          ],
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.list_alt),
+                  label: 'Work Ststus',
+                  backgroundColor: _color1),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.add),
+                  label: 'Add Staff',
+                  backgroundColor: _color1),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.delete),
+                  label: 'Delete Staff',
+                  backgroundColor: _color1),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.present_to_all_outlined),
+                  label: 'Leave',
+                  backgroundColor: _color1),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.contact_phone),
+                  label: 'Student Contacts',
+                  backgroundColor: _color1),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.co_present_outlined),
+                  label: 'Atendance',
+                  backgroundColor: _color1),
+            ],
           ),
         ),
       ),

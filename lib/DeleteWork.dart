@@ -11,11 +11,13 @@ class WorkDelete extends StatefulWidget {
   State<WorkDelete> createState() => _WorkDeleteState();
 }
 
+
 class _WorkDeleteState extends State<WorkDelete> {
   List<dynamic> items = [];
 
   Future<void> fetchData() async {
-    var url = Uri.parse('https://creativecollege.in/Flutter/Admin_Fetch_Work.php');
+    var url =
+        Uri.parse('https://creativecollege.in/Flutter/Admin_Fetch_Work.php');
 
     var response = await http.get(url);
 
@@ -34,6 +36,7 @@ class _WorkDeleteState extends State<WorkDelete> {
     fetchData();
   }
 
+
   @override
   Widget build(BuildContext context) {
     // Reverse the order of items
@@ -49,9 +52,11 @@ class _WorkDeleteState extends State<WorkDelete> {
       body: ListView.builder(
         itemCount: reversedItems.length,
         itemBuilder: (BuildContext context, int index) {
-          return FadeInUp( // Wrap your widget with FadeInUp
+          return FadeInUp(
+            // Wrap your widget with FadeInUp
             duration: Duration(milliseconds: 200),
-            delay: Duration(milliseconds: 50 * index), // Apply different delay to each item
+            delay: Duration(
+                milliseconds: 50 * index), // Apply different delay to each item
             child: Card(
               elevation: 3,
               margin: EdgeInsets.all(8),
@@ -69,6 +74,7 @@ class _WorkDeleteState extends State<WorkDelete> {
     );
   }
 }
+
 
 class ListItemWithButton extends StatelessWidget {
   final String item;
@@ -108,6 +114,7 @@ class ListItemWithButton extends StatelessWidget {
       }
     }
   }
+
 
   @override
   Widget build(BuildContext context) {

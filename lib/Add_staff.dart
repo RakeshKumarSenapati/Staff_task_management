@@ -3,6 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:animate_do/animate_do.dart';
 
+
 class StaffAdd extends StatefulWidget {
   const StaffAdd({Key? key}) : super(key: key);
 
@@ -10,12 +11,14 @@ class StaffAdd extends StatefulWidget {
   State<StaffAdd> createState() => _StaffAddState();
 }
 
+
 class _StaffAddState extends State<StaffAdd> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController passController = TextEditingController();
   final TextEditingController desigController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
+
 
   void signUp() async {
     final response = await http.post(
@@ -48,6 +51,7 @@ class _StaffAddState extends State<StaffAdd> {
       }
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -176,23 +180,22 @@ class _StaffAddState extends State<StaffAdd> {
                   children: [
                     FadeInLeftBig(
                       duration: Duration(milliseconds: 1000),
-                      child: 
-                    ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          signUp();
-                        }
-                      },
-                      child: Text('Submit'),
-                    ),),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            signUp();
+                          }
+                        },
+                        child: Text('Submit'),
+                      ),
+                    ),
                     FadeInRightBig(
                       duration: Duration(milliseconds: 1000),
-            
-                      child: 
-                    ElevatedButton(
-                      onPressed: _clearForm,
-                      child: Text('Clear'),
-                    ),),
+                      child: ElevatedButton(
+                        onPressed: _clearForm,
+                        child: Text('Clear'),
+                      ),
+                    ),
                   ],
                 ),
               ],
