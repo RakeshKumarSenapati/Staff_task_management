@@ -163,13 +163,13 @@ class _ProfilePageState extends State<Profile> {
                         left: 101,
                         child: GestureDetector(
                           onTap: () {
-                           _pickImage();
+                            _pickImage();
                           },
-                          child: Icon(
-                            Icons.add_a_photo_rounded,
-                            size: 40, // Adjust the size of the plus icon
-                            color:const Color.fromARGB(255, 2, 95, 255) // Adjust the color of the plus icon
-                          ),
+                          child: Icon(Icons.add_a_photo_rounded,
+                              size: 40, // Adjust the size of the plus icon
+                              color: const Color.fromARGB(255, 2, 95,
+                                  255) // Adjust the color of the plus icon
+                              ),
                         ),
                       ),
                     ],

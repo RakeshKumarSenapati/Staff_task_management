@@ -95,6 +95,7 @@ class _Report extends State<Report> {
     );
   }
 }
+
 Future<void> uploadFile(File file) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String userID = prefs.getString('userID') ?? '';

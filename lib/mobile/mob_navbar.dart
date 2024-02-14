@@ -19,7 +19,6 @@ class NavPage extends StatefulWidget {
 }
 
 class _NavPageState extends State<NavPage> {
-  
   int _currentIndex = 2;
   late String pickedImagePath;
   final List<Widget> _pages = [
@@ -37,7 +36,8 @@ class _NavPageState extends State<NavPage> {
   Future<void> fetchData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String userID = prefs.getString('userID') ?? '';
-    final response = await http.get(Uri.parse('https://creativecollege.in/Flutter/Profile.php?id=$userID'));
+    final response = await http.get(
+        Uri.parse('https://creativecollege.in/Flutter/Profile.php?id=$userID'));
 
     if (response.statusCode == 200) {
       final jsonData = json.decode(response.body);
@@ -64,13 +64,12 @@ class _NavPageState extends State<NavPage> {
     fetchData();
   }
 
-   Future<void> loadImagePath() async {
+  Future<void> loadImagePath() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? savedImagePath = prefs.getString('pickedImagePath');
 
     setState(() {
-      if (savedImagePath != null) {
-      }
+      if (savedImagePath != null) {}
     });
   }
 
@@ -78,7 +77,6 @@ class _NavPageState extends State<NavPage> {
   Widget build(BuildContext context) {
     // const _color2 = Color(0xFFF09FDE);
     return Scaffold(
-     
       body: _pages[_currentIndex],
       bottomNavigationBar: ClipRRect(
         borderRadius: BorderRadius.only(
@@ -92,7 +90,7 @@ class _NavPageState extends State<NavPage> {
             onTap: (int index) {
               setState(() {
                 _currentIndex = index;
-                if (index ==2) {
+                if (index == 2) {
                   // _showContactDialog(context);
                 }
               });
@@ -103,7 +101,6 @@ class _NavPageState extends State<NavPage> {
                 label: 'Attendance',
                 backgroundColor: Color(0xFFC21E56),
               ),
-              
               BottomNavigationBarItem(
                 icon: Icon(Icons.contact_phone),
                 label: 'Student Contact',
@@ -119,8 +116,7 @@ class _NavPageState extends State<NavPage> {
                 label: 'Task Management',
                 backgroundColor: Color(0xFFC21E56),
               ),
-             
-               BottomNavigationBarItem(
+              BottomNavigationBarItem(
                 icon: Icon(Icons.present_to_all),
                 label: 'Attendnance',
                 backgroundColor: Color(0xFFC21E56),

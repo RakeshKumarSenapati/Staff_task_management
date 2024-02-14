@@ -16,7 +16,8 @@ class _StaffDeleteState extends State<Report_Retrive> {
   List<dynamic> items = [];
 
   Future<void> fetchData() async {
-    var url = Uri.parse('https://creativecollege.in/Flutter/Retrive_Report.php');
+    var url =
+        Uri.parse('https://creativecollege.in/Flutter/Retrive_Report.php');
 
     var response = await http.get(url);
 
@@ -47,7 +48,8 @@ class _StaffDeleteState extends State<Report_Retrive> {
       body: ListView.builder(
         itemCount: items.length,
         itemBuilder: (BuildContext context, int index) {
-          return FadeInLeft( // Wrap your widget with FadeInUp
+          return FadeInLeft(
+            // Wrap your widget with FadeInUp
             duration: Duration(milliseconds: 300),
             delay: Duration(milliseconds: index * 50),
             child: StaffCard(item: items[index], fetchData: fetchData),
@@ -64,8 +66,6 @@ class StaffCard extends StatelessWidget {
 
   StaffCard({required this.item, required this.fetchData});
 
- 
-
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -75,13 +75,14 @@ class StaffCard extends StatelessWidget {
         child: ListTile(
           title: Text(item['Filename']),
           onTap: () {
-           String name= item['Filename'];
+            String name = item['Filename'];
             Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => 
-            PDFViewer(url: "https://creativecollege.in/Flutter/Report/Pdflist.php?name=$name")
-            ),
-          );
+              context,
+              MaterialPageRoute(
+                  builder: (context) => PDFViewer(
+                      url:
+                          "https://creativecollege.in/Flutter/Report/Pdflist.php?name=$name")),
+            );
           },
         ),
       ),

@@ -30,7 +30,8 @@ class _PDFViewerState extends State<PDFViewer> {
       Dio dio = Dio();
       final Directory appDocDir = await getApplicationDocumentsDirectory();
       final String appDocPath = appDocDir.path;
-      downloadedFilePath = '$appDocPath/${DateTime.now().millisecondsSinceEpoch}.pdf';
+      downloadedFilePath =
+          '$appDocPath/${DateTime.now().millisecondsSinceEpoch}.pdf';
 
       await dio.download(url, downloadedFilePath);
 
@@ -77,12 +78,10 @@ class _PDFViewerState extends State<PDFViewer> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        
                         Text(
                           'Page ${currentPage + 1} of $totalPages',
                           style: TextStyle(color: Colors.white, fontSize: 16.0),
                         ),
-                        
                       ],
                     ),
                   ),
