@@ -219,7 +219,7 @@ class _Mob_Contact_Edit extends State<Contact_Edit> {
                                 controller: fmob,
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
-                                  label: Text('Enter New Number'),
+                                  label: Text('Enter New Father Number'),
                                   hintText: "Student Id",
                                   hintStyle: TextStyle(
                                     color: Colors.grey[700],
@@ -241,7 +241,7 @@ class _Mob_Contact_Edit extends State<Contact_Edit> {
                                 controller: mmob,
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
-                                  label: Text('Enter New Number'),
+                                  label: Text('Enter New Mother Number'),
                                   hintText: "Course",
                                   hintStyle: TextStyle(
                                     color: Colors.grey[700],

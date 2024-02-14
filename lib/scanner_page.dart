@@ -32,19 +32,19 @@ class _QRScannerScreenState extends State<QrCodeScanner> {
 
     var response = await http.get(url);
     if (response.statusCode == 200) {
-      Fluttertoast.showToast(
-        msg: response.body,
-        gravity: ToastGravity.BOTTOM,
-        backgroundColor: Colors.green,
-        textColor: Colors.white,
+      String res = response.body;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('$res'),
+        ),
       );
+
       setState(() {
-        showSuccessAlert = false;
+        showSuccessAlert = true;
       });
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const NavPage()),
-        result: MaterialPageRoute(builder: (context) => const NavPage()),
       );
     }
   }
@@ -68,27 +68,29 @@ class _QRScannerScreenState extends State<QrCodeScanner> {
         ),
         actions: [
           IconButton(
-              onPressed: () {
-                setState(() {
-                  isFlashOn = !isFlashOn;
-                });
-                controller.toggleTorch();
-              },
-              icon: Icon(
-                Icons.flash_on,
-                color: isFlashOn ? Colors.blue : Colors.grey,
-              )),
+            onPressed: () {
+              setState(() {
+                isFlashOn = !isFlashOn;
+              });
+              controller.toggleTorch();
+            },
+            icon: Icon(
+              Icons.flash_on,
+              color: isFlashOn ? Colors.blue : Colors.grey,
+            ),
+          ),
           IconButton(
-              onPressed: () {
-                setState(() {
-                  isFrontCamera = !isFrontCamera;
-                });
-                controller.switchCamera();
-              },
-              icon: Icon(
-                Icons.camera_front,
-                color: isFrontCamera ? Colors.blue : Colors.grey,
-              ))
+            onPressed: () {
+              setState(() {
+                isFrontCamera = !isFrontCamera;
+              });
+              controller.switchCamera();
+            },
+            icon: Icon(
+              Icons.camera_front,
+              color: isFrontCamera ? Colors.blue : Colors.grey,
+            ),
+          ),
         ],
         title: const Text(
           "QR SCANNER",
@@ -121,26 +123,96 @@ class _QRScannerScreenState extends State<QrCodeScanner> {
                   SizedBox(
                     height: 10,
                   ),
-                  Text("Scanning will be started automatically",
-                      style: TextStyle(color: Colors.black54, fontSize: 14))
+                  Text(
+                    "Scanning will be started automatically",
+                    style: TextStyle(color: Colors.black54, fontSize: 14),
+                  ),
                 ],
               ),
             ),
             Expanded(
-                flex: 4,
-                child: Stack(
-                  children: [
-                    MobileScanner(
-                      // fit: BoxFit.contain,
-                      controller: controller,
-                      onDetect: (capture) {
-                        final List<Barcode> barcodes = capture.barcodes;
-                        for (final barcode in barcodes) {
-                          // debugPrint('Barcode found! ${barcode.rawValue}');
-                          if (barcode.rawValue == "creative" &&
-                              !showSuccessAlert) {
+              flex: 4,
+              child: Stack(
+                children: [
+                  MobileScanner(
+                    controller: controller,
+                    onDetect: (capture) {
+                      final List<Barcode> barcodes = capture.barcodes;
+                      for (final barcode in barcodes) {
+                        if (barcode.rawValue == "creative" &&
+                            !showSuccessAlert) {
+                          setState(() {
+                            showSuccessAlert = true;
+                          });
+                          showDialog<String>(
+                            context: context,
+                            builder: (BuildContext context) => AlertDialog(
+                              title: const Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.check_circle,
+                                    color: Colors.green,
+                                    size: 40.0,
+                                  ),
+                                  Text(
+                                    'Verify Successful',
+                                    style: TextStyle(fontSize: 20),
+                                  ),
+                                ],
+                              ),
+                              content: const Text(
+                                'You have successfully registered for our service press check to take attendance.',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(fontSize: 12),
+                              ),
+                              actions: <Widget>[
+                                Center(
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                      setState(() {
+                                        showSuccessAlert = false;
+                                      });
+                                      ATTENDANCE();
+                                    },
+                                    child: const Text("Check"),
+                                    style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                              Colors.blue),
+                                      padding: MaterialStateProperty.all(
+                                        const EdgeInsets.only(
+                                          left: 24,
+                                          right: 24,
+                                          top: 10,
+                                          bottom: 10,
+                                        ),
+                                      ),
+                                      shape: MaterialStateProperty.all(
+                                        RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                        ),
+                                      ),
+                                      textStyle: MaterialStateProperty.all(
+                                        const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 16.0,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                          controller.stop();
+                        } else {
+                          if (!showFailureAlert) {
                             setState(() {
-                              showSuccessAlert = true;
+                              showFailureAlert = true;
                             });
                             showDialog<String>(
                               context: context,
@@ -149,15 +221,15 @@ class _QRScannerScreenState extends State<QrCodeScanner> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Icon(
-                                      Icons.check_circle,
-                                      color: Colors.green, // Icon color
-                                      size: 40.0, // Icon size
+                                      Icons.warning,
+                                      color: Colors.orange,
+                                      size: 40.0,
                                     ),
-                                    Text('Registration Successful'),
+                                    Text('Registration Failed'),
                                   ],
                                 ),
                                 content: const Text(
-                                  'You have successfully registered for our service.',
+                                  'Incorrect Id found please try again.',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(fontSize: 12),
                                 ),
@@ -165,130 +237,68 @@ class _QRScannerScreenState extends State<QrCodeScanner> {
                                   Center(
                                     child: ElevatedButton(
                                       onPressed: () {
+                                        Navigator.pop(context);
                                         setState(() {
-                                          showSuccessAlert = false;
-                                        });
-                                        ATTENDANCE();
-                                        setState(() {
-                                          showSuccessAlert = false;
+                                          showFailureAlert = false;
                                         });
                                       },
-                                      child: const Text("Check"),
+                                      child: const Text('Try Again'),
                                       style: ButtonStyle(
                                         backgroundColor:
-                                            MaterialStateProperty.all(Colors
-                                                .blue), // Background color
+                                            MaterialStateProperty.all(
+                                                Colors.blue),
                                         padding: MaterialStateProperty.all(
-                                            const EdgeInsets.only(
-                                                left: 24,
-                                                right: 24,
-                                                top: 10,
-                                                bottom: 10)), // Button padding
+                                          const EdgeInsets.only(
+                                            left: 24,
+                                            right: 24,
+                                            top: 10,
+                                            bottom: 10,
+                                          ),
+                                        ),
                                         shape: MaterialStateProperty.all(
-                                            RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(
-                                              8.0), // Border radius
-                                        )),
+                                          RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                          ),
+                                        ),
                                         textStyle: MaterialStateProperty.all(
-                                            const TextStyle(
-                                          color: Colors.white, // Text color
-                                          fontSize: 16.0, // Text size
-                                          fontWeight:
-                                              FontWeight.bold, // Text style
-                                        )),
+                                          const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 14.0,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
                                       ),
                                     ),
-                                  )
+                                  ),
                                 ],
                               ),
                             );
-                            // Stop Scanning After Successfl Scanning
-                            controller.stop();
-                          } else {
-                            if (!showFailureAlert) {
-                              setState(() {
-                                showFailureAlert = true;
-                              });
-                              showDialog<String>(
-                                context: context,
-                                builder: (BuildContext context) => AlertDialog(
-                                  title: const Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Icon(
-                                        Icons.warning,
-                                        color: Colors.orange,
-                                        size: 40.0,
-                                      ),
-                                      Text('Registration Failed'),
-                                    ],
-                                  ),
-                                  content: const Text(
-                                    'Incorrect Id found please try again.',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(fontSize: 12),
-                                  ),
-                                  actions: <Widget>[
-                                    Center(
-                                      child: ElevatedButton(
-                                        onPressed: () => {
-                                          Navigator.pop(context),
-                                          setState(() {
-                                            showFailureAlert =
-                                                !showFailureAlert;
-                                          }),
-                                        },
-                                        child: const Text('Try Again'),
-                                        style: ButtonStyle(
-                                          backgroundColor:
-                                              MaterialStateProperty.all(Colors
-                                                  .blue), // Background color
-                                          padding: MaterialStateProperty.all(
-                                              const EdgeInsets.only(
-                                                  left: 24,
-                                                  right: 24,
-                                                  top: 10,
-                                                  bottom:
-                                                      10)), // Button padding
-                                          shape: MaterialStateProperty.all(
-                                              RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(
-                                                8.0), // Border radius
-                                          )),
-                                          textStyle: MaterialStateProperty.all(
-                                              const TextStyle(
-                                            color: Colors.white, // Text color
-                                            fontSize: 14.0, // Text size
-                                            fontWeight:
-                                                FontWeight.bold, // Text style
-                                          )),
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              );
-                            }
                           }
                         }
-                      },
-                    ),
-                    QRScannerOverlay(
-                        overlayColor: bgColor, borderColor: Colors.blue)
-                  ],
-                )),
+                      }
+                    },
+                  ),
+                  QRScannerOverlay(
+                    overlayColor: bgColor,
+                    borderColor: Colors.blue,
+                  ),
+                ],
+              ),
+            ),
             Expanded(
-                child: Container(
-              alignment: Alignment.center,
-              child: const Text(
-                "Powered by Technocrat",
-                style: TextStyle(
-                  color: Colors.black87,
-                  fontSize: 14,
-                  letterSpacing: 1,
+              child: Container(
+                alignment: Alignment.center,
+                child: const Text(
+                  "Powered by Technocrat",
+                  style: TextStyle(
+                    color: Colors.black87,
+                    fontSize: 14,
+                    letterSpacing: 1,
+                  ),
                 ),
               ),
-            ))
+            ),
           ],
         ),
       ),

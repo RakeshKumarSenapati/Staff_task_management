@@ -101,7 +101,7 @@ Future<void> uploadFile(File file) async {
             String userID = prefs.getString('userID') ?? '';
   var request = http.MultipartRequest(
     'POST',
-    Uri.parse('https://creativecollege.in/Flutter/Report/upload.php'),
+    Uri.parse('https://creativecollege.in/Flutter/Report_Upload.php'),
   );
 
   request.files.add(

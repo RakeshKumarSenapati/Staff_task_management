@@ -1,11 +1,14 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/mobile/Report_Upload.dart';
 import 'package:flutter_application_1/mobile/Staff_Attendance.dart';
 import 'package:flutter_application_1/mobile/mob_task_mgmt.dart';
 import 'package:flutter_application_1/mobile/mob_contact_prev.dart';
 import 'package:flutter_application_1/mobile/detailsMobile.dart';
+import 'package:flutter_application_1/mobile/pdfView.dart';
 import 'package:flutter_application_1/scanner_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_application_1/mobile/Report_retrive.dart';
 import 'package:http/http.dart' as http;
 
 class NavPage extends StatefulWidget {
@@ -17,14 +20,16 @@ class NavPage extends StatefulWidget {
 
 class _NavPageState extends State<NavPage> {
   
-  int _currentIndex = 1;
+  int _currentIndex = 2;
   late String pickedImagePath;
   final List<Widget> _pages = [
     QrCodeScanner(),
-    DetailsMobile(),
     ContactPrev(),
+    DetailsMobile(),
     Task_mgmt(),
     Staff_Attendanance(),
+    Report(),
+    Report_Retrive(),
   ];
 
   String name = '';
@@ -128,14 +133,15 @@ class _NavPageState extends State<NavPage> {
                 label: 'Attendance',
                 backgroundColor: Color(0xFFC21E56),
               ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.list),
-                label: 'Task Details',
-                backgroundColor: Color(0xFFC21E56),
-              ),
+              
               BottomNavigationBarItem(
                 icon: Icon(Icons.contact_phone),
                 label: 'Student Contact',
+                backgroundColor: Color(0xFFC21E56),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.list),
+                label: 'Task Details',
                 backgroundColor: Color(0xFFC21E56),
               ),
               BottomNavigationBarItem(
@@ -146,6 +152,16 @@ class _NavPageState extends State<NavPage> {
              
                BottomNavigationBarItem(
                 icon: Icon(Icons.present_to_all),
+                label: 'Attendnance',
+                backgroundColor: Color(0xFFC21E56),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.report),
+                label: 'Attendnance',
+                backgroundColor: Color(0xFFC21E56),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.report_rounded),
                 label: 'Attendnance',
                 backgroundColor: Color(0xFFC21E56),
               ),
