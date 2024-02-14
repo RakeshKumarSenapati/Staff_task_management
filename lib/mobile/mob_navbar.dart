@@ -64,6 +64,8 @@ class _NavPageState extends State<NavPage> {
     fetchData();
   }
 
+
+
   Future<void> loadImagePath() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? savedImagePath = prefs.getString('pickedImagePath');
@@ -72,6 +74,8 @@ class _NavPageState extends State<NavPage> {
       if (savedImagePath != null) {}
     });
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -95,6 +99,8 @@ class _NavPageState extends State<NavPage> {
                 }
               });
             },
+
+            
             items: [
               BottomNavigationBarItem(
                 icon: Icon(Icons.qr_code),

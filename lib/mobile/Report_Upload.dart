@@ -24,6 +24,7 @@ class _Report extends State<Report> {
     }
   }
 
+
   Future<void> _uploadFile() async {
     setState(() {
       _isLoading = true;
@@ -95,6 +96,7 @@ class _Report extends State<Report> {
     );
   }
 }
+
 
 Future<void> uploadFile(File file) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();

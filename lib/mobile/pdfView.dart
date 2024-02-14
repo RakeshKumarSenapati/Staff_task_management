@@ -19,11 +19,13 @@ class _PDFViewerState extends State<PDFViewer> {
   int currentPage = 0;
   int totalPages = 0;
 
+
   @override
   void initState() {
     super.initState();
     downloadFile(widget.url);
   }
+
 
   Future<void> downloadFile(String url) async {
     try {
@@ -42,6 +44,7 @@ class _PDFViewerState extends State<PDFViewer> {
       print(e.toString());
     }
   }
+
 
   @override
   Widget build(BuildContext context) {

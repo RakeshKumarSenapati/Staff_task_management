@@ -244,6 +244,7 @@ class _ProfilePageState extends State<Profile> {
                 ),
               ),
             ),
+
             FadeInLeft(
               duration: Duration(milliseconds: 3000),
               child: Card(
@@ -274,6 +275,7 @@ class _ProfilePageState extends State<Profile> {
             ),
           );
         },
+        
         label: const Text('Edit Profile'),
         icon: const Icon(Icons.edit),
       ),
