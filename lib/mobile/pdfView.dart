@@ -19,13 +19,11 @@ class _PDFViewerState extends State<PDFViewer> {
   int currentPage = 0;
   int totalPages = 0;
 
-
   @override
   void initState() {
     super.initState();
     downloadFile(widget.url);
   }
-
 
   Future<void> downloadFile(String url) async {
     try {
@@ -45,6 +43,13 @@ class _PDFViewerState extends State<PDFViewer> {
     }
   }
 
+  Future<void> _onDownloadPressed() async {
+    try {
+      await downloadFile(widget.url);
+    } catch (e) {
+      print(e.toString());
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +61,12 @@ class _PDFViewerState extends State<PDFViewer> {
         ),
         backgroundColor: Colors.blueAccent,
         elevation: 0,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.download),
+            onPressed: _onDownloadPressed,
+          ),
+        ],
       ),
       body: Center(
         child: isLoading

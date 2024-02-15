@@ -376,7 +376,6 @@ class _LeavePageState extends State<Leave_Page> {
                                     ),
                                   ],
                                 ),
-                                // Delete leave request button
                                 trailing: GestureDetector(
                                   onTap: () {
                                     String Reason = data[index]['Reason'];
@@ -413,12 +412,12 @@ class _LeavePageState extends State<Leave_Page> {
 Color getStatusColor(String status) {
   switch (status.toLowerCase()) {
     case 'pending':
-      return Colors.blue; // Choose the color for Pending status
+      return Colors.blue; 
     case 'approved':
-      return Colors.green; // Choose the color for Approved status
+      return Colors.green; 
     case 'rejected':
-      return Colors.red; // Choose the color for Rejected status
+      return Colors.red;
     default:
-      return Colors.black; // Choose a default color or customize as needed
+      return Colors.black;
   }
 }
