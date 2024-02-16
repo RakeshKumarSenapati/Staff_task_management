@@ -8,8 +8,9 @@ class Contact_Edit extends StatefulWidget {
   final String sem;
   final String id;
   final String sMob;
-  final String mMob;
   final String fMob;
+  final String mMob;
+  
 
   const Contact_Edit({
     Key? key,
@@ -17,8 +18,8 @@ class Contact_Edit extends StatefulWidget {
     required this.sem,
     required this.id,
     required this.sMob,
-    required this.mMob,
     required this.fMob,
+    required this.mMob,
   }) : super(key: key);
 
   @override
@@ -40,8 +41,8 @@ class _Mob_Contact_Edit extends State<Contact_Edit> {
     course.text = widget.course;
     sem.text = widget.sem;
      smob.text = widget.sMob;
-    fmob.text = widget.mMob;
-    mmob.text = widget.fMob;
+    fmob.text = widget.fMob;
+    mmob.text = widget.mMob;
 
   }
 
@@ -80,10 +81,10 @@ class _Mob_Contact_Edit extends State<Contact_Edit> {
                   children: <Widget>[
                     Positioned(
                       child: FadeInUp(
-                        duration: Duration(milliseconds: 1600),
+                        duration: const Duration(milliseconds: 1600),
                         child: Container(
-                          margin: EdgeInsets.only(top: 10),
-                          child: Center(
+                          margin: const EdgeInsets.only(top: 10),
+                          child: const Center(
                             child: Text(
                               "Edit Contact",
                               style: TextStyle(
@@ -100,21 +101,21 @@ class _Mob_Contact_Edit extends State<Contact_Edit> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(30.0),
+                padding: const EdgeInsets.all(30.0),
                 child: Column(
                   children: <Widget>[
                     FadeInUp(
-                      duration: Duration(milliseconds: 1800),
+                      duration: const Duration(milliseconds: 1800),
                       child: Container(
-                        padding: EdgeInsets.all(5),
+                        padding: const EdgeInsets.all(5),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(
-                            color: Color.fromRGBO(143, 148, 251, 1),
+                            color: const Color.fromRGBO(143, 148, 251, 1),
                           ),
                           boxShadow: [
-                            BoxShadow(
+                            const BoxShadow(
                               color: Color.fromRGBO(143, 148, 251, .2),
                               blurRadius: 20.0,
                               offset: Offset(0, 10),
@@ -124,8 +125,8 @@ class _Mob_Contact_Edit extends State<Contact_Edit> {
                         child: Column(
                           children: <Widget>[
                             Container(
-                              padding: EdgeInsets.all(8.0),
-                              decoration: BoxDecoration(
+                              padding: const EdgeInsets.all(8.0),
+                              decoration: const BoxDecoration(
                                 border: Border(
                                   bottom: BorderSide(
                                     color: Color.fromRGBO(143, 148, 251, 1),
@@ -144,8 +145,8 @@ class _Mob_Contact_Edit extends State<Contact_Edit> {
                               ),
                             ),
                              Container(
-                              padding: EdgeInsets.all(8.0),
-                              decoration: BoxDecoration(
+                              padding: const EdgeInsets.all(8.0),
+                              decoration: const BoxDecoration(
                                 border: Border(
                                   bottom: BorderSide(
                                     color: Color.fromRGBO(143, 148, 251, 1),
@@ -156,7 +157,7 @@ class _Mob_Contact_Edit extends State<Contact_Edit> {
                                 controller: course,
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
-                                  label: Text('Enter New Course'),
+                                  label: const Text('Enter New Course'),
                                   hintText: "Student Id",
                                   hintStyle: TextStyle(
                                     color: Colors.grey[700],
@@ -165,8 +166,8 @@ class _Mob_Contact_Edit extends State<Contact_Edit> {
                               ),
                             ),
                              Container(
-                              padding: EdgeInsets.all(8.0),
-                              decoration: BoxDecoration(
+                              padding: const EdgeInsets.all(8.0),
+                              decoration: const BoxDecoration(
                                 border: Border(
                                   bottom: BorderSide(
                                     color: Color.fromRGBO(143, 148, 251, 1),
@@ -177,7 +178,7 @@ class _Mob_Contact_Edit extends State<Contact_Edit> {
                                 controller: sem,
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
-                                  label: Text('Enter New Semester'),
+                                  label: const Text('Enter New Semester'),
                                   hintText: "Student Id",
                                   hintStyle: TextStyle(
                                     color: Colors.grey[700],
@@ -186,8 +187,8 @@ class _Mob_Contact_Edit extends State<Contact_Edit> {
                               ),
                             ),
                              Container(
-                              padding: EdgeInsets.all(8.0),
-                              decoration: BoxDecoration(
+                              padding: const EdgeInsets.all(8.0),
+                              decoration: const BoxDecoration(
                                 border: Border(
                                   bottom: BorderSide(
                                     color: Color.fromRGBO(143, 148, 251, 1),
@@ -198,7 +199,7 @@ class _Mob_Contact_Edit extends State<Contact_Edit> {
                                 controller: smob,
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
-                                  label: Text('Enter New Number'),
+                                  label: const Text('Enter New Number'),
                                   hintText: "Student Id",
                                   hintStyle: TextStyle(
                                     color: Colors.grey[700],
@@ -207,8 +208,8 @@ class _Mob_Contact_Edit extends State<Contact_Edit> {
                               ),
                             ),
                              Container(
-                              padding: EdgeInsets.all(8.0),
-                              decoration: BoxDecoration(
+                              padding: const EdgeInsets.all(8.0),
+                              decoration: const BoxDecoration(
                                 border: Border(
                                   bottom: BorderSide(
                                     color: Color.fromRGBO(143, 148, 251, 1),
@@ -219,7 +220,7 @@ class _Mob_Contact_Edit extends State<Contact_Edit> {
                                 controller: fmob,
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
-                                  label: Text('Enter New Father Number'),
+                                  label: const Text('Enter New Father Number'),
                                   hintText: "Student Id",
                                   hintStyle: TextStyle(
                                     color: Colors.grey[700],
@@ -228,8 +229,8 @@ class _Mob_Contact_Edit extends State<Contact_Edit> {
                               ),
                             ),
                             Container(
-                              padding: EdgeInsets.all(8.0),
-                              decoration: BoxDecoration(
+                              padding: const EdgeInsets.all(8.0),
+                              decoration: const BoxDecoration(
                                 // border: Border(
                                 //   bottom: BorderSide(
                                 //     color: Color.fromRGBO(143, 148, 251, 1),
@@ -241,7 +242,7 @@ class _Mob_Contact_Edit extends State<Contact_Edit> {
                                 controller: mmob,
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
-                                  label: Text('Enter New Mother Number'),
+                                  label: const Text('Enter New Mother Number'),
                                   hintText: "Course",
                                   hintStyle: TextStyle(
                                     color: Colors.grey[700],
@@ -254,11 +255,11 @@ class _Mob_Contact_Edit extends State<Contact_Edit> {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 30,
                     ),
                     FadeInUp(
-                      duration: Duration(milliseconds: 1900),
+                      duration: const Duration(milliseconds: 1900),
                       child: InkWell(
                         onTap: () {
                           _login();
@@ -268,14 +269,14 @@ class _Mob_Contact_Edit extends State<Contact_Edit> {
                           
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            gradient: LinearGradient(
+                            gradient: const LinearGradient(
                               colors: [
                                 Color.fromRGBO(143, 148, 251, 1),
                                 Color.fromRGBO(143, 148, 251, .6),
                               ],
                             ),
                           ),
-                          child: Center(
+                          child: const Center(
                             child: Text(
                               "Edit Details",
                               style: TextStyle(
@@ -287,12 +288,12 @@ class _Mob_Contact_Edit extends State<Contact_Edit> {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 70,
                     ),
                     FadeInUp(
-                      duration: Duration(milliseconds: 2000),
-                      child: Text(
+                      duration: const Duration(milliseconds: 2000),
+                      child: const Text(
                         "Designed By Technocrat",
                         style: TextStyle(
                           color: Color.fromRGBO(143, 148, 251, 1),

@@ -17,16 +17,16 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   CustomAppBar({required this.title, required this.borderRadius});
 
   @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
       title: Text(
         title,
-        style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+        style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
       ),
-      backgroundColor: Color(0xFFC21E56),
+      backgroundColor: const Color(0xFFC21E56),
       shape: RoundedRectangleBorder(
         borderRadius: borderRadius,
       ),
@@ -70,7 +70,7 @@ class _ContactPage extends State<ContactPrev> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: _color1,
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(30),
             bottomRight: Radius.circular(30),
@@ -78,27 +78,27 @@ class _ContactPage extends State<ContactPrev> {
         ),
         actions: <Widget>[
           Container(
-            margin: EdgeInsets.only(right: 10.0),
+            margin: const EdgeInsets.only(right: 10.0),
             child: GestureDetector(
               onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => Profile(),
+                    builder: (context) => const Profile(),
                   ),
                 );
               },
               child: CircleAvatar(
                 radius: 20,
                 backgroundImage: _pickedImage == null
-                    ? AssetImage('assets/images/technocart.png')
+                    ? const AssetImage('assets/images/technocart.png')
                     : FileImage(File(_pickedImage!.path))
                         as ImageProvider<Object>?,
               ),
             ),
           ),
         ],
-        title: Text(
+        title: const Text(
           'SELECT COURSE',
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
@@ -110,7 +110,7 @@ class _ContactPage extends State<ContactPrev> {
             child: Column(
               children: [
                 for (String course in allowedCourses)
-                  CardItem(course, Color(0xFFC21E56)),
+                  CardItem(course, const Color(0xFFC21E56)),
               ],
             ),
           ),
@@ -122,7 +122,7 @@ class _ContactPage extends State<ContactPrev> {
   Widget CardItem(String course, Color cardColor) {
     return Card(
       color: cardColor,
-      margin: EdgeInsets.only(top: 16),
+      margin: const EdgeInsets.only(top: 16),
       elevation: 5, // Add elevation for shadow
       child: InkWell(
         onTap: () {
@@ -213,9 +213,9 @@ class _Contact extends State<Contact> {
   }
 
   Widget _buildYearButton(String label, String year) {
-    Color customColor = Color(0xFFC21E56);
-    Color innerColor = Color(0xFFF09FDE);
-    Color selectedColor = Color(0xFFC21E56); // Set your selected color here
+    Color customColor = const Color(0xFFC21E56);
+    Color innerColor = const Color(0xFFF09FDE);
+    Color selectedColor = const Color(0xFFC21E56); // Set your selected color here
     Color textColor = Colors.black; // Set the default text color
 
     if (selectedYear == year) {
@@ -260,10 +260,10 @@ class _Contact extends State<Contact> {
       appBar: AppBar(
         title: Text(
           '${widget.course}',
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: const TextStyle(fontWeight: FontWeight.bold),
         ),
-        backgroundColor: Color(0xFFC21E56),
-        shape: ContinuousRectangleBorder(
+        backgroundColor: const Color(0xFFC21E56),
+        shape: const ContinuousRectangleBorder(
           borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(80.0),
             bottomRight: Radius.circular(80.0),
@@ -271,9 +271,9 @@ class _Contact extends State<Contact> {
         ),
         actions: [
           Padding(
-            padding: EdgeInsets.only(right: 20.0),
+            padding: const EdgeInsets.only(right: 20.0),
             child: IconButton(
-              icon: Icon(Icons.search),
+              icon: const Icon(Icons.search),
               onPressed: () {
                 showSearch(
                   context: context,
@@ -286,7 +286,7 @@ class _Contact extends State<Contact> {
       ),
       body: Column(
         children: [
-          Padding(padding: EdgeInsets.all(16.0)),
+          const Padding(padding: EdgeInsets.all(16.0)),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -300,7 +300,7 @@ class _Contact extends State<Contact> {
               itemCount: data.length,
               itemBuilder: (context, index) {
                 return FadeInLeft(
-                  duration: Duration(milliseconds: 420),
+                  duration: const Duration(milliseconds: 420),
                   delay: Duration(milliseconds: index * 21),
                   child: Container(
                     margin: const EdgeInsets.all(10.0),
@@ -322,9 +322,9 @@ class _Contact extends State<Contact> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text('ID: ${data[index]['ID']}',
-                                            style: TextStyle(fontSize: 18)),
+                                            style: const TextStyle(fontSize: 18)),
                                         Text('Name: ${data[index]['NAME']}',
-                                            style: TextStyle(fontSize: 16)),
+                                            style: const TextStyle(fontSize: 16)),
                                       ],
                                     ),
                                   ),
@@ -352,9 +352,9 @@ class _Contact extends State<Contact> {
                                       children: [
                                         Text(
                                             'Student No: ${data[index]['MOB_NO']}',
-                                            style: TextStyle(fontSize: 18)),
+                                            style: const TextStyle(fontSize: 18)),
                                         IconButton(
-                                          icon: Icon(Icons.call),
+                                          icon: const Icon(Icons.call),
                                           onPressed: () {
                                             String num = data[index]['MOB_NO'];
                                             CustomSearchDelegate.directCall(
@@ -367,9 +367,9 @@ class _Contact extends State<Contact> {
                                       children: [
                                         Text(
                                             'Father No: ${data[index]['F_MOB']}',
-                                            style: TextStyle(fontSize: 18)),
+                                            style: const TextStyle(fontSize: 18)),
                                         IconButton(
-                                          icon: Icon(Icons.call),
+                                          icon: const Icon(Icons.call),
                                           onPressed: () {
                                             String num = data[index]['F_MOB'];
                                             CustomSearchDelegate.directCall(
@@ -382,9 +382,9 @@ class _Contact extends State<Contact> {
                                       children: [
                                         Text(
                                             'Mother No: ${data[index]['M_MOB']}',
-                                            style: TextStyle(fontSize: 18)),
+                                            style: const TextStyle(fontSize: 18)),
                                         IconButton(
-                                          icon: Icon(Icons.call),
+                                          icon: const Icon(Icons.call),
                                           onPressed: () {
                                             String num = data[index]['M_MOB'];
                                             CustomSearchDelegate.directCall(
@@ -399,7 +399,7 @@ class _Contact extends State<Contact> {
                                         // Text(
                                         //     style: TextStyle(fontSize: 18)),
                                         IconButton(
-                                          icon: Icon(Icons.edit),
+                                          icon: const Icon(Icons.edit),
                                           onPressed: () {
                                             Navigator.push(
                                               context,
@@ -451,7 +451,7 @@ class CustomSearchDelegate extends SearchDelegate<String> {
   List<Widget> buildActions(BuildContext context) {
     return [
       IconButton(
-        icon: Icon(Icons.clear),
+        icon: const Icon(Icons.clear),
         onPressed: () {
           query = '';
         },
@@ -462,7 +462,7 @@ class CustomSearchDelegate extends SearchDelegate<String> {
   @override
   Widget buildLeading(BuildContext context) {
     return IconButton(
-      icon: Icon(Icons.arrow_back),
+      icon: const Icon(Icons.arrow_back),
       onPressed: () {
         close(context, '');
       },
@@ -504,14 +504,14 @@ class CustomSearchDelegate extends SearchDelegate<String> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text('ID: ${searchResults[index]['ID']}',
-                                  style: TextStyle(fontSize: 18)),
+                                  style: const TextStyle(fontSize: 18)),
                               Text('Name: ${searchResults[index]['NAME']}',
-                                  style: TextStyle(fontSize: 16)),
+                                  style: const TextStyle(fontSize: 16)),
                             ],
                           ),
                         ),
                         IconButton(
-                          icon: Icon(
+                          icon: const Icon(
                             Icons.arrow_drop_down,
                             size: 30,
                           ),
@@ -525,9 +525,9 @@ class CustomSearchDelegate extends SearchDelegate<String> {
                           children: [
                             Text(
                                 'Student No: ${searchResults[index]['MOB_NO']}',
-                                style: TextStyle(fontSize: 18)),
+                                style: const TextStyle(fontSize: 18)),
                             IconButton(
-                              icon: Icon(Icons.call),
+                              icon: const Icon(Icons.call),
                               onPressed: () {
                                 String num = searchResults[index]['MOB_NO'];
                                 CustomSearchDelegate.directCall(num);
@@ -538,9 +538,9 @@ class CustomSearchDelegate extends SearchDelegate<String> {
                         Row(
                           children: [
                             Text('Father No: ${searchResults[index]['F_MOB']}',
-                                style: TextStyle(fontSize: 18)),
+                                style: const TextStyle(fontSize: 18)),
                             IconButton(
-                              icon: Icon(Icons.call),
+                              icon: const Icon(Icons.call),
                               onPressed: () {
                                 String num = searchResults[index]['F_MOB'];
                                 CustomSearchDelegate.directCall(num);
@@ -551,9 +551,9 @@ class CustomSearchDelegate extends SearchDelegate<String> {
                         Row(
                           children: [
                             Text('Mother No: ${searchResults[index]['M_MOB']}',
-                                style: TextStyle(fontSize: 18)),
+                                style: const TextStyle(fontSize: 18)),
                             IconButton(
-                              icon: Icon(Icons.call),
+                              icon: const Icon(Icons.call),
                               onPressed: () {
                                 String num = searchResults[index]['M_MOB'];
                                 CustomSearchDelegate.directCall(num);

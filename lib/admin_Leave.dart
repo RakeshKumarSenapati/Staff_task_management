@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Admin_Leave extends StatefulWidget {
   @override
@@ -39,16 +38,15 @@ class _LeavePageState extends State<Admin_Leave> {
   }
 
 
-  Future<void> _status(String Reason, String Startdate, String Status) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String userID = prefs.getString('userID') ?? '';
+  Future<void> _status(String idd,String Reason, String Startdate, String Status) async {
+    
     final response = await http.post(
       Uri.parse('https://creativecollege.in/Flutter/Leave_status.php'),
       body: {
-        'ID': userID.trim(),
-        'reason': Reason,
-        'startdate': Startdate,
-        'Status': Status
+        'ID': idd.trim(),
+        'reason': Reason.trim(),
+        'startdate': Startdate.trim(),
+        'Status': Status.trim()
       },
     );
 
@@ -59,7 +57,6 @@ class _LeavePageState extends State<Admin_Leave> {
       backgroundColor: Colors.green,
       textColor: Colors.white,
     );
-    reason.text = '';
   }
 
   // Future<void> _Delete(String Reason, String Startdate) async {
@@ -151,20 +148,20 @@ class _LeavePageState extends State<Admin_Leave> {
                               ElevatedButton(
                                   onPressed: () {
                                     String reason = data[index]['Reason'];
-                                    String startDate =
-                                        data[index]['Start_Date'];
+                                    String startDate = data[index]['Start_Date'];
+                                    String id=data[index]['SL'];
                                     String Status = 'Rejected';
-                                    _status(reason, startDate, Status)
+                                    _status(id,reason, startDate, Status)
                                         .then((value) => {fetchData()});
                                   },
                                   child: Text(' Reject ')),
                               ElevatedButton(
                                   onPressed: () {
                                     String reason = data[index]['Reason'];
-                                    String startDate =
-                                        data[index]['Start_Date'];
+                                    String startDate = data[index]['Start_Date'];
+                                    String id=data[index]['SL'];
                                     String Status = 'Approved';
-                                    _status(reason, startDate, Status)
+                                    _status(id,reason, startDate, Status)
                                         .then((value) => {fetchData()});
                                   },
                                   child: Text(' Approve ')),
