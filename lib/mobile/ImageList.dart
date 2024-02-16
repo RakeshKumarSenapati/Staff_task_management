@@ -1,8 +1,13 @@
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter/services.dart';
+import 'dart:io';
 
 class ImageList extends StatefulWidget {
   @override
@@ -43,6 +48,24 @@ class _ImageListState extends State<ImageList> {
     } catch (e) {
       print('Error fetching images: $e');
       throw Exception('Failed to load images');
+    }
+  }
+
+  Future<void> _saveImage(Uint8List bytes, int index) async {
+    try {
+      final directory = await getExternalStorageDirectory();
+      final image = File('${directory!.path}/image_$index.jpg');
+      await image.writeAsBytes(bytes);
+      Fluttertoast.showToast(
+          msg: 'Image saved to gallery',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.grey,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    } on PlatformException catch (e) {
+      print("Failed to save image: '$e'.");
     }
   }
 
@@ -89,31 +112,40 @@ class _ImageListState extends State<ImageList> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15.0),
                       ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(15.0),
-                        child: ListTile(
-                          title: const Row(
-                            children: [
-                              Icon(Icons.notifications_none, size: 40),
-                              Text(
-                                "Creative Techno College",
-                                style: TextStyle(
+                      child: Column(
+                        children: [
+                          ListTile(
+                            title: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "  Creative Techno College",
+                                  style: TextStyle(
                                     fontSize: 20,
-                                    fontWeight: FontWeight.bold),
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.blue
+                                  ),
+                                ),
+                                IconButton(
+                                  icon: Icon(Icons.download,color: Colors.red,),
+                                  onPressed: () {
+                                    _saveImage(base64Decode(imageStrings[index]), index);
+                                  },
+                                ),
+                                SizedBox(
+                                  height: 60,
+                                )
+                              ],
+                            ),
+                            subtitle: Padding(
+                              padding: EdgeInsets.only(bottom: 15),
+                              child: Image.memory(
+                                base64Decode(imageStrings[index]),
+                                fit: BoxFit.cover,
                               ),
-                              SizedBox(
-                                height: 60,
-                              )
-                            ],
-                          ),
-                          subtitle: Padding(
-                            padding: EdgeInsets.only(bottom: 15),
-                            child: Image.memory(
-                              base64Decode(imageStrings[index]),
-                              fit: BoxFit.cover,
                             ),
                           ),
-                        ),
+                        ],
                       ),
                     ),
                   ),

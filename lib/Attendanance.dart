@@ -95,7 +95,7 @@ class _StaffListState extends State<Attendanance> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: _color1,
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(20),
             bottomRight: Radius.circular(20),
@@ -103,37 +103,37 @@ class _StaffListState extends State<Attendanance> {
         ),
         actions: <Widget>[
           Container(
-            margin: EdgeInsets.only(right: 10.0),
+            margin: const EdgeInsets.only(right: 10.0),
             child: GestureDetector(
                 onTap: () {},
                 child: Row(
                   children: [
                     Text(
                       '${totalPresent}',
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                           fontSize: 20),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 8,
                     ),
                     IconButton(
                         onPressed: () {
                           _selectDate(context);
                         },
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.calendar_month,
                           color: Colors.white,
                         )),
-                    SizedBox(
+                    const SizedBox(
                       width: 8,
                     )
                   ],
                 )),
           ),
         ],
-        title: Text(
+        title: const Text(
           'Attendance',
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
