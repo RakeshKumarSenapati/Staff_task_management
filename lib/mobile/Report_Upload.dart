@@ -1,9 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-
-import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/Attendenanceprev.dart';
 import 'package:flutter_application_1/mobile/pdfView.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:file_picker/file_picker.dart';

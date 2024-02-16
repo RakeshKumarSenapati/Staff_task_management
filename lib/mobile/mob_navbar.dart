@@ -5,7 +5,6 @@ import 'package:flutter_application_1/mobile/Staff_Attendance.dart';
 import 'package:flutter_application_1/mobile/mob_task_mgmt.dart';
 import 'package:flutter_application_1/mobile/mob_contact_prev.dart';
 import 'package:flutter_application_1/mobile/detailsMobile.dart';
-import 'package:flutter_application_1/mobile/pdfView.dart';
 import 'package:flutter_application_1/scanner_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_application_1/mobile/Report_retrive.dart';
