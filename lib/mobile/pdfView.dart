@@ -53,17 +53,20 @@ class _PDFViewerState extends State<PDFViewer> {
 
   @override
   Widget build(BuildContext context) {
+    const _color1 = Color(0xFFC21E56);
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'PDF Viewer',
+          'View The Report',
           style: TextStyle(color: Colors.white, fontSize: 20.0),
         ),
-        backgroundColor: Colors.blueAccent,
+        backgroundColor: _color1,
         elevation: 0,
         actions: [
           IconButton(
-            icon: Icon(Icons.download),
+            icon: Icon(Icons.download,
+            color: Colors.white,
+            ),
             onPressed: _onDownloadPressed,
           ),
         ],
@@ -88,7 +91,7 @@ class _PDFViewerState extends State<PDFViewer> {
                   ),
                   Container(
                     padding: EdgeInsets.symmetric(vertical: 10.0),
-                    color: Colors.blueAccent,
+                    color: _color1,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [

@@ -1,13 +1,17 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:animate_do/animate_do.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/mobile/Report_retrive.dart';
 import 'package:flutter_application_1/mobile/mob_Profile.dart';
 import 'package:flutter_application_1/mobile/mob_add_task.dart';
+import 'package:flutter_application_1/Report_upload.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+
 
 class DetailsMobile extends StatefulWidget {
   @override
@@ -228,6 +232,40 @@ class _DetailsMobileState extends State<DetailsMobile> {
     );
   }
 
+  void _navigateToUploadReport(BuildContext context) {
+    // Replace AddTaskScreen with the actual screen you want to navigate to
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => Report_upload()),
+    );
+  }
+
+//   FilePickerResult? fileName;
+//   String n = 'File name';
+
+//   void _file_peaker() async {
+//   try {
+//     FilePickerResult? res = await FilePicker.platform
+//         .pickFiles(type: FileType.custom, allowedExtensions: ['pdf']);
+
+//     if (res != null) {
+//       setState(() {
+//         fileName = res;
+//         n = fileName?.files.single.name ?? 'File name';
+//       });
+//     } else {
+//       print("Select a file");
+//     }
+//   } catch (e) {
+//     ScaffoldMessenger.of(context).showSnackBar(
+//       SnackBar(content: Text(e.toString())),
+//     );
+//   }
+// }
+
+
+
+
   Widget buildFilterOptions() {
     return Padding(
       padding: const EdgeInsets.all(5),
@@ -445,7 +483,8 @@ class _DetailsMobileState extends State<DetailsMobile> {
                         }
 
                         return Padding(
-                          padding: const EdgeInsets.only(left: 5, right: 5,top:5),
+                          padding:
+                              const EdgeInsets.only(left: 5, right: 5, top: 5),
                           child: FadeInRightBig(
                             // duration: Duration(milliseconds: 800),
                             // delay: Duration(milliseconds: index * 50),
@@ -519,20 +558,130 @@ class _DetailsMobileState extends State<DetailsMobile> {
           ],
         ),
       ),
-      floatingActionButton: Container(
-        decoration: BoxDecoration(
-            border: Border.all(width: 2, color: _color1),
-            borderRadius: const BorderRadius.all(Radius.circular(18))),
-        child: FloatingActionButton(
-          backgroundColor: _color2,
-          onPressed: () {
-            _navigateToAddTaskScreen(context);
-          },
-          child: const Icon(
-            Icons.add,
-            size: 30,
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Container(
+            decoration: BoxDecoration(
+                border: Border.all(width: 2, color: _color1),
+                borderRadius: const BorderRadius.all(Radius.circular(18))),
+            child: FloatingActionButton(
+              backgroundColor: _color2,
+              onPressed: () {
+                _navigateToUploadReport(context);
+
+                // showAdaptiveDialog(
+                //   context: context,
+                //   builder: (context) {
+                //     return Container(
+                //         child: AlertDialog(
+                //       title: Text('Upload Monthly Report'),
+                //       backgroundColor: Colors.white,
+                //       actions: [
+                //         Container(
+                //           // color: Colors.red,
+                //           // height: 200,
+                //           child: Column(
+                //             children: [
+                //               TextButton(
+                //                 onPressed: () {
+                //                   _file_peaker();
+                //                 },
+                //                 child: Container(
+                //                   height: 100,
+                //                   width: 150,
+                //                   decoration: BoxDecoration(
+                //                     color: Color.fromARGB(255, 205, 224, 240),
+                //                     border: Border.all(
+                //                       width: 1.5,
+                //                     ),
+                //                   ),
+                //                   child: Column(
+                //                     children: [
+                //                       Icon(
+                //                         Icons.cloud_upload,
+                //                         size: 50,
+                //                         color: Colors.black,
+                //                       ),
+                //                       Container(
+                //                         // height: 10,
+                //                         // width: 20,
+                //                         color: Colors.green,
+                //                         padding: EdgeInsets.all(5),
+                //                         child: Text(
+                //                           'Brows File',
+                //                           style: TextStyle(
+                //                               fontSize: 16,
+                //                               color: Colors.white),
+                //                         ),
+                //                       )
+                //                     ],
+                //                   ),
+                //                   // Image.asset('assets/icons/upload.png')),
+                //                 ),
+                //               ),
+                //               Container(
+                //                 padding: const EdgeInsets.all(5),
+                //                 decoration: BoxDecoration(
+                //                   color: Color.fromARGB(255, 238, 248, 255),
+                //                   border: Border.all(
+                //                     width: 1,
+                //                     color: const Color.fromARGB(255, 75, 74, 74)
+                //                   ),
+                //                   borderRadius: const BorderRadius.all(
+                //                     Radius.circular(10)
+                //                   ),
+                //                 ),
+                //                 child: Text(n),
+                //               ),
+                //               Row(
+                //                   mainAxisAlignment: MainAxisAlignment.end,
+                //                   children: [
+                //                     TextButton(
+                //                         onPressed: () {
+                //                           Navigator.pop(context);
+                //                         },
+                //                         child: const Text('Cancel')),
+                                    
+                //                     Expanded(child: Container()),
+
+                //                     TextButton(
+                //                         onPressed: () {
+                //                           // print('yes');
+                //                         },
+                //                         child: const Text('Submit'))
+                //                   ]),
+                //             ],
+                //           ),
+                //         ),
+                //       ],
+                //     ));
+                //   },
+                // );
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Image.asset('assets/icons/upload_file.png'),
+              ),
+            ),
           ),
-        ),
+          Container(
+            margin: const EdgeInsets.only(top: 5),
+            decoration: BoxDecoration(
+                border: Border.all(width: 2, color: _color1),
+                borderRadius: const BorderRadius.all(Radius.circular(18))),
+            child: FloatingActionButton(
+              backgroundColor: _color2,
+              onPressed: () {
+                _navigateToAddTaskScreen(context);
+              },
+              child: const Icon(
+                Icons.add,
+                size: 30,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

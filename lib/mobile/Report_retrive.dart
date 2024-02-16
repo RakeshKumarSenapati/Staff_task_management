@@ -1,11 +1,16 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/mobile/pdfView.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:animate_do/animate_do.dart';
 
 class Report_Retrive extends StatefulWidget {
-  const Report_Retrive({Key? key}) : super(key: key);
+  // const Report_Retrive({Key? key}) : super(key: key);
+  final String id;
+  final String name;
+
+  Report_Retrive({required this.id, required this.name});
 
   @override
   State<Report_Retrive> createState() => _RetriveState();
@@ -22,8 +27,21 @@ class _RetriveState extends State<Report_Retrive> {
 
     if (response.statusCode == 200) {
       setState(() {
-        items = json.decode(response.body);
+        // items = json.decode(response.body);
+
+        List<dynamic> allItems = json.decode(response.body);
+        items = allItems.where((allItems) => allItems['ID'] == widget.id).toList();
+
+        if(items.isEmpty){
+          Fluttertoast.showToast(msg: 'Is empty file not available');
+        }
+        else{
+          
+          Fluttertoast.showToast(msg: widget.id);
+        }
+
       });
+    
     } else {
       print('Failed to load data');
     }
@@ -37,10 +55,10 @@ class _RetriveState extends State<Report_Retrive> {
 
   @override
   Widget build(BuildContext context) {
+    // String Name = widget.name.indexOf(' ') != 0 ? widget.name.substring(0,widget.name.indexOf(' '));
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Delete Staff',
+        title: Text(widget.name+' Report',
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),
         ),
       ),

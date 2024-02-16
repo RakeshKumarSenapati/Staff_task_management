@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_application_1/web/admin_details.dart';
+import 'package:flutter_application_1/mobile/Report_retrive.dart';
 import 'package:animate_do/animate_do.dart';
 
 class StaffList extends StatefulWidget {
@@ -72,16 +73,63 @@ class StaffCard extends StatelessWidget {
           title: Text(item['name']),
           trailing: ElevatedButton(
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => Details_admin_web(
-                    name: item['name'],
-                  ),
-                ),
-              );
+              
+
+              showAdaptiveDialog(
+                  context: context,
+                  builder: (context) {
+                    return Container(
+                        child: AlertDialog(
+                      title: Text(item['name']+'\nWork Ststus & Monthly  Report'),
+                      // backgroundColor: Colors.white,
+                      actions: [
+                        Container(
+                          // color: Colors.red,
+                          // height: 200,
+                          child: Column(
+                            children: [
+                              Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    ElevatedButton(
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => Details_admin_web(
+                                                name: item['name'],
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        child: const Text('Status')),
+                                    
+                                    Expanded(child: Container()),
+
+                                    ElevatedButton(
+                                        onPressed: () {
+                                          // print('yes');
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => Report_Retrive(
+                                                id: item['user_name'],
+                                                name: item['name'],
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        child: const Text('Report'))
+                                  ]),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ));
+                  },
+                );
             },
-            child: Text('Show Work Status'),
+            child: Text('Show Status'),
           ),
         ),
       ),
