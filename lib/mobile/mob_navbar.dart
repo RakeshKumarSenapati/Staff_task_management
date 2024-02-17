@@ -7,6 +7,7 @@ import 'package:flutter_application_1/mobile/detailsMobile.dart';
 import 'package:flutter_application_1/scanner_page.dart';
 import 'package:flutter_application_1/mobile/ImageList.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_application_1/Total_Present.dart';
 import 'package:http/http.dart' as http;
 
 class NavPage extends StatefulWidget {
@@ -26,7 +27,7 @@ class _NavPageState extends State<NavPage> {
     DetailsMobile(),
     Task_mgmt(),
     Staff_Attendanance(),
-    ImageList(),
+    Total_Attendance(),
   ];
 
   String name = '';
