@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:printing/printing.dart';
 
 class Total_Attendance extends StatefulWidget {
   @override
@@ -42,21 +43,6 @@ class _AttendancePageState extends State<Total_Attendance> {
   Widget build(BuildContext context) {
     const _color1 = Color(0xFFC21E56);
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: _color1,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(30),
-            bottomRight: Radius.circular(30),
-          ),
-        ),
-        
-        title: Text(
-          'TotAL Present',
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
-        ),
-      ),
-      
       body: Column(
         children: [
           SizedBox(height: 10,),
@@ -123,7 +109,7 @@ class _AttendancePageState extends State<Total_Attendance> {
                       selectedYear = newValue!;
                     });
                   },
-                  items: <String>['2023', '2024', '2025']
+                  items: <String>['2023', '2024', '2025','2026']
                       .map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
@@ -205,5 +191,14 @@ class _AttendancePageState extends State<Total_Attendance> {
         ],
       ),
     );
+  //     floatingActionButton: FloatingActionButton(
+  //       onPressed: () {
+  //         _printPage(context);
+  //       },
+  //       child: Icon(Icons.print),
+  //       backgroundColor: _color1,
+  //     ),
+  //   );
   }
+
 }

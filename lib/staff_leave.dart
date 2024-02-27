@@ -6,7 +6,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 
 class Leave_Page extends StatefulWidget {
@@ -24,8 +25,6 @@ class _LeavePageState extends State<Leave_Page> {
 
   // List to store leave request data
   List<dynamic> data = [];
-
-
 
   // Method to fetch leave data from the server
   Future<void> fetchData() async {
@@ -65,8 +64,6 @@ class _LeavePageState extends State<Leave_Page> {
     }
   }
 
-
-
   // Method to delete a leave request
   Future<void> _Delete(String Reason, String Startdate) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -88,8 +85,6 @@ class _LeavePageState extends State<Leave_Page> {
     );
     reason.text = '';
   }
-
-
 
   // Method to submit a leave request
   Future<void> _leave() async {
@@ -124,8 +119,6 @@ class _LeavePageState extends State<Leave_Page> {
     super.initState();
     fetchData();
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -210,6 +203,10 @@ class _LeavePageState extends State<Leave_Page> {
                                   ),
                                   mode: DateTimeFieldPickerMode.date,
                                   autovalidateMode: AutovalidateMode.always,
+                                  onChanged: (DateTime?
+                                      value) {setState(() {
+                                      startDate = value;
+                                    });}, // Provide a nullable DateTime? parameter
                                   onDateSelected: (DateTime value) {
                                     setState(() {
                                       startDate = value;
@@ -234,10 +231,16 @@ class _LeavePageState extends State<Leave_Page> {
                                         TextStyle(color: Colors.redAccent),
                                     border: OutlineInputBorder(),
                                     suffixIcon: Icon(Icons.event_note),
-                                    labelText: 'End Date',
+                                    labelText: 'Start Date',
                                   ),
                                   mode: DateTimeFieldPickerMode.date,
                                   autovalidateMode: AutovalidateMode.always,
+                                  onChanged: (DateTime?
+                                      value) {
+                                        setState(() {
+                                      endDate = value;
+                                    });
+                                      }, // Provide a nullable DateTime? parameter
                                   onDateSelected: (DateTime value) {
                                     setState(() {
                                       endDate = value;
@@ -407,14 +410,12 @@ class _LeavePageState extends State<Leave_Page> {
   }
 }
 
-
-
 Color getStatusColor(String status) {
   switch (status.toLowerCase()) {
     case 'pending':
-      return Colors.blue; 
+      return Colors.blue;
     case 'approved':
-      return Colors.green; 
+      return Colors.green;
     case 'rejected':
       return Colors.red;
     default:

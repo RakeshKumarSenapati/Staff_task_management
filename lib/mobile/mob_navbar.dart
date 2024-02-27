@@ -27,7 +27,7 @@ class _NavPageState extends State<NavPage> {
     DetailsMobile(),
     Task_mgmt(),
     Staff_Attendanance(),
-    Total_Attendance(),
+    ImageList(),
   ];
 
   String name = '';

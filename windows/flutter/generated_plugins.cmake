@@ -6,6 +6,8 @@ list(APPEND FLUTTER_PLUGIN_LIST
   file_selector_windows
   flutter_barcode_sdk
   permission_handler_windows
+  printing
+  syncfusion_pdfviewer_windows
   url_launcher_windows
 )
 

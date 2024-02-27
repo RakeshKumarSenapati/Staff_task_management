@@ -3,6 +3,7 @@ import 'package:flutter_application_1/Admin_leave_Mgmt.dart';
 import 'package:flutter_application_1/Attendenanceprev.dart';
 import 'package:flutter_application_1/Staff_List.dart';
 import 'package:flutter_application_1/Add_staff.dart';
+import 'package:flutter_application_1/Total_Present.dart';
 import 'package:flutter_application_1/del_staff.dart';
 import 'package:flutter_application_1/main.dart';
 import 'package:flutter_application_1/mobile/mob_contact_prev.dart';
@@ -24,7 +25,7 @@ class _HomeNavState extends State<HomeNav> {
     StaffDelete(),
     Admin_Leave_Page(),
     ContactPrev(),
-    Attendananceprev()
+    Total_Attendance()
   ];
 
   Future<void> clearSharedPreferences() async {

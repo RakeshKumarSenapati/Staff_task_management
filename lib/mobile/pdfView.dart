@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
+import 'package:printing/printing.dart';
 
 class PDFViewer extends StatefulWidget {
   final String url;
@@ -22,13 +23,13 @@ class _PDFViewerState extends State<PDFViewer> {
   @override
   void initState() {
     super.initState();
-    downloadFile(widget.url);
+    _onDownloadPressed();
   }
 
   Future<void> downloadFile(String url) async {
     try {
       Dio dio = Dio();
-      final Directory appDocDir = await getApplicationDocumentsDirectory();
+      Directory appDocDir = await getApplicationDocumentsDirectory();
       final String appDocPath = appDocDir.path;
       downloadedFilePath =
           '$appDocPath/${DateTime.now().millisecondsSinceEpoch}.pdf';
@@ -51,6 +52,16 @@ class _PDFViewerState extends State<PDFViewer> {
     }
   }
 
+  void _handlePrint(BuildContext context) async {
+    try {
+      await Printing.layoutPdf(
+        onLayout: (_) => File(downloadedFilePath).readAsBytes(),
+      );
+    } catch (e) {
+      print("Error printing PDF: $e");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     const _color1 = Color(0xFFC21E56);
@@ -64,10 +75,10 @@ class _PDFViewerState extends State<PDFViewer> {
         elevation: 0,
         actions: [
           IconButton(
-            icon: Icon(Icons.download,
-            color: Colors.white,
-            ),
-            onPressed: _onDownloadPressed,
+            icon: Icon(Icons.print, color: Colors.white),
+            onPressed: () {
+              _handlePrint(context);
+            },
           ),
         ],
       ),

@@ -8,6 +8,10 @@ import 'package:path_provider/path_provider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/services.dart';
 import 'dart:io';
+import 'package:printing/printing.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:printing/printing.dart';
 
 class ImageList extends StatefulWidget {
   @override
@@ -179,6 +183,14 @@ class FullScreenImageGallery extends StatelessWidget {
         ),
         backgroundColor: _color1,
         elevation: 0,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.print),
+            onPressed: () {
+              _handlePrint(context);
+            },
+          ),
+        ],
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -207,5 +219,20 @@ class FullScreenImageGallery extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _handlePrint(BuildContext context) async {
+    try {
+      final doc = pw.Document();
+      for (final imageString in imageStrings) {
+        final image = pw.MemoryImage(base64Decode(imageString));
+        doc.addPage(pw.Page(build: (pw.Context context) {
+          return pw.Center(child: pw.Image(image));
+        }));
+      }
+      await Printing.layoutPdf(onLayout: (_) => doc.save());
+    } catch (e) {
+      print("Error printing document: $e");
+    }
   }
 }
