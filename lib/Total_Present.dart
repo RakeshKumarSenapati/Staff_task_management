@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:printing/printing.dart';
 
 class Total_Attendance extends StatefulWidget {
   @override
