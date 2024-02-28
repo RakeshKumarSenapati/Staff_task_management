@@ -189,7 +189,7 @@ class _StaffAddState extends State<StaffAdd> {
                                     borderRadius: BorderRadius.circular(20.0),
                                   ), // Set rounded corner
                                   title: Text(
-                                    "Confirm",
+                                    "Confirm Add Staff",
                                     style: TextStyle(
                                       color:
                                           Colors.black, // Set title text color

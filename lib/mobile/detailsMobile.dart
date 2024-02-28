@@ -659,7 +659,7 @@ class _DetailsMobileState extends State<DetailsMobile> {
               },
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Image.asset('assets/icons/design.svg'),
+                child: Icon(Icons.picture_as_pdf),
               ),
             ),
           ),

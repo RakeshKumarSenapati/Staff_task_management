@@ -171,7 +171,62 @@ class _MobAddTaskState extends State<Mob_Add_Task> {
                       textColor: Colors.white,
                     );
                   } else {
-                    _addTask();
+                    showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  backgroundColor:
+                                      Colors.white, // Set background color
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                  ), // Set rounded corner
+                                  title: Text(
+                                    "Confirm Add Task",
+                                    style: TextStyle(
+                                      color:
+                                          Colors.black, // Set title text color
+                                    ),
+                                  ),
+                                  content: Text(
+                                    "Are you sure you want to add this Task?",
+                                    style: TextStyle(
+                                      color: Colors
+                                          .black, // Set content text color
+                                    ),
+                                  ),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context)
+                                            .pop(); // Close the dialog
+                                      },
+                                      child: Text(
+                                        "Cancel",
+                                        style: TextStyle(
+                                          color: Colors
+                                              .blue, // Set cancel button text color
+                                        ),
+                                      ),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        // Perform staff addition operation
+                                        _addTask();
+                                        Navigator.of(context)
+                                            .pop(); // Close the dialog
+                                      },
+                                      child: Text(
+                                        "Confirm",
+                                        style: TextStyle(
+                                          color: Colors
+                                              .red, // Set confirm button text color
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
                   }
                 },
                 style: ElevatedButton.styleFrom(
