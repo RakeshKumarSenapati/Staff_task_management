@@ -147,6 +147,7 @@ class _ReportState extends State<Report> {
   }
 }
 
+// ignore: must_be_immutable
 class FileUploader extends StatelessWidget {
   final File? selectedFile;
   final VoidCallback onSelectFile;
