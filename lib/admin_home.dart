@@ -62,8 +62,55 @@ class _HomeNavState extends State<HomeNav> {
                 size: 40,
               ),
               onPressed: () {
-                // Navigator.push(context, MaterialPageRoute(builder: (context) => Web_Login_Page()));
-                clearSharedPreferences();
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      backgroundColor: Colors.white, // Set background color
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ), // Set rounded corner
+                      title: Text(
+                        "Confirm Logout",
+                        style: TextStyle(
+                          color: Colors.black, // Set title text color
+                        ),
+                      ),
+                      content: Text(
+                        "Are you sure you want to logout?",
+                        style: TextStyle(
+                          color: Colors.black, // Set content text color
+                        ),
+                      ),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop(); // Close the dialog
+                          },
+                          child: Text(
+                            "Cancel",
+                            style: TextStyle(
+                              color:
+                                  Colors.blue, // Set cancel button text color
+                            ),
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            clearSharedPreferences();
+                            Navigator.of(context).pop();
+                          },
+                          child: Text(
+                            "Logout",
+                            style: TextStyle(
+                              color: Colors.red, // Set logout button text color
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                );
               },
             ),
           ),

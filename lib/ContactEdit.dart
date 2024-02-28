@@ -10,7 +10,6 @@ class Contact_Edit extends StatefulWidget {
   final String sMob;
   final String fMob;
   final String mMob;
-  
 
   const Contact_Edit({
     Key? key,
@@ -40,13 +39,12 @@ class _Mob_Contact_Edit extends State<Contact_Edit> {
     user.text = widget.id;
     course.text = widget.course;
     sem.text = widget.sem;
-     smob.text = widget.sMob;
+    smob.text = widget.sMob;
     fmob.text = widget.fMob;
     mmob.text = widget.mMob;
-
   }
 
-  Future<void> _login() async {
+  Future<void> _Contact_Edit() async {
     final response = await http.post(
       Uri.parse('https://creativecollege.in/Flutter/Contact.php'),
       body: {
@@ -59,13 +57,12 @@ class _Mob_Contact_Edit extends State<Contact_Edit> {
       },
     );
 
-      Fluttertoast.showToast(
-          msg: response.body,
-          gravity: ToastGravity.BOTTOM,
-          backgroundColor: Colors.green,
-          textColor: Colors.white,
-        );
-    
+    Fluttertoast.showToast(
+      msg: response.body,
+      gravity: ToastGravity.BOTTOM,
+      backgroundColor: Colors.green,
+      textColor: Colors.white,
+    );
   }
 
   Widget build(BuildContext context) {
@@ -144,7 +141,7 @@ class _Mob_Contact_Edit extends State<Contact_Edit> {
                                 ),
                               ),
                             ),
-                             Container(
+                            Container(
                               padding: const EdgeInsets.all(8.0),
                               decoration: const BoxDecoration(
                                 border: Border(
@@ -165,7 +162,7 @@ class _Mob_Contact_Edit extends State<Contact_Edit> {
                                 ),
                               ),
                             ),
-                             Container(
+                            Container(
                               padding: const EdgeInsets.all(8.0),
                               decoration: const BoxDecoration(
                                 border: Border(
@@ -186,7 +183,7 @@ class _Mob_Contact_Edit extends State<Contact_Edit> {
                                 ),
                               ),
                             ),
-                             Container(
+                            Container(
                               padding: const EdgeInsets.all(8.0),
                               decoration: const BoxDecoration(
                                 border: Border(
@@ -207,7 +204,7 @@ class _Mob_Contact_Edit extends State<Contact_Edit> {
                                 ),
                               ),
                             ),
-                             Container(
+                            Container(
                               padding: const EdgeInsets.all(8.0),
                               decoration: const BoxDecoration(
                                 border: Border(
@@ -220,7 +217,8 @@ class _Mob_Contact_Edit extends State<Contact_Edit> {
                                 controller: fmob,
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
-                                  label: const Text('Enter New Father Number'),
+                                  label:
+                                      const Text('Enter Father`s New Number'),
                                   hintText: "Student Id",
                                   hintStyle: TextStyle(
                                     color: Colors.grey[700],
@@ -231,18 +229,18 @@ class _Mob_Contact_Edit extends State<Contact_Edit> {
                             Container(
                               padding: const EdgeInsets.all(8.0),
                               decoration: const BoxDecoration(
-                                // border: Border(
-                                //   bottom: BorderSide(
-                                //     color: Color.fromRGBO(143, 148, 251, 1),
-                                //   ),
-                                // ),
-                              ),
+                                  // border: Border(
+                                  //   bottom: BorderSide(
+                                  //     color: Color.fromRGBO(143, 148, 251, 1),
+                                  //   ),
+                                  // ),
+                                  ),
                               child: TextField(
-                              
                                 controller: mmob,
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
-                                  label: const Text('Enter New Mother Number'),
+                                  label:
+                                      const Text('Enter Mother`s New Number'),
                                   hintText: "Course",
                                   hintStyle: TextStyle(
                                     color: Colors.grey[700],
@@ -262,11 +260,64 @@ class _Mob_Contact_Edit extends State<Contact_Edit> {
                       duration: const Duration(milliseconds: 1900),
                       child: InkWell(
                         onTap: () {
-                          _login();
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                backgroundColor:
+                                    Colors.white, // Set background color
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20.0),
+                                ), // Set rounded corner
+                                title: Text(
+                                  "Confirm Edit",
+                                  style: TextStyle(
+                                    color: Colors.black, // Set title text color
+                                  ),
+                                ),
+                                content: Text(
+                                  "Are you sure you want to Edit Contact Details ?",
+                                  style: TextStyle(
+                                    color:
+                                        Colors.black, // Set content text color
+                                  ),
+                                ),
+                                actions: <Widget>[
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context)
+                                          .pop(); // Close the dialog
+                                    },
+                                    child: Text(
+                                      "Cancel",
+                                      style: TextStyle(
+                                        color: Colors
+                                            .blue, // Set cancel button text color
+                                      ),
+                                    ),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      // Perform delete operation
+                                      _Contact_Edit();
+                                      Navigator.of(context)
+                                          .pop(); // Close the dialog
+                                    },
+                                    child: Text(
+                                      "Edit",
+                                      style: TextStyle(
+                                        color: Colors
+                                            .red, // Set delete button text color
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
                         },
                         child: Container(
                           height: 50,
-                          
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             gradient: const LinearGradient(
@@ -278,7 +329,7 @@ class _Mob_Contact_Edit extends State<Contact_Edit> {
                           ),
                           child: const Center(
                             child: Text(
-                              "Edit Details",
+                              "Edit Contact",
                               style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,

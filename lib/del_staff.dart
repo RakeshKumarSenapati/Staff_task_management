@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
-import 'package:animate_do/animate_do.dart'; // Import the animate_do package
+import 'package:animate_do/animate_do.dart';
 
 class StaffDelete extends StatefulWidget {
   const StaffDelete({Key? key}) : super(key: key);
@@ -40,20 +40,26 @@ class _StaffDeleteState extends State<StaffDelete> {
       appBar: AppBar(
         title: Text(
           'Delete Staff',
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.blue,
+            fontSize: 22,
+          ),
         ),
+        backgroundColor: Colors.white,
+        elevation: 0, // Remove app bar elevation
       ),
       body: ListView.builder(
         itemCount: items.length,
         itemBuilder: (BuildContext context, int index) {
           return FadeInLeft(
-            // Wrap your widget with FadeInUp
             duration: Duration(milliseconds: 300),
             delay: Duration(milliseconds: index * 50),
             child: StaffCard(item: items[index], fetchData: fetchData),
           );
         },
       ),
+      backgroundColor: Colors.grey[200], // Set background color
     );
   }
 }
@@ -72,19 +78,17 @@ class StaffCard extends StatelessWidget {
     if (response.statusCode == 200) {
       if (response.body == 'Success') {
         Fluttertoast.showToast(
-          msg: response.body,
+          msg: 'Staff deleted successfully!',
           gravity: ToastGravity.BOTTOM,
           backgroundColor: Colors.green,
           textColor: Colors.white,
         );
-
-        // After a successful delete, refresh the data
-        fetchData();
+        fetchData(); // Refresh the data after successful deletion
       } else {
         Fluttertoast.showToast(
           msg: response.body,
           gravity: ToastGravity.BOTTOM,
-          backgroundColor: const Color.fromARGB(255, 175, 76, 76),
+          backgroundColor: Colors.red,
           textColor: Colors.white,
         );
       }
@@ -95,21 +99,75 @@ class StaffCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       margin: EdgeInsets.all(10),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+      elevation: 5,
       child: Padding(
         padding: EdgeInsets.all(8),
         child: ListTile(
-          title: Text(item['name']),
-          trailing: ElevatedButton(
+          title: Text(
+            item['name'],
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          trailing: IconButton(
+            icon: Icon(Icons.delete, color: Colors.red),
             onPressed: () {
-              delete(item['name']);
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    backgroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    title: Text(
+                      "Confirm Delete",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    content: Text(
+                      "Are you sure you want to delete ${item['name']}?",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                      ),
+                    ),
+                    actions: <Widget>[
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text(
+                          "Cancel",
+                          style: TextStyle(
+                            color: Colors.blue,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          delete(item['name']);
+                          Navigator.of(context).pop();
+                        },
+                        child: Text(
+                          "Delete",
+                          style: TextStyle(
+                            color: Colors.red,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              );
             },
-            style: ElevatedButton.styleFrom(
-              primary: const Color.fromARGB(255, 243, 33, 33),
-            ),
-            child: Text(
-              'Delete',
-              style: TextStyle(color: Colors.white),
-            ),
           ),
         ),
       ),

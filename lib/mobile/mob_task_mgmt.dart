@@ -29,8 +29,8 @@ class _Task_mgmt extends State<Task_mgmt> {
   Future<void> fetchData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String userID = prefs.getString('userID') ?? '';
-    var url =
-        Uri.parse('https://creativecollege.in/Flutter/Task_mgmt.php?id=$userID');
+    var url = Uri.parse(
+        'https://creativecollege.in/Flutter/Task_mgmt.php?id=$userID');
 
     var response = await http.get(url);
 
@@ -116,7 +116,6 @@ class _Task_mgmt extends State<Task_mgmt> {
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
         actions: <Widget>[
-          
           Container(
             margin: EdgeInsets.only(right: 10.0),
             child: DropdownButton<String>(
@@ -130,10 +129,14 @@ class _Task_mgmt extends State<Task_mgmt> {
                   .map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
-                  child: Text(value,style: TextStyle(color: Colors.blue,fontSize: 20),),
+                  child: Text(
+                    value,
+                    style: TextStyle(color: Colors.blue, fontSize: 20),
+                  ),
                 );
               }).toList(),
-              style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),
+              style:
+                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
             ),
           ),
           Container(
@@ -151,7 +154,8 @@ class _Task_mgmt extends State<Task_mgmt> {
                 radius: 20,
                 backgroundImage: _pickedImage == null
                     ? AssetImage('assets/images/technocart.png')
-                    : FileImage(File(_pickedImage!.path)) as ImageProvider<Object>?,
+                    : FileImage(File(_pickedImage!.path))
+                        as ImageProvider<Object>?,
               ),
             ),
           ),
@@ -161,13 +165,17 @@ class _Task_mgmt extends State<Task_mgmt> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 10,bottom: 10,left: 30,right: 30),
+            padding:
+                const EdgeInsets.only(top: 10, bottom: 10, left: 30, right: 30),
             child: Row(
-              
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Active: $activeCount',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold)),
-                Text('Pending: $pendingCount',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold)),
+                Text('Active: $activeCount',
+                    style:
+                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                Text('Pending: $pendingCount',
+                    style:
+                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                 // Text('Completed: $completedCount',style: TextStyle(fontSize: 17)),
               ],
             ),
@@ -195,7 +203,8 @@ class _Task_mgmt extends State<Task_mgmt> {
                       elevation: 8,
                       child: ExpansionTile(
                         title: Container(
-                          margin: const EdgeInsets.only(left: 16.0, top: 5, bottom: 15),
+                          margin: const EdgeInsets.only(
+                              left: 16.0, top: 5, bottom: 15),
                           child: ListTile(
                             subtitle: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -219,7 +228,8 @@ class _Task_mgmt extends State<Task_mgmt> {
                                       '${data[index]['STATUS']}',
                                       style: const TextStyle(
                                           fontSize: 17,
-                                          color: Color.fromARGB(255, 218, 22, 22)),
+                                          color:
+                                              Color.fromARGB(255, 218, 22, 22)),
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                   ],
@@ -227,21 +237,80 @@ class _Task_mgmt extends State<Task_mgmt> {
                                 if (isNotStarted)
                                   OutlinedButton(
                                     onPressed: () {
-                                      String title = '${data[index]['TITLE']}';
-                                      String statuss = 'Started';
-
-                                      STARTIT(statuss, title).then((_) {
-                                        fetchData();
-                                      });
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            backgroundColor: Colors.white,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20.0),
+                                            ),
+                                            title: Text(
+                                              "Confirm Start",
+                                              style: TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 18,
+                                              ),
+                                            ),
+                                            content: Text(
+                                              "Are you sure you want to start this task?",
+                                              style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 16,
+                                              ),
+                                            ),
+                                            actions: <Widget>[
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.of(context)
+                                                      .pop(); // Close the dialog
+                                                },
+                                                child: Text(
+                                                  "Cancel",
+                                                  style: TextStyle(
+                                                    color: Colors.blue,
+                                                    fontSize: 16,
+                                                  ),
+                                                ),
+                                              ),
+                                              TextButton(
+                                                onPressed: () {
+                                                  String title =
+                                                      '${data[index]['TITLE']}';
+                                                  String statuss = 'Started';
+                                                  STARTIT(statuss, title)
+                                                      .then((_) {
+                                                    fetchData();
+                                                  });
+                                                  Navigator.of(context)
+                                                      .pop(); // Close the dialog
+                                                },
+                                                child: Text(
+                                                  "Start",
+                                                  style: TextStyle(
+                                                    color: Colors.blue,
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
                                     },
                                     style: OutlinedButton.styleFrom(
-                                        foregroundColor: Colors.blue,
-                                        side: const BorderSide(
-                                          color: Colors.blue,
-                                        )),
-                                    child: const Text(
-                                      " Get Start ",
-                                      style: TextStyle(fontWeight: FontWeight.bold),
+                                      foregroundColor: Colors.blue,
+                                      side: BorderSide(
+                                        color: Colors.blue,
+                                      ),
+                                    ),
+                                    child: Text(
+                                      "Get Start",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
                                     ),
                                   )
                                 else if (isNoStarted)
@@ -249,25 +318,97 @@ class _Task_mgmt extends State<Task_mgmt> {
                                     "Completed",
                                     style: TextStyle(
                                         fontSize: 15,
-                                        color: Color.fromARGB(255, 218, 22, 22)),
+                                        color:
+                                            Color.fromARGB(255, 218, 22, 22)),
                                   )
                                 else if (isNStarted)
                                   OutlinedButton(
                                     onPressed: () {
-                                      String title = '${data[index]['TITLE']}';
-                                      String statuss = 'Completed';
-                                      STARTIT(statuss, title).then((_) {
-                                        fetchData();
-                                      });
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            backgroundColor: Colors
+                                                .white, // Set background color
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20.0),
+                                            ), // Set rounded corner
+                                            title: Text(
+                                              "Confirm Completion",
+                                              style: TextStyle(
+                                                color: Colors
+                                                    .black, // Set title text color
+                                                fontWeight: FontWeight
+                                                    .bold, // Set title font weight
+                                                fontSize:
+                                                    18, // Set title font size
+                                              ),
+                                            ),
+                                            content: Text(
+                                              "Are you sure you want to mark this task as completed?",
+                                              style: TextStyle(
+                                                color: Colors
+                                                    .black, // Set content text color
+                                                fontSize:
+                                                    16, // Set content font size
+                                              ),
+                                            ),
+                                            actions: <Widget>[
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.of(context)
+                                                      .pop(); // Close the dialog
+                                                },
+                                                child: Text(
+                                                  "Cancel",
+                                                  style: TextStyle(
+                                                    color: Colors
+                                                        .blue, // Set cancel button text color
+                                                    fontSize:
+                                                        16, // Set cancel button font size
+                                                  ),
+                                                ),
+                                              ),
+                                              TextButton(
+                                                onPressed: () {
+                                                  String title =
+                                                      '${data[index]['TITLE']}';
+                                                  String statuss = 'Completed';
+                                                  STARTIT(statuss, title)
+                                                      .then((_) {
+                                                    fetchData();
+                                                  });
+                                                  Navigator.of(context)
+                                                      .pop(); // Close the dialog
+                                                },
+                                                child: Text(
+                                                  "Confirm",
+                                                  style: TextStyle(
+                                                    color: Colors
+                                                        .red, // Set confirm button text color
+                                                    fontSize:
+                                                        16, // Set confirm button font size
+                                                    fontWeight: FontWeight
+                                                        .bold, // Set confirm button font weight
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
                                     },
                                     style: OutlinedButton.styleFrom(
-                                        foregroundColor: Colors.green,
-                                        side: BorderSide(
-                                          color: Colors.green,
-                                        )),
-                                    child: const Text(
+                                      foregroundColor: Colors.green,
+                                      side: BorderSide(
+                                        color: Colors.green,
+                                      ),
+                                    ),
+                                    child: Text(
                                       "Complete",
-                                      style: TextStyle(fontWeight: FontWeight.bold),
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
                                     ),
                                   ),
                               ],

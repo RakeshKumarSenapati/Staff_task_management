@@ -55,24 +55,6 @@ class _ImageListState extends State<ImageList> {
     }
   }
 
-  Future<void> _saveImage(Uint8List bytes, int index) async {
-    try {
-      final directory = await getExternalStorageDirectory();
-      final image = File('${directory!.path}/image_$index.jpg');
-      await image.writeAsBytes(bytes);
-      Fluttertoast.showToast(
-          msg: 'Image saved to gallery',
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.grey,
-          textColor: Colors.white,
-          fontSize: 16.0);
-    } on PlatformException catch (e) {
-      print("Failed to save image: '$e'.");
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     const _color1 = Color(0xFFC21E56);
@@ -130,12 +112,7 @@ class _ImageListState extends State<ImageList> {
                                     color: Colors.blue
                                   ),
                                 ),
-                                IconButton(
-                                  icon: Icon(Icons.download,color: Colors.red,),
-                                  onPressed: () {
-                                    _saveImage(base64Decode(imageStrings[index]), index);
-                                  },
-                                ),
+                                
                                 SizedBox(
                                   height: 60,
                                 )

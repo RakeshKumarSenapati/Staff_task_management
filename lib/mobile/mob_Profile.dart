@@ -61,6 +61,10 @@ class _ProfilePageState extends State<Profile> {
           name = 'Data not found';
           userName = 'Data not found';
           password = 'Data not found';
+          email = 'Data not found';
+          phone = 'Data not found';
+          address = 'Data not found';
+          designation = 'Data not found';
         });
       }
     } else {

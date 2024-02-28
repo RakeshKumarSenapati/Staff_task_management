@@ -3,14 +3,12 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:animate_do/animate_do.dart';
 
-
 class StaffAdd extends StatefulWidget {
   const StaffAdd({Key? key}) : super(key: key);
 
   @override
   State<StaffAdd> createState() => _StaffAddState();
 }
-
 
 class _StaffAddState extends State<StaffAdd> {
   final TextEditingController nameController = TextEditingController();
@@ -19,8 +17,7 @@ class _StaffAddState extends State<StaffAdd> {
 
   final _formKey = GlobalKey<FormState>();
 
-
-  void signUp() async {
+  void Add_Staff() async {
     final response = await http.post(
       Uri.parse('https://creativecollege.in/Flutter/staff_add.php'),
       body: {
@@ -51,7 +48,6 @@ class _StaffAddState extends State<StaffAdd> {
       }
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -183,17 +179,104 @@ class _StaffAddState extends State<StaffAdd> {
                       child: ElevatedButton(
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                            signUp();
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  backgroundColor:
+                                      Colors.white, // Set background color
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                  ), // Set rounded corner
+                                  title: Text(
+                                    "Confirm",
+                                    style: TextStyle(
+                                      color:
+                                          Colors.black, // Set title text color
+                                    ),
+                                  ),
+                                  content: Text(
+                                    "Are you sure you want to add this staff?",
+                                    style: TextStyle(
+                                      color: Colors
+                                          .black, // Set content text color
+                                    ),
+                                  ),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context)
+                                            .pop(); // Close the dialog
+                                      },
+                                      child: Text(
+                                        "Cancel",
+                                        style: TextStyle(
+                                          color: Colors
+                                              .blue, // Set cancel button text color
+                                        ),
+                                      ),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        // Perform staff addition operation
+                                        Add_Staff();
+                                        Navigator.of(context)
+                                            .pop(); // Close the dialog
+                                      },
+                                      child: Text(
+                                        "Confirm",
+                                        style: TextStyle(
+                                          color: Colors
+                                              .red, // Set confirm button text color
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
                           }
                         },
-                        child: Text('Submit'),
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.green, // Background color
+                          onPrimary: Colors.white, // Text color
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                10), // Rounded corner radius
+                          ),
+                          padding: EdgeInsets.symmetric(
+                              vertical: 12, horizontal: 24), // Button padding
+                        ),
+                        child: Text(
+                          'Add Staff',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          ),
+                        ),
                       ),
                     ),
                     FadeInRightBig(
                       duration: Duration(milliseconds: 1000),
                       child: ElevatedButton(
                         onPressed: _clearForm,
-                        child: Text('Clear'),
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.blue, // Background color
+                          onPrimary: Colors.white, // Text color
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                10), // Rounded corner radius
+                          ),
+                          padding: EdgeInsets.symmetric(
+                              vertical: 12, horizontal: 24), // Button padding
+                        ),
+                        child: Text(
+                          "Clear Fields",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          ),
+                        ),
                       ),
                     ),
                   ],
