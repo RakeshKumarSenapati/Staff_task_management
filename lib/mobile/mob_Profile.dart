@@ -132,7 +132,60 @@ class _ProfilePageState extends State<Profile> {
                     color: Color.fromARGB(255, 239, 61, 48),
                   ),
                   onPressed: () {
-                    clearSharedPreferences();
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          backgroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          title: Text(
+                            "Confirm Logout",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                            ),
+                          ),
+                          content: Text(
+                            "Are you sure you want to Logout?",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                            ),
+                          ),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop(); // Close the dialog
+                              },
+                              child: Text(
+                                "Cancel",
+                                style: TextStyle(
+                                  color: Colors.blue,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                clearSharedPreferences();
+                                Navigator.of(context).pop(); // Close the dialog
+                              },
+                              child: Text(
+                                "Logout",
+                                style: TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    );
                   },
                 ),
               ],
@@ -248,7 +301,6 @@ class _ProfilePageState extends State<Profile> {
                 ),
               ),
             ),
-
             FadeInLeft(
               duration: Duration(milliseconds: 3000),
               child: Card(
@@ -279,7 +331,6 @@ class _ProfilePageState extends State<Profile> {
             ),
           );
         },
-        
         label: const Text('Edit Profile'),
         icon: const Icon(Icons.edit),
       ),
