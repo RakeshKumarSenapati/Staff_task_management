@@ -130,10 +130,10 @@ class _NavPageState extends State<NavPage> {
                   borderRadius: BorderRadius.circular(20.0),
                 ),
                 title: Text(
-                  "Confirm Delete",
+                  "Select",
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: 20,
+                    fontSize: 22,
                     fontWeight: FontWeight.bold,
                   ),
                 ),

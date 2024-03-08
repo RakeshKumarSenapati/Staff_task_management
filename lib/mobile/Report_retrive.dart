@@ -1,9 +1,12 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/mobile/pdfView.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:animate_do/animate_do.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 
 class Report_Retrive extends StatefulWidget {
   final String id;
@@ -151,17 +154,18 @@ class StaffCard extends StatelessWidget {
             
           ),
           subtitle: Text(item['Month']),
-          onTap: () {
-            String name = item['Filename'];
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => PDFViewer(
-                      url: "https://creativecollege.in/Flutter/Report/Pdflist.php?name=$name")),
-            );
-          },
+      
+          // },
         ),
       ),
     );
+  }
+
+  Future<void> _launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }
