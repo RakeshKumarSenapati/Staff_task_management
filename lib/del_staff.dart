@@ -22,6 +22,7 @@ class _StaffDeleteState extends State<StaffDelete> {
     if (response.statusCode == 200) {
       setState(() {
         items = json.decode(response.body);
+        items.sort((a, b) => a['name'].compareTo(b['name']));
       });
     } else {
       print('Failed to load data');

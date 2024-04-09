@@ -49,7 +49,18 @@ class _ReportState extends State<Report_upload> {
 }
 
 
- 
+  void _selectFile() async {
+    // FilePickerResult? result = await FilePicker.platform.pickFiles();
+    FilePickerResult? result = await FilePicker.platform
+    .pickFiles(type: FileType.custom, allowedExtensions: ['pdf']);
+
+    if (result != null) {
+      setState(() {
+        _selectedFile = File(result.files.single.path!);
+      });
+    }
+  }
+
   Future<void> _uploadFile() async {
     setState(() {
       _isLoading = true;
@@ -59,7 +70,7 @@ class _ReportState extends State<Report_upload> {
       String fileExtension = _selectedFile!.path.split('.').last.toLowerCase();
 
       if (fileExtension == 'pdf') {
-        // await uploadFile(_selectedFile!);
+        await uploadFile(_selectedFile!);
       } else {
         _showToast('Unsupported file format. Please select a PDF file.', Colors.red);
       }
@@ -84,7 +95,6 @@ class _ReportState extends State<Report_upload> {
   @override
   Widget build(BuildContext context) {
     const _color1 = Color(0xFFC21E56);
-    var _selectFile;
     return Scaffold(
       appBar: AppBar(
         title: Text('Monthly Reports',
@@ -100,7 +110,7 @@ class _ReportState extends State<Report_upload> {
                 ? CircularProgressIndicator()
                 : FileUploader(
                     selectedFile: _selectedFile,
-                     onSelectFile: _selectFile,
+                    onSelectFile: _selectFile,
                     onUploadFile: _uploadFile,
                   ),
             SizedBox(height: 20),
@@ -249,3 +259,50 @@ class FileUploader extends StatelessWidget {
   }
 }
 
+Future<void> uploadFile(File file) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String userID = prefs.getString('userID') ?? '';
+
+  try {
+    var request = http.MultipartRequest(
+      'POST',
+      Uri.parse('https://creativecollege.in/Flutter/Report_Upload.php'),
+    );
+
+    // Adding the file to the request
+    request.files.add(
+      await http.MultipartFile.fromPath(
+        'file',
+        file.path,
+      ),
+    );
+
+    // Setting the 'userId' field in the request
+    request.fields['userId'] = userID;
+
+    var response = await request.send();
+
+    if (response.statusCode == 200) {
+      Fluttertoast.showToast(
+        msg: "Uploaded Successfully",
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.green,
+        textColor: Colors.white,
+      );
+    } else {
+      Fluttertoast.showToast(
+        msg: 'Failed to upload file. Status code: ${response.statusCode}',
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+      );
+    }
+  } catch (error) {
+    Fluttertoast.showToast(
+      msg: 'Error uploading file: $error',
+      gravity: ToastGravity.BOTTOM,
+      backgroundColor: Colors.red,
+      textColor: Colors.white,
+    );
+  }
+}

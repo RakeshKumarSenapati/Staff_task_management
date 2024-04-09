@@ -26,10 +26,27 @@ class _PDFViewerState extends State<PDFViewer> {
     _onDownloadPressed();
   }
 
+  Future<void> downloadFile(String url) async {
+    try {
+      Dio dio = Dio();
+      Directory appDocDir = await getApplicationDocumentsDirectory();
+      final String appDocPath = appDocDir.path;
+      downloadedFilePath =
+          '$appDocPath/${DateTime.now().millisecondsSinceEpoch}.pdf';
+
+      await dio.download(url, downloadedFilePath);
+
+      setState(() {
+        isLoading = false;
+      });
+    } catch (e) {
+      print(e.toString());
+    }
+  }
 
   Future<void> _onDownloadPressed() async {
     try {
-      // await downloadFile(widget.url);
+      await downloadFile(widget.url);
     } catch (e) {
       print(e.toString());
     }

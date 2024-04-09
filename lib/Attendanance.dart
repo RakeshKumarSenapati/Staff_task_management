@@ -17,7 +17,20 @@ class _StaffListState extends State<Attendanance> {
   DateTime? selectedDate;
   int totalPresent = 0;
 
- 
+  final List<String> months = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December'
+  ];
 
   String selectedMonth = '';
 
@@ -42,7 +55,7 @@ class _StaffListState extends State<Attendanance> {
     super.initState();
     selectedDate = DateTime.now();
     fetchDataMonthly(selectedDate!.year, selectedDate!.month);
-    // selectedMonth = months[selectedDate!.month - 1];
+    selectedMonth = months[selectedDate!.month - 1];
   }
 
   void _selectDate(BuildContext context) async {
@@ -55,7 +68,7 @@ class _StaffListState extends State<Attendanance> {
     if (picked != null && picked != selectedDate) {
       setState(() {
         selectedDate = picked;
-        // selectedMonth = months[selectedDate!.month - 1];
+        selectedMonth = months[selectedDate!.month - 1];
       });
 
       // Fetch data based on the selected month

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/Admin_Contact.dart';
 import 'package:flutter_application_1/Admin_leave_Mgmt.dart';
 import 'package:flutter_application_1/Staff_List.dart';
 import 'package:flutter_application_1/Add_staff.dart';
@@ -23,7 +24,7 @@ class _HomeNavState extends State<HomeNav> {
     StaffAdd(),
     StaffDelete(),
     Admin_Leave_Page(),
-    ContactPrev(),
+    Admin_ContactPrev(),
     Total_Attendance()
   ];
 
@@ -115,7 +116,11 @@ class _HomeNavState extends State<HomeNav> {
             ),
           ),
         ],
-        title: Text('Hi.. ,  Admin'),
+        title: Text(
+          'Hi.. ,  Admin',
+          style: TextStyle(
+              fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white),
+        ),
       ),
       body: _pages[_currentIndex],
       bottomNavigationBar: ClipRRect(

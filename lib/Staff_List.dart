@@ -23,6 +23,8 @@ class _StaffListState extends State<StaffList> {
     if (response.statusCode == 200) {
       setState(() {
         items = json.decode(response.body);
+        // Sort the items alphabetically by 'name'
+        items.sort((a, b) => a['name'].compareTo(b['name']));
       });
     } else {
       print('Failed to load data');
@@ -73,61 +75,62 @@ class StaffCard extends StatelessWidget {
           title: Text(item['name']),
           trailing: ElevatedButton(
             onPressed: () {
-              
-
               showAdaptiveDialog(
-                  context: context,
-                  builder: (context) {
-                    return Container(
-                        child: AlertDialog(
-                      title: Text(item['name']+'\nWork Ststus & Monthly  Report'),
-                      // backgroundColor: Colors.white,
+                context: context,
+                builder: (context) {
+                  return Container(
+                    child: AlertDialog(
+                      title: Text(
+                        item['name'] + '\nWork Status & Monthly Report',
+                      ),
                       actions: [
                         Container(
-                          // color: Colors.red,
-                          // height: 200,
                           child: Column(
                             children: [
                               Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    ElevatedButton(
-                                        onPressed: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) => Details_admin_web(
-                                                name: item['name'],
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                        child: const Text('Status')),
-                                    
-                                    Expanded(child: Container()),
-
-                                    ElevatedButton(
-                                        onPressed: () {
-                                          // print('yes');
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) => Report_Retrive(
-                                                id: item['user_name'],
-                                                name: item['name'],
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                        child: const Text('Report'))
-                                  ]),
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              Details_admin_web(
+                                            name: item['name'],
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    child: const Text('Status'),
+                                  ),
+                                  Expanded(child: Container()),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => Report_Retrive(
+                                            id: item['user_name'],
+                                            name: item['name'],
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    child: const Text('Report'),
+                                  ),
+                                ],
+                              ),
                             ],
                           ),
                         ),
                       ],
-                    ));
-                  },
-                );
+                    ),
+                  );
+                },
+              );
             },
             child: Text('Show Status'),
           ),

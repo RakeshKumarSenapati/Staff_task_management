@@ -34,22 +34,34 @@ class _RetriveState extends State<Report_Retrive> {
     'November',
     'December'
   ];
-  String selectedMonth = 'January'; // Default month
+  late String selectedMonth; // Declare selectedMonth as late
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize selectedMonth with current month
+    selectedMonth = months[DateTime.now().month - 1];
+    fetchData();
+  }
 
   Future<void> fetchData() async {
-    var url = Uri.parse('https://creativecollege.in/Flutter/Retrive_Report.php');
+    var url =
+        Uri.parse('https://creativecollege.in/Flutter/Retrive_Report.php');
 
     var response = await http.get(url);
 
     if (response.statusCode == 200) {
       setState(() {
         List<dynamic> allItems = json.decode(response.body);
-        items = allItems.where((item) => item['ID'] == widget.id && item['Month'] == selectedMonth).toList();
+        items = allItems
+            .where((item) =>
+                item['ID'] == widget.id && item['Month'] == selectedMonth)
+            .toList();
 
         if (items.isEmpty) {
-          Fluttertoast.showToast(msg: 'No files available for $selectedMonth');
+          Fluttertoast.showToast(msg: 'No files available of $selectedMonth');
         } else {
-          Fluttertoast.showToast(msg: 'Showing files for $selectedMonth');
+          Fluttertoast.showToast(msg: 'Showing files of $selectedMonth');
         }
       });
     } else {
@@ -58,16 +70,10 @@ class _RetriveState extends State<Report_Retrive> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    fetchData();
-  }
-
-  @override
   Widget build(BuildContext context) {
     const _color1 = Color(0xFFC21E56);
     return Scaffold(
-      appBar:AppBar(
+      appBar: AppBar(
         backgroundColor: _color1,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
@@ -75,7 +81,6 @@ class _RetriveState extends State<Report_Retrive> {
             bottomRight: Radius.circular(30),
           ),
         ),
-        
         title: Text(
           '${widget.name} Report',
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
@@ -151,11 +156,27 @@ class StaffCard extends StatelessWidget {
           title: Text(
             item['Filename'],
             style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.w700),
-            
           ),
           subtitle: Text(item['Month']),
-      
-          // },
+          onTap: () {
+            String name = item['Filename'];
+            if (kIsWeb) {
+              // Running on web
+              _launchURL(
+                  "https://creativecollege.in/Flutter/Report/Pdflist.php?name=$name");
+            } else {
+              // Running on Android
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => PDFViewer(
+                    url:
+                        "https://creativecollege.in/Flutter/Report/Pdflist.php?name=$name",
+                  ),
+                ),
+              );
+            }
+          },
         ),
       ),
     );

@@ -1,12 +1,14 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/mobile/pdfView.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:url_launcher/url_launcher.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 class Report extends StatefulWidget {
   @override
   _ReportState createState() => _ReportState();
@@ -126,6 +128,12 @@ class _ReportState extends State<Report> {
                       ),
                       onTap: () {
                         String name = items[index]['Filename'].toString();
+                        if (kIsWeb) {
+                        // Running on web
+                        _launchURL(
+                            "https://creativecollege.in/Flutter/Report/Pdflist.php?name=$name");
+                      } else {
+                        // Running on Android
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -134,6 +142,7 @@ class _ReportState extends State<Report> {
                             ),
                           ),
                         );
+                      }
                       },
                     ),
                   );
@@ -144,6 +153,13 @@ class _ReportState extends State<Report> {
         ),
       ),
     );
+  }
+  Future<void> _launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }
 

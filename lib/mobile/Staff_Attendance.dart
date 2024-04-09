@@ -119,8 +119,6 @@ class _StaffListState extends State<Staff_Attendanance> {
   Widget build(BuildContext context) {
     const _color2 = Color(0xFFF09FDE);
     const _color1 = Color(0xFFC21E56);
-    // Reverse the order of items
-    List<dynamic> reversedItems = List.from(items.reversed);
 
     return Scaffold(
       appBar: AppBar(
@@ -135,32 +133,30 @@ class _StaffListState extends State<Staff_Attendanance> {
           Container(
             margin: EdgeInsets.only(right: 10.0),
             child: GestureDetector(
-                onTap: () {},
-                child: Row(
-                  children: [
-                    Text(
-                      '${totalPresent}',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20),
+              onTap: () {},
+              child: Row(
+                children: [
+                  Text(
+                    '${totalPresent}',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20),
+                  ),
+                  SizedBox(width: 8),
+                  IconButton(
+                    onPressed: () {
+                      _selectDate(context);
+                    },
+                    icon: Icon(
+                      Icons.calendar_month,
+                      color: Colors.white,
                     ),
-                    SizedBox(
-                      width: 8,
-                    ),
-                    IconButton(
-                        onPressed: () {
-                          _selectDate(context);
-                        },
-                        icon: Icon(
-                          Icons.calendar_month,
-                          color: Colors.white,
-                        )),
-                    SizedBox(
-                      width: 8,
-                    )
-                  ],
-                )),
+                  ),
+                  SizedBox(width: 8)
+                ],
+              ),
+            ),
           ),
         ],
         title: Text(
@@ -170,71 +166,32 @@ class _StaffListState extends State<Staff_Attendanance> {
       ),
       body: Column(
         children: [
-          const SizedBox(
-            height: 10,
-          ),
+          const SizedBox(height: 10),
           Expanded(
             child: FadeInUp(
-              // Wrap the widget with the FadeInUp animation
               duration: const Duration(milliseconds: 1000),
               child: ListView.builder(
-                itemCount: reversedItems.length,
+                itemCount: items.length,
                 itemBuilder: (BuildContext context, int index) {
-                  // Extract month from the date in 'YYYY-MM-DD' format
                   int monthFromData =
-                      int.parse(reversedItems[index]['DATE'].split('-')[1]);
+                      int.parse(items[index]['DATE'].split('-')[1]);
 
-                  // Check if the month matches the selected month
                   if (monthFromData == selectedDate!.month) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: Card(
-                        elevation: 3,
-                        margin: const EdgeInsets.all(8),
-                        child: Padding(
-                          padding: const EdgeInsets.all(16),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8),
-                                    child: Text(
-                                      'Date: ${reversedItems[index]['DATE']}',
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
-                                  const SizedBox(height: 8),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8),
-                                    child: Text(
-                                      'Check In: ${reversedItems[index]['CHECK_IN_TIME']}',
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8),
-                                    child: Text(
-                                      'Check Out: ${reversedItems[index]['CHECK_OUT_TIME']}',
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const Text(
-                                'Present',
-                                style: TextStyle(
-                                  color: Colors.blue,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
+                    return ListTile(
+                      title: Text('Date: ${items[index]['DATE']}'),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Check In: ${items[index]['CHECK_IN_TIME']}'),
+                          Text('Check Out: ${items[index]['CHECK_OUT_TIME']}'),
+                        ],
+                      ),
+                      trailing: Text(
+                        'Present',
+                        style: TextStyle(
+                          color: Colors.blue,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     );
@@ -249,8 +206,9 @@ class _StaffListState extends State<Staff_Attendanance> {
       ),
       floatingActionButton: Container(
         decoration: BoxDecoration(
-            border: Border.all(width: 2, color: _color1),
-            borderRadius: const BorderRadius.all(Radius.circular(18))),
+          border: Border.all(width: 2, color: _color1),
+          borderRadius: BorderRadius.all(Radius.circular(18)),
+        ),
         child: FloatingActionButton(
           backgroundColor: _color2,
           onPressed: () {
@@ -261,7 +219,7 @@ class _StaffListState extends State<Staff_Attendanance> {
               ),
             );
           },
-          child: const Icon(
+          child: Icon(
             Icons.leave_bags_at_home,
             size: 30,
           ),

@@ -49,12 +49,14 @@ class _Task_mgmt extends State<Task_mgmt> {
     }
   }
 
-  Future<void> STARTIT(String Status, String title) async {
+  Future<void> STARTIT(String Status, String title,String ID,String addt) async {
     final response = await http.post(
       Uri.parse('https://creativecollege.in/Flutter/Task_operation.php'),
       body: {
         'STATUS': Status,
         'TITLE': title,
+        'ID': ID,
+        'ADD':addt
       },
     );
 
@@ -279,8 +281,13 @@ class _Task_mgmt extends State<Task_mgmt> {
                                                 onPressed: () {
                                                   String title =
                                                       '${data[index]['TITLE']}';
+                                                  
                                                   String statuss = 'Started';
-                                                  STARTIT(statuss, title)
+                                                  String iddd =
+                                                      '${data[index]['ID']}';
+                                                  String ADDT =
+                                                      '${data[index]['ADDDATE']}';
+                                                  STARTIT(statuss, title,iddd,ADDT)
                                                       .then((_) {
                                                     fetchData();
                                                   });
@@ -375,7 +382,11 @@ class _Task_mgmt extends State<Task_mgmt> {
                                                   String title =
                                                       '${data[index]['TITLE']}';
                                                   String statuss = 'Completed';
-                                                  STARTIT(statuss, title)
+                                                  String iddd =
+                                                      '${data[index]['ID']}';
+                                                  String ADDT =
+                                                      '${data[index]['ADDDATE']}';
+                                                  STARTIT(statuss, title,iddd,ADDT)
                                                       .then((_) {
                                                     fetchData();
                                                   });

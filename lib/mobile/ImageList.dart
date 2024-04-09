@@ -25,10 +25,35 @@ class _ImageListState extends State<ImageList> {
   @override
   void initState() {
     super.initState();
-    // fetchImages();
+    fetchImages();
   }
 
- 
+  Future<void> fetchImages() async {
+    var url = Uri.parse("https://creativecollege.in/img_retrive.php");
+
+    try {
+      final response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        try {
+          List<dynamic> data = json.decode(response.body);
+          setState(() {
+            imageStrings = List<String>.from(data).reversed.toList();
+            isLoading = false; // Set loading to false when images are fetched
+          });
+        } catch (e) {
+          print('Error decoding JSON: $e');
+          throw Exception('Failed to load images');
+        }
+      } else {
+        print('HTTP ${response.statusCode} ${response.body}');
+        throw Exception('Failed to load images');
+      }
+    } catch (e) {
+      print('Error fetching images: $e');
+      throw Exception('Failed to load images');
+    }
+  }
 
 
   @override
