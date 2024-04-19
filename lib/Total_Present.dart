@@ -46,7 +46,6 @@ class _AttendancePageState extends State<Total_Attendance> {
 
   @override
   Widget build(BuildContext context) {
-    const _color1 = Color(0xFFC21E56);
     return Scaffold(
       body: Column(
         children: [
@@ -116,7 +115,7 @@ class _AttendancePageState extends State<Total_Attendance> {
                       selectedYear = newValue!;
                     });
                   },
-                  items: <String>['2023', '2024', '2025', '2026']
+                  items: <String>['2023', '2024', '2025', '2026','2027']
                       .map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
                       value: value,

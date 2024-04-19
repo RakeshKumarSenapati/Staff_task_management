@@ -39,13 +39,10 @@ class _StaffListState extends State<StaffList> {
 
   @override
   Widget build(BuildContext context) {
+    const _color1 = Color.fromARGB(255, 194, 30, 86);
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Staff List',
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),
-        ),
-      ),
+      
       body: ListView.builder(
         itemCount: items.length,
         itemBuilder: (BuildContext context, int index) {

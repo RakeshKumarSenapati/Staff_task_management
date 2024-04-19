@@ -62,32 +62,45 @@ class CourseSelectionPage extends StatelessWidget {
 }
 
 Widget _buildCourseButton(BuildContext context, String title, String course) {
-  return ElevatedButton(
-    onPressed: () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => MyHomePage(
-            title: title,
-            course: course,
+  return Card(
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(8.0),
+    ),
+    child: Row(
+      children: [
+        Expanded(
+          child: ElevatedButton(
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => MyHomePage(
+                    title: title,
+                    course: course,
+                  ),
+                ),
+              );
+            },
+            style: ElevatedButton.styleFrom(
+              primary: Colors.blueAccent,
+              onPrimary: Colors.white,
+              padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(0.0),
+              ),
+            ),
+            child: Text(
+              title,
+              style: TextStyle(fontSize: 20),
+            ),
           ),
         ),
-      );
-    },
-    style: ElevatedButton.styleFrom(
-      primary: Colors.blueAccent,
-      onPrimary: Colors.white,
-      padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(30.0),
-      ),
-    ),
-    child: Text(
-      title,
-      style: TextStyle(fontSize: 20),
+        SizedBox(width: 8), // Add spacing between cards
+      ],
     ),
   );
 }
+
 
 }
 

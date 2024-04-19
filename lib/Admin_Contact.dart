@@ -1,7 +1,6 @@
-import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/ContactEdit.dart';
-import 'package:flutter_application_1/mobile/mob_Profile.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
@@ -44,6 +43,7 @@ class Admin_ContactPrev extends StatefulWidget {
 
 class _ContactPage extends State<Admin_ContactPrev> {
   List<String> allowedCourses = ['BSC', 'BCA', 'BBA'];
+  // ignore: unused_field
   XFile? _pickedImage;
   late String pickedImagePath;
 
@@ -66,8 +66,24 @@ class _ContactPage extends State<Admin_ContactPrev> {
 
   @override
   Widget build(BuildContext context) {
-    const _color1 = Color(0xFFC21E56);
+    const _color1 = Color.fromARGB(255, 194, 30, 86);
+
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: _color1,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(20),
+            bottomRight: Radius.circular(20),
+          ),
+        ),
+        
+        title: Text(
+          'Hi.. ,  Admin',
+          style: TextStyle(
+              fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white,fontFamily: 'Times New Roman',),
+        ),
+      ),
       body: Container(
         child: SingleChildScrollView(
           child: Padding(

@@ -121,7 +121,8 @@ class _LeavePageState extends State<Leave_Page> {
 
   @override
   Widget build(BuildContext context) {
-    const _color1 = Color(0xFFC21E56);
+    const _color1 = Color.fromARGB(255, 194, 30, 86);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: _color1,
@@ -131,22 +132,11 @@ class _LeavePageState extends State<Leave_Page> {
             bottomRight: Radius.circular(20),
           ),
         ),
-        actions: <Widget>[
-          Container(
-            margin: EdgeInsets.only(right: 10.0),
-            child: GestureDetector(
-              onTap: () {},
-              child: Row(
-                children: [
-                  // Add any actions or widgets you need in the app bar
-                ],
-              ),
-            ),
-          ),
-        ],
+        
         title: Text(
-          'Leave Request',
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+          'Hi.. ,  Admin',
+          style: TextStyle(
+              fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white,fontFamily: 'Times New Roman',),
         ),
       ),
       backgroundColor: Colors.white,

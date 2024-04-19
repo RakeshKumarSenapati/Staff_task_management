@@ -34,7 +34,7 @@ class _StaffListState extends State<Staff_Attendanance> {
   String selectedMonth = '';
   Future<String> initializeData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String userID = prefs.getString('userID') ?? '';
+    String userID = prefs.getString('userID') ?? ''.trim();
     final response = await http.get(
       Uri.parse('https://creativecollege.in/Flutter/Profile.php?id=$userID'),
     );
@@ -47,13 +47,13 @@ class _StaffListState extends State<Staff_Attendanance> {
         setState(() {
           name = firstElement['name'];
         });
-        name = firstElement['name'];
-        return name; // Return the 'name' value
+        name = firstElement['name'].toString().trim();
+        return name;
       } else {
         setState(() {
           name = 'Data not found';
         });
-        return 'Data not found'; // Return an appropriate value when data is not found
+        return 'Data not found'; 
       }
     } else {
       throw Exception('Failed to load data');
@@ -64,7 +64,7 @@ class _StaffListState extends State<Staff_Attendanance> {
     String result = await initializeData();
 
     var url = Uri.parse(
-        'https://creativecollege.in/Flutter/Attendance_data.php?id=${result}&filter=Monthly&year=$year&month=$month');
+        'https://olivedrab-chicken-455066.hostingersite.com/Attendanance/staffAttendanance.php?id=${result}&filter=Monthly&year=$year&month=$month');
 
     var response = await http.get(url);
 
@@ -177,23 +177,36 @@ class _StaffListState extends State<Staff_Attendanance> {
                       int.parse(items[index]['DATE'].split('-')[1]);
 
                   if (monthFromData == selectedDate!.month) {
-                    return ListTile(
-                      title: Text('Date: ${items[index]['DATE']}'),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Check In: ${items[index]['CHECK_IN_TIME']}'),
-                          Text('Check Out: ${items[index]['CHECK_OUT_TIME']}'),
-                        ],
-                      ),
-                      trailing: Text(
-                        'Present',
-                        style: TextStyle(
-                          color: Colors.blue,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
+                    return Column(
+                      children: [
+                        ListTile(
+                          title: Text('Date: ${items[index]['DATE']}'),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                  'Check In: ${items[index]['CHECK_IN_TIME']}'),
+                              Text(
+                                  'Check Out: ${items[index]['CHECK_OUT_TIME']}'),
+                            ],
+                          ),
+                          trailing: Text(
+                            'Present',
+                            style: TextStyle(
+                              color: Colors.blue,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
-                      ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 20), // Add padding from the sides
+                          child: Divider(
+                            color: Colors.black,
+                            thickness: 1,
+                          ),
+                        ),
+                      ],
                     );
                   } else {
                     return Container();
@@ -203,27 +216,6 @@ class _StaffListState extends State<Staff_Attendanance> {
             ),
           ),
         ],
-      ),
-      floatingActionButton: Container(
-        decoration: BoxDecoration(
-          border: Border.all(width: 2, color: _color1),
-          borderRadius: BorderRadius.all(Radius.circular(18)),
-        ),
-        child: FloatingActionButton(
-          backgroundColor: _color2,
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => Leave_Page(),
-              ),
-            );
-          },
-          child: Icon(
-            Icons.leave_bags_at_home,
-            size: 30,
-          ),
-        ),
       ),
     );
   }

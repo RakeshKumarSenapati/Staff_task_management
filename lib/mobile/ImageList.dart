@@ -1,17 +1,11 @@
-import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/services.dart';
-import 'dart:io';
 import 'package:printing/printing.dart';
-import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
-import 'package:printing/printing.dart';
 
 class ImageList extends StatefulWidget {
   @override
@@ -69,7 +63,7 @@ class _ImageListState extends State<ImageList> {
           ),
         ),
         title: Text(
-          'Notice Images',
+          'Notice',
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
       ),

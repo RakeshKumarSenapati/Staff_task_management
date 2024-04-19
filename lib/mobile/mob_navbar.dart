@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/Dashboard.dart';
 import 'package:flutter_application_1/mobile/Staff_Attendance.dart';
 import 'package:flutter_application_1/mobile/mob_task_mgmt.dart';
 import 'package:flutter_application_1/mobile/mob_contact_prev.dart';
@@ -19,14 +20,11 @@ class NavPage extends StatefulWidget {
 
 class _NavPageState extends State<NavPage> {
   
-  int _currentIndex = 2;
+  int _currentIndex = 1;
   late String pickedImagePath;
   final List<Widget> _pages = [
     QrCodeScanner(),
-    ContactPrev(),
-    DetailsMobile(),
-    Task_mgmt(),
-    Staff_Attendanance(),
+    Dashboard(),
     ImageList(),
   ];
 
@@ -120,67 +118,9 @@ class _NavPageState extends State<NavPage> {
             onTap: (int index) {
               setState(() {
                 _currentIndex = index;
-                if (index ==1) {
-                  showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                backgroundColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0),
-                ),
-                title: Text(
-                  "Select",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                content: Text(
-                  "Select One Option",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 16,
-                  ),
-                ),
-                actions: <Widget>[
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const StudentAttendance()),
-                      );
-                      
-                    },
-                    child: Text(
-                      "Attendanance",
-                      style: TextStyle(
-                        color: Colors.blue,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Text(
-                      "Contact",
-                      style: TextStyle(
-                        color: Colors.red,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ],
-              );
-            },
-          );
-                }
+                // if (index ==1) {
+                 
+                // }
               });
             },
             items: [
@@ -190,25 +130,25 @@ class _NavPageState extends State<NavPage> {
                 backgroundColor: Color(0xFFC21E56),
               ),
               
-              BottomNavigationBarItem(
-                icon: Icon(Icons.contact_phone),
-                label: 'Student Contact',
-                backgroundColor: Color(0xFFC21E56),
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.list),
-                label: 'Task Details',
-                backgroundColor: Color(0xFFC21E56),
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.task),
-                label: 'Task Management',
-                backgroundColor: Color(0xFFC21E56),
-              ),
+              // BottomNavigationBarItem(
+              //   icon: Icon(Icons.contact_phone),
+              //   label: 'Student Contact',
+              //   backgroundColor: Color(0xFFC21E56),
+              // ),
+              // BottomNavigationBarItem(
+              //   icon: Icon(Icons.list),
+              //   label: 'Task Details',
+              //   backgroundColor: Color(0xFFC21E56),
+              // ),
+              // BottomNavigationBarItem(
+              //   icon: Icon(Icons.task),
+              //   label: 'Task Management',
+              //   backgroundColor: Color(0xFFC21E56),
+              // ),
              
                BottomNavigationBarItem(
-                icon: Icon(Icons.present_to_all),
-                label: 'Attendnance',
+                icon: Icon(Icons.dashboard),
+                label: 'DashBoard',
                 backgroundColor: Color(0xFFC21E56),
               ),
 

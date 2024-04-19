@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Admin_Contact.dart';
+import 'package:flutter_application_1/Admin_DashBoard.dart';
+import 'package:flutter_application_1/Admin_DateWise_Work_View.dart';
 import 'package:flutter_application_1/Admin_leave_Mgmt.dart';
 import 'package:flutter_application_1/Staff_List.dart';
 import 'package:flutter_application_1/Add_staff.dart';
 import 'package:flutter_application_1/Total_Present.dart';
 import 'package:flutter_application_1/del_staff.dart';
 import 'package:flutter_application_1/main.dart';
-import 'package:flutter_application_1/mobile/mob_contact_prev.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeNav extends StatefulWidget {
@@ -21,10 +22,13 @@ class _HomeNavState extends State<HomeNav> {
 
   final List<Widget> _pages = [
     StaffList(),
-    StaffAdd(),
-    StaffDelete(),
-    Admin_Leave_Page(),
-    Admin_ContactPrev(),
+    // StaffAdd(),
+    Admin_Dashboard(),
+    
+    
+    // AdminDateWiseWork(),
+    // Admin_Leave_Page(),
+    // Admin_ContactPrev(),
     Total_Attendance()
   ];
 
@@ -142,25 +146,27 @@ class _HomeNavState extends State<HomeNav> {
             },
             items: const [
               BottomNavigationBarItem(
-                  icon: Icon(Icons.list_alt),
-                  label: 'Work Ststus',
+                  icon: Icon(Icons.work),
+                  label: 'Work Status',
                   backgroundColor: _color1),
+
+              
               BottomNavigationBarItem(
-                  icon: Icon(Icons.add),
-                  label: 'Add Staff',
+                  icon: Icon(Icons.dashboard_customize),
+                  label: 'Dashboard',
                   backgroundColor: _color1),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.delete),
-                  label: 'Delete Staff',
-                  backgroundColor: _color1),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.present_to_all_outlined),
-                  label: 'Leave',
-                  backgroundColor: _color1),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.contact_phone),
-                  label: 'Student Contacts',
-                  backgroundColor: _color1),
+              // BottomNavigationBarItem(
+              //     icon: Icon(Icons.delete),
+              //     label: 'Delete Staff',
+              //     backgroundColor: _color1),
+              // BottomNavigationBarItem(
+              //     icon: Icon(Icons.present_to_all_outlined),
+              //     label: 'Leave',
+              //     backgroundColor: _color1),
+              // BottomNavigationBarItem(
+              //     icon: Icon(Icons.contact_phone),
+              //     label: 'Student Contacts',
+              //     backgroundColor: _color1),
               BottomNavigationBarItem(
                   icon: Icon(Icons.co_present_outlined),
                   label: 'Atendance',
